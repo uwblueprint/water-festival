@@ -1,0 +1,25 @@
+{
+  "name": "shogun_challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shividhar/ShogunFullStackChallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shividhar/ShogunFullStackChallenge/issues"
+  },
+  "homepage": "https://github.com/shividhar/ShogunFullStackChallenge#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cors": "^2.8.4",
+    "express": "^4.16.1",
+    "fuse.js": "^3.1.0"
+  }
+}
