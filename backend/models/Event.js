@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var EventSchema = new mongoose.Schema({
   title: String,
   description: String,
-  eventTime: Date,
+  startTime: Date,
+  endTime: Date,
   location: String,
   imageURI: String
 }, {timestamps: true});
@@ -15,6 +16,8 @@ EventSchema.methods.toJSONFor = function(user){
     createdAt: this.createdAt,
     title: this.title,
     description: this.description,
+    startTime: this.startTime,
+    endTime: this.endTime,
     location: this.location,
     imageURI: this.imageURI
   };
