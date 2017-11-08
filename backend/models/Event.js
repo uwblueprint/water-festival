@@ -6,6 +6,7 @@ var EventSchema = new mongoose.Schema({
   startTime: Date,
   endTime: Date,
   location: String,
+  grade: Number,
   imageURI: String
 }, {timestamps: true});
 
@@ -19,6 +20,7 @@ EventSchema.methods.toJSONFor = function(user){
     startTime: this.startTime,
     endTime: this.endTime,
     location: this.location,
+    grade: this.grade,
     imageURI: this.imageURI
   };
 };
