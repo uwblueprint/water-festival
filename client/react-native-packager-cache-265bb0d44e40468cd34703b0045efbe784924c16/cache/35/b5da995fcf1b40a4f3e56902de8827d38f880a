@@ -1,0 +1,219 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./node_modules/react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _jsxFileName = '/Users/NinaPan/Desktop/water-festival/client/ContentPage.js';
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+	ContentPage: {
+		displayName: 'ContentPage'
+	},
+	Location: {
+		displayName: 'Location'
+	},
+	Description: {
+		displayName: 'Description'
+	},
+	StationImg: {
+		displayName: 'StationImg'
+	}
+};
+
+var _node_modulesReactTransformHmrLibIndexJs2 = (0, _index2.default)({
+	filename: '/Users/NinaPan/Desktop/water-festival/client/ContentPage.js',
+	components: _components,
+	locals: [module],
+	imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+	return function (Component) {
+		return _node_modulesReactTransformHmrLibIndexJs2(Component, id);
+	};
+}
+
+var ContentPage = _wrapComponent('ContentPage')((_temp = _class = function (_Component) {
+	_inherits(ContentPage, _Component);
+
+	function ContentPage(props) {
+		_classCallCheck(this, ContentPage);
+
+		return _possibleConstructorReturn(this, (ContentPage.__proto__ || Object.getPrototypeOf(ContentPage)).call(this, props));
+	}
+
+	_createClass(ContentPage, [{
+		key: 'render',
+		value: function render() {
+			var navigate = this.props.navigation.navigate;
+
+			return _react3.default.createElement(
+				View,
+				{ style: allActivitiesStyles.container, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 17
+					}
+				},
+				_react3.default.createElement(
+					Text,
+					{
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 18
+						}
+					},
+					'Event Name'
+				),
+				_react3.default.createElement(
+					Text,
+					{
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 19
+						}
+					},
+					this.props.name
+				),
+				_react3.default.createElement(Image, { source: this.props.pic, __source: {
+						fileName: _jsxFileName,
+						lineNumber: 20
+					}
+				}),
+				_react3.default.createElement(
+					Text,
+					{
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 21
+						}
+					},
+					'Description'
+				),
+				_react3.default.createElement(
+					Text,
+					{
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 22
+						}
+					},
+					this.props.detail
+				),
+				_react3.default.createElement(
+					Text,
+					{
+						__source: {
+							fileName: _jsxFileName,
+							lineNumber: 23
+						}
+					},
+					'Keywords'
+				),
+				_react3.default.createElement(Button, {
+					title: 'ADD TO MY EVENTS',
+					color: '#841584',
+					__source: {
+						fileName: _jsxFileName,
+						lineNumber: 24
+					}
+				})
+			);
+		}
+	}]);
+
+	return ContentPage;
+}(_react2.Component), _class.navigationOptions = {
+	title: 'ContentPage'
+}, _temp));
+
+var Location = _wrapComponent('Location')(function (_Component2) {
+	_inherits(Location, _Component2);
+
+	function Location() {
+		_classCallCheck(this, Location);
+
+		return _possibleConstructorReturn(this, (Location.__proto__ || Object.getPrototypeOf(Location)).apply(this, arguments));
+	}
+
+	_createClass(Location, [{
+		key: 'render',
+		value: function render() {
+			return _react3.default.createElement(Category, { name: 'Waterloo', __source: {
+					fileName: _jsxFileName,
+					lineNumber: 37
+				}
+			});
+		}
+	}]);
+
+	return Location;
+}(_react2.Component));
+
+var Description = _wrapComponent('Description')(function (_Component3) {
+	_inherits(Description, _Component3);
+
+	function Description() {
+		_classCallCheck(this, Description);
+
+		return _possibleConstructorReturn(this, (Description.__proto__ || Object.getPrototypeOf(Description)).apply(this, arguments));
+	}
+
+	_createClass(Description, [{
+		key: 'render',
+		value: function render() {
+			return _react3.default.createElement(Category, { detail: '', __source: {
+					fileName: _jsxFileName,
+					lineNumber: 46
+				}
+			});
+		}
+	}]);
+
+	return Description;
+}(_react2.Component));
+
+var StationImg = _wrapComponent('StationImg')(function (_Component4) {
+	_inherits(StationImg, _Component4);
+
+	function StationImg() {
+		_classCallCheck(this, StationImg);
+
+		return _possibleConstructorReturn(this, (StationImg.__proto__ || Object.getPrototypeOf(StationImg)).apply(this, arguments));
+	}
+
+	_createClass(StationImg, [{
+		key: 'render',
+		value: function render() {
+			var pic = {
+				uri: '' };
+			return _react3.default.createElement(Image, { source: pic, __source: {
+					fileName: _jsxFileName,
+					lineNumber: 58
+				}
+			});
+		}
+	}]);
+
+	return StationImg;
+}(_react2.Component));
+
+exports.default = ContentPage;

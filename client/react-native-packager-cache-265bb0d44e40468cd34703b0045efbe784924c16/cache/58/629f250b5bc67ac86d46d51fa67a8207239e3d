@@ -1,0 +1,215 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _reactNative = require('react-native');
+
+var _expo = require('expo');
+
+var _qs = require('qs');
+
+var _qs2 = _interopRequireDefault(_qs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var regeneratorRuntime = require('regenerator-runtime');
+
+var BASE_URL = 'https://auth.expo.io';
+var _authLock = false;
+
+function startAsync(options) {
+  var returnUrl, authUrl, startUrl, result, _parseUrl, params, errorCode;
+
+  return regeneratorRuntime.async(function startAsync$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          returnUrl = options.returnUrl || getDefaultReturnUrl();
+          authUrl = options.authUrl;
+          startUrl = getStartUrl(authUrl, returnUrl);
+
+          if (authUrl) {
+            _context.next = 5;
+            break;
+          }
+
+          throw new Error('No authUrl provided to AuthSession.startAsync. An authUrl is required -- it points to the page where the user will be able to sign in.');
+
+        case 5:
+          if (!_authLock) {
+            _context.next = 8;
+            break;
+          }
+
+          if (__DEV__) {
+            console.warn('Attempted to call AuthSession.startAsync multiple times while already active. Only one AuthSession can be active at any given time');
+          }
+
+          return _context.abrupt('return', { type: 'locked' });
+
+        case 8:
+          _authLock = true;
+
+          result = void 0;
+          _context.prev = 10;
+          _context.next = 13;
+          return regeneratorRuntime.awrap(_openWebBrowserAsync(startUrl, returnUrl));
+
+        case 13:
+          result = _context.sent;
+          _context.next = 20;
+          break;
+
+        case 16:
+          _context.prev = 16;
+          _context.t0 = _context['catch'](10);
+
+          _authLock = false;
+          throw _context.t0;
+
+        case 20:
+          _authLock = false;
+
+          if (result) {
+            _context.next = 23;
+            break;
+          }
+
+          throw new Error('Unexpected AuthSession result');
+
+        case 23:
+          if (result.url) {
+            _context.next = 29;
+            break;
+          }
+
+          if (!result.type) {
+            _context.next = 28;
+            break;
+          }
+
+          return _context.abrupt('return', result);
+
+        case 28:
+          throw new Error('Unexpected AuthSession result');
+
+        case 29:
+          _parseUrl = parseUrl(result.url), params = _parseUrl.params, errorCode = _parseUrl.errorCode;
+          return _context.abrupt('return', {
+            type: errorCode ? 'error' : 'success',
+            params: params,
+            errorCode: errorCode,
+            url: result.url
+          });
+
+        case 31:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, null, this, [[10, 16]]);
+}
+
+function dismiss() {
+  _expo.WebBrowser.dismissAuthSession();
+}
+
+function _openWebBrowserAsync(startUrl, returnUrl) {
+  var result;
+  return regeneratorRuntime.async(function _openWebBrowserAsync$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          _context2.next = 2;
+          return regeneratorRuntime.awrap(_expo.WebBrowser.openAuthSessionAsync(startUrl, returnUrl));
+
+        case 2:
+          result = _context2.sent;
+
+          if (!(result.type === 'cancel' || result.type === 'dismissed')) {
+            _context2.next = 5;
+            break;
+          }
+
+          return _context2.abrupt('return', { type: result.type });
+
+        case 5:
+          return _context2.abrupt('return', result);
+
+        case 6:
+        case 'end':
+          return _context2.stop();
+      }
+    }
+  }, null, this);
+}
+
+function getStartUrl(authUrl, returnUrl) {
+  var queryString = _qs2.default.stringify({
+    authUrl: authUrl,
+    returnUrl: returnUrl
+  });
+
+  return getRedirectUrl() + '/start?' + queryString;
+}
+
+function getRedirectUrl() {
+  var redirectUrl = BASE_URL + '/' + _expo.Constants.manifest.id;
+  if (__DEV__) {
+    _warnIfAnonymous(_expo.Constants.manifest.id, redirectUrl);
+  }
+  return redirectUrl;
+}
+
+function getDefaultReturnUrl() {
+  if (_reactNative.Platform.OS === 'android' && _expo.Constants.appOwnership === 'standalone') {
+    return _expo.Constants.linkingUrl + '+expo-auth-session';
+  } else {
+    return _expo.Constants.linkingUrl + 'expo-auth-session';
+  }
+}
+
+function parseUrl(url) {
+  var parts = url.split('#');
+  var hash = parts[1];
+  var partsWithoutHash = parts[0].split('?');
+  var queryString = partsWithoutHash[partsWithoutHash.length - 1];
+
+  var parsedSearch = _qs2.default.parse(queryString);
+
+  var errorCode = parsedSearch.errorCode;
+
+  delete parsedSearch.errorCode;
+
+  var parsedHash = {};
+  if (parts[1]) {
+    parsedHash = _qs2.default.parse(hash);
+  }
+
+  var params = _extends({}, parsedSearch, parsedHash);
+
+  return {
+    errorCode: errorCode,
+    params: params
+  };
+}
+
+function _warnIfAnonymous(id, url) {
+  if (id.startsWith('@anonymous/')) {
+    console.warn('You are not currently signed in to Expo on your development machine. As a result, the redirect URL for AuthSession will be "' + url + '". If you are using an OAuth provider that requires whitelisting redirect URLs, we recommend that you do not whitelist this URL -- instead, you should sign in to Expo to acquired a unique redirect URL. Additionally, if you do decide to publish this app using Expo, you will need to register an account to do it.');
+  }
+}
+
+exports.default = {
+  dismiss: dismiss,
+  getRedirectUrl: getRedirectUrl,
+  getStartUrl: getStartUrl,
+  getDefaultReturnUrl: getDefaultReturnUrl,
+  get getRedirectUri() {
+    console.warn('Use AuthSession.getRedirectUrl rather than AuthSession.getRedirectUri (Url instead of Uri)');
+    return getRedirectUrl;
+  },
+  startAsync: startAsync
+};

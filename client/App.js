@@ -13,6 +13,7 @@ import {
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
+import { ContentPage } from './ContentPage'
 
 class AllActivitiesScreen extends Component {
   static navigationOptions = {
@@ -222,7 +223,7 @@ class InformationScreen extends Component {
 const WaterFestivalApp = TabNavigator({
   AllActivitiesScreen: { screen: AllActivitiesScreen },
   MyActivitiesScreen: {screen: MyActivitiesScreen},
-  MapScreen: { screen: MapScreen },
+  ContentPage: { screen: ContentPage },
   InformationScreen: {screen: InformationScreen}
 }, {
   tabBarComponent: NavigationComponent,
@@ -236,14 +237,14 @@ const WaterFestivalApp = TabNavigator({
       backgroundColor: '#C4C4C4',
       rippleColor: 'white',
       tabs: {
-        MapScreen: {
-          icon: <Icon size={24} color="black" name="add" />
-        },
         AllActivitiesScreen: {
           icon: <Icon size={24} color="black" name="account-circle" />
         },
         MyActivitiesScreen: {
           icon: <Icon size={24} color="black" name="map" />
+        },
+        ContentPage: {
+          icon: <Icon size={24} color="black" name="add" />
         },
         InformationScreen: {
           icon: <Icon size={24} color="black" name="perm-device-information" />

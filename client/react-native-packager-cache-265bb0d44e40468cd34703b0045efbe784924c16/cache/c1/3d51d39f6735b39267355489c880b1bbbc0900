@@ -1,0 +1,291 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./../../react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _initialiseProps,
+    _jsxFileName = '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/Tab.js';
+
+var _reactNative = require('react-native');
+
+var _easing = require('./utils/easing');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  Tab: {
+    displayName: 'Tab'
+  }
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/Tab.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _reactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var useNativeDriver = _reactNative.Platform.OS === 'android';
+
+var Tab = _wrapComponent('Tab')((_temp = _class = function (_Component) {
+  _inherits(Tab, _Component);
+
+  function Tab(props) {
+    _classCallCheck(this, Tab);
+
+    var _this = _possibleConstructorReturn(this, (Tab.__proto__ || Object.getPrototypeOf(Tab)).call(this, props));
+
+    _initialiseProps.call(_this);
+
+    var active = props.active;
+
+    _this.didOnceBecameActive = props.active ? true : false;
+
+    _this.state = {
+      fixed: {
+        iconY: active ? new _reactNative.Animated.Value(-2) : new _reactNative.Animated.Value(0),
+        labelScale: active ? new _reactNative.Animated.Value(1) : new _reactNative.Animated.Value(0.857),
+        labelY: active ? new _reactNative.Animated.Value(0) : new _reactNative.Animated.Value(2),
+        iconOpacity: active ? new _reactNative.Animated.Value(1) : new _reactNative.Animated.Value(0.8)
+      },
+      shifting: {
+        labelOpacity: active ? new _reactNative.Animated.Value(1) : new _reactNative.Animated.Value(0),
+        labelScale: active ? new _reactNative.Animated.Value(1) : new _reactNative.Animated.Value(0.857),
+        iconY: active ? new _reactNative.Animated.Value(0) : new _reactNative.Animated.Value(8),
+        iconOpacity: active ? new _reactNative.Animated.Value(1) : new _reactNative.Animated.Value(0.8)
+      }
+    };
+    return _this;
+  }
+
+  _createClass(Tab, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var props = this.props;
+
+
+      var fixedMode = !props.shifting;
+      var shiftingMode = props.shifting;
+      var willBeActive = !props.active && nextProps.active;
+      var willBeInactive = props.active && !nextProps.active;
+
+      if (fixedMode && willBeActive) {
+        this._animateFixedInactiveToActive();
+      } else if (fixedMode && willBeInactive) {
+        this._animateFixedActiveToInactive();
+      } else if (shiftingMode && willBeActive) {
+        this._animateShiftingInactiveToActive();
+      } else if (shiftingMode && willBeInactive) {
+        this._animateShiftingActiveToInactive();
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          icon = _props.icon,
+          label = _props.label,
+          active = _props.active;
+
+
+      return _react3.default.createElement(
+        _reactNative.TouchableWithoutFeedback,
+        { onPress: this._handleTabPress, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 108
+          }
+        },
+        _react3.default.createElement(
+          _reactNative.View,
+          {
+            style: [styles.container, this._isShifting() && active && styles.shiftingActiveContainer, this._isShifting() && !active && styles.shiftingInactiveContainer],
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 109
+            }
+          },
+          this._renderIcon(),
+          this._renderLabel()
+        )
+      );
+    }
+  }]);
+
+  return Tab;
+}(_react2.Component), _initialiseProps = function _initialiseProps() {
+  var _this2 = this;
+
+  this._renderIcon = function () {
+    var mode = _this2._getModeString();
+    var _props2 = _this2.props,
+        active = _props2.active,
+        icon = _props2.icon,
+        activeIcon = _props2.activeIcon;
+
+
+    return _react3.default.createElement(
+      _reactNative.Animated.View,
+      {
+        style: [styles.icon, { transform: [{ translateY: _this2.state[mode].iconY }] }, { opacity: _this2.state[mode].iconOpacity }],
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 128
+        }
+      },
+      _react3.default.createElement(
+        _reactNative.View,
+        { ref: '_bnic', collapsable: false, __source: {
+            fileName: _jsxFileName,
+            lineNumber: 135
+          }
+        },
+        active && activeIcon ? activeIcon : icon
+      )
+    );
+  };
+
+  this._renderLabel = function () {
+    var _props3 = _this2.props,
+        active = _props3.active,
+        labelColor = _props3.labelColor,
+        activeLabelColor = _props3.activeLabelColor,
+        label = _props3.label;
+
+
+    return _react3.default.createElement(
+      _reactNative.Animated.Text,
+      {
+        style: [{ color: active && activeLabelColor ? activeLabelColor : labelColor }, styles.label, _this2._isShifting() && { opacity: _this2.state.shifting.labelOpacity }, _this2._isFixed() && {
+          transform: [{ scale: _this2.state.fixed.labelScale }, { translateY: _this2.state.fixed.labelY }]
+        }],
+        numberOfLines: 1,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 146
+        }
+      },
+      label
+    );
+  };
+
+  this._animateFixedInactiveToActive = function () {
+    var duration = 266;
+    var easing = _easing.easeInOut;
+
+    _reactNative.Animated.parallel([_reactNative.Animated.timing(_this2.state.fixed.iconY, { toValue: -2, duration: duration, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.fixed.labelScale, { toValue: 1, duration: duration, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.fixed.labelY, { toValue: 0, duration: duration, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.fixed.iconOpacity, { toValue: 1, duration: duration, easing: easing, useNativeDriver: useNativeDriver })]).start();
+  };
+
+  this._animateFixedActiveToInactive = function () {
+    var duration = 266;
+    var easing = _easing.easeInOut;
+
+    _reactNative.Animated.parallel([_reactNative.Animated.timing(_this2.state.fixed.iconY, { toValue: 0, duration: duration, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.fixed.labelScale, { toValue: 0.857, duration: duration, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.fixed.labelY, { toValue: 2, duration: duration, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.fixed.iconOpacity, { toValue: 0.8, duration: duration, easing: easing, useNativeDriver: useNativeDriver })]).start();
+  };
+
+  this._animateShiftingInactiveToActive = function () {
+    var easing = _easing.easeInOut;
+
+    if (_reactNative.Platform.OS === 'android') {
+      if (_this2.didOnceBecameActive) _this2.state.shifting.iconY.setValue(0);
+      _this2.didOnceBecameActive = true;
+    }
+
+    _reactNative.Animated.parallel([_reactNative.Animated.timing(_this2.state.shifting.iconY, { toValue: 0, duration: 266, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.shifting.iconOpacity, { toValue: 1, duration: 266, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.shifting.labelOpacity, { toValue: 1, duration: 183, delay: 83, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.shifting.labelScale, { toValue: 1, duration: 183, delay: 83, easing: easing, useNativeDriver: useNativeDriver })]).start();
+  };
+
+  this._animateShiftingActiveToInactive = function () {
+    var easing = _easing.easeInOut;
+
+    _reactNative.Animated.parallel([_reactNative.Animated.timing(_this2.state.shifting.iconY, { toValue: 8, duration: 266, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.shifting.labelOpacity, { toValue: 0, duration: 83, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.shifting.labelScale, { toValue: 0.857, duration: 83, easing: easing, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this2.state.shifting.iconOpacity, { toValue: 0.8, duration: 266, easing: easing, useNativeDriver: useNativeDriver })]).start();
+  };
+
+  this._handleTabPress = function () {
+    _this2.setTabActive();
+  };
+
+  this.setTabActive = function () {
+    _this2.props.onTabPress({
+      tabIndex: _this2.props.tabIndex,
+      barBackgroundColor: _this2.props.barBackgroundColor,
+      iconRef: _this2.refs._bnic
+    });
+  };
+
+  this._getModeString = function () {
+    if (_this2.props.shifting) return 'shifting';
+    return 'fixed';
+  };
+
+  this._isShifting = function () {
+    return !!_this2.props.shifting;
+  };
+
+  this._isFixed = function () {
+    return !_this2.props.shifting;
+  };
+
+  this.getIconRef = function () {
+    return _this2.refs._bnic;
+  };
+}, _temp));
+
+exports.default = Tab;
+
+
+var styles = _reactNative.StyleSheet.create({
+  container: {
+    height: 56,
+    flex: 1,
+    alignItems: 'center',
+    paddingTop: 8,
+    paddingBottom: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
+    backgroundColor: 'transparent'
+  },
+  shiftingInactiveContainer: {
+    maxWidth: 96,
+    flex: 1
+  },
+  shiftingActiveContainer: {
+    maxWidth: 168,
+    flex: 1.75
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    backgroundColor: 'transparent'
+  },
+  label: {
+    fontSize: 14,
+    width: 168,
+    textAlign: 'center',
+    includeFontPadding: false,
+    textAlignVertical: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: 'transparent'
+  }
+});

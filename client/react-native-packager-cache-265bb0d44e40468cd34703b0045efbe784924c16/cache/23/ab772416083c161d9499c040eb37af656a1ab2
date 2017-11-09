@@ -1,0 +1,151 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _jsxFileName = '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-navigation/src/views/Drawer/DrawerNavigatorItems.js';
+
+var _react = require('react');
+
+var React = _interopRequireWildcard(_react);
+
+var _reactNative = require('react-native');
+
+var _SafeAreaView = require('../SafeAreaView');
+
+var _SafeAreaView2 = _interopRequireDefault(_SafeAreaView);
+
+var _TouchableItem = require('../TouchableItem');
+
+var _TouchableItem2 = _interopRequireDefault(_TouchableItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var DrawerNavigatorItems = function DrawerNavigatorItems(_ref) {
+  var _ref$navigation = _ref.navigation,
+      state = _ref$navigation.state,
+      navigate = _ref$navigation.navigate,
+      items = _ref.items,
+      activeItemKey = _ref.activeItemKey,
+      activeTintColor = _ref.activeTintColor,
+      activeBackgroundColor = _ref.activeBackgroundColor,
+      inactiveTintColor = _ref.inactiveTintColor,
+      inactiveBackgroundColor = _ref.inactiveBackgroundColor,
+      getLabel = _ref.getLabel,
+      renderIcon = _ref.renderIcon,
+      onItemPress = _ref.onItemPress,
+      _ref$itemsContainerFo = _ref.itemsContainerForceInset,
+      itemsContainerForceInset = _ref$itemsContainerFo === undefined ? { horizontal: 'never', top: 'always' } : _ref$itemsContainerFo,
+      itemsContainerStyle = _ref.itemsContainerStyle,
+      itemStyle = _ref.itemStyle,
+      labelStyle = _ref.labelStyle,
+      iconContainerStyle = _ref.iconContainerStyle;
+  return React.createElement(
+    _SafeAreaView2.default,
+    { forceInset: itemsContainerForceInset, __source: {
+        fileName: _jsxFileName,
+        lineNumber: 56
+      }
+    },
+    React.createElement(
+      _reactNative.View,
+      { style: [styles.container, itemsContainerStyle], __source: {
+          fileName: _jsxFileName,
+          lineNumber: 57
+        }
+      },
+      items.map(function (route, index) {
+        var focused = activeItemKey === route.key;
+        var color = focused ? activeTintColor : inactiveTintColor;
+        var backgroundColor = focused ? activeBackgroundColor : inactiveBackgroundColor;
+        var scene = { route: route, index: index, focused: focused, tintColor: color };
+        var icon = renderIcon(scene);
+        var label = getLabel(scene);
+        return React.createElement(
+          _TouchableItem2.default,
+          {
+            key: route.key,
+            onPress: function onPress() {
+              onItemPress({ route: route, focused: focused });
+            },
+            delayPressIn: 0,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 68
+            }
+          },
+          React.createElement(
+            _SafeAreaView2.default,
+            {
+              style: { backgroundColor: backgroundColor },
+              forceInset: { horizontal: 'always' },
+              __source: {
+                fileName: _jsxFileName,
+                lineNumber: 75
+              }
+            },
+            React.createElement(
+              _reactNative.View,
+              { style: [styles.item, itemStyle], __source: {
+                  fileName: _jsxFileName,
+                  lineNumber: 79
+                }
+              },
+              icon ? React.createElement(
+                _reactNative.View,
+                {
+                  style: [styles.icon, focused ? null : styles.inactiveIcon, iconContainerStyle],
+                  __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 81
+                  }
+                },
+                icon
+              ) : null,
+              typeof label === 'string' ? React.createElement(
+                _reactNative.Text,
+                { style: [styles.label, { color: color }, labelStyle], __source: {
+                    fileName: _jsxFileName,
+                    lineNumber: 92
+                  }
+                },
+                label
+              ) : label
+            )
+          )
+        );
+      })
+    )
+  );
+};
+
+DrawerNavigatorItems.defaultProps = {
+  activeTintColor: '#2196f3',
+  activeBackgroundColor: 'rgba(0, 0, 0, .04)',
+  inactiveTintColor: 'rgba(0, 0, 0, .87)',
+  inactiveBackgroundColor: 'transparent'
+};
+
+var styles = _reactNative.StyleSheet.create({
+  container: {
+    paddingVertical: 4
+  },
+  item: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  icon: {
+    marginHorizontal: 16,
+    width: 24,
+    alignItems: 'center'
+  },
+  inactiveIcon: {
+    opacity: 0.62
+  },
+  label: {
+    margin: 16,
+    fontWeight: 'bold'
+  }
+});
+
+exports.default = DrawerNavigatorItems;

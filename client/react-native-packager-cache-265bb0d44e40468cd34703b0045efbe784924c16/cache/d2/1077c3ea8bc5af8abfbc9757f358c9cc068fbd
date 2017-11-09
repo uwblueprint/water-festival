@@ -1,0 +1,128 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./../../react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _jsxFileName = '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/PressRipple.js';
+
+var _reactNative = require('react-native');
+
+var _easing = require('./utils/easing');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  PressRipple: {
+    displayName: 'PressRipple'
+  }
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/PressRipple.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _reactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var defaultProps = {
+  color: 'black',
+  x: 0,
+  y: 0
+};
+
+var PressRipple = _wrapComponent('PressRipple')((_temp = _class = function (_Component) {
+  _inherits(PressRipple, _Component);
+
+  function PressRipple(props) {
+    _classCallCheck(this, PressRipple);
+
+    var _this = _possibleConstructorReturn(this, (PressRipple.__proto__ || Object.getPrototypeOf(PressRipple)).call(this, props));
+
+    _this.run = function () {
+      var useNativeDriver = _reactNative.Platform.OS === 'android';
+
+      _this.setState({ animating: true });
+      _this.state.opacity.setValue(_this.maxRippleOpacity);
+
+      _reactNative.Animated.parallel([_reactNative.Animated.timing(_this.state.scale, { toValue: 1, duration: 200, easing: _easing.easeOut, useNativeDriver: useNativeDriver }), _reactNative.Animated.timing(_this.state.opacity, { toValue: 0, duration: 300, easing: _easing.easeOut, useNativeDriver: useNativeDriver })]).start(function () {
+        _this.state.scale.setValue(0.01);
+        _this.state.opacity.setValue(0);
+
+        _this.setState({ animating: true });
+      });
+    };
+
+    _this.maxRippleOpacity = 0.12;
+    _this.size = 100;
+
+    _this.state = {
+      opacity: new _reactNative.Animated.Value(0),
+      scale: new _reactNative.Animated.Value(0.01),
+      animating: false
+    };
+    return _this;
+  }
+
+  _createClass(PressRipple, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          color = _props.color,
+          x = _props.x,
+          y = _props.y;
+      var _state = this.state,
+          scale = _state.scale,
+          opacity = _state.opacity,
+          animating = _state.animating;
+      var size = this.size;
+
+
+      if (!animating) return null;
+
+      return _react3.default.createElement(_reactNative.Animated.View, {
+        style: {
+          backgroundColor: this.props.color,
+          position: 'absolute',
+          top: this.props.y - size / 2,
+          left: this.props.x - size / 2,
+          width: size,
+          height: size,
+          borderRadius: size / 2,
+          opacity: opacity,
+          transform: [{ scale: scale }]
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 68
+        }
+      });
+    }
+  }]);
+
+  return PressRipple;
+}(_react2.Component), _class.defaultProps = defaultProps, _temp));
+
+exports.default = PressRipple;

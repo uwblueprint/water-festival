@@ -1,0 +1,170 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./../../react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _jsxFileName = '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/RippleBackgroundTransition.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _reactNative = require('react-native');
+
+var _easing = require('./utils/easing');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  RippleBackgroundTransition: {
+    displayName: 'RippleBackgroundTransition'
+  }
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/RippleBackgroundTransition.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _reactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var RippleBackgroundTransition = _wrapComponent('RippleBackgroundTransition')(function (_Component) {
+  _inherits(RippleBackgroundTransition, _Component);
+
+  function RippleBackgroundTransition(props) {
+    _classCallCheck(this, RippleBackgroundTransition);
+
+    var _this = _possibleConstructorReturn(this, (RippleBackgroundTransition.__proto__ || Object.getPrototypeOf(RippleBackgroundTransition)).call(this, props));
+
+    _this._initState = function () {
+      return {
+        animating: false,
+        scale: new _reactNative.Animated.Value(_this.scaleInit),
+        distance: 0
+      };
+    };
+
+    _this._renderRipple = function () {
+      var _this$state = _this.state,
+          distance = _this$state.distance,
+          scale = _this$state.scale;
+      var _this$props = _this.props,
+          posX = _this$props.posX,
+          posY = _this$props.posY;
+
+      var size = distance * 2;
+
+      return _react3.default.createElement(_reactNative.Animated.View, {
+        style: {
+          top: posY - distance,
+          left: posX - distance,
+          position: 'absolute',
+          width: size,
+          height: size,
+          borderRadius: distance,
+          transform: [{ scale: scale }],
+          backgroundColor: _this.props.color
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 70
+        }
+      });
+    };
+
+    _this._getLargestDistanceToBounds = function (x, y) {
+
+      var biggestDistance = 0;
+
+      var testVectors = [[0, 0], [_this.layout.width, 0], [_this.layout.width, _this.layout.height], [0, _this.layout.height]];
+      var refVector = [x, y];
+
+      testVectors.forEach(function (vector, i) {
+        var dX = vector[0] - refVector[0];
+        var dY = vector[1] - refVector[1];
+        var d = dX * dX + dY * dY;
+
+        if (d > biggestDistance) biggestDistance = d;
+      });
+
+      return Math.sqrt(biggestDistance);
+    };
+
+    _this._handleOnLayout = function (_ref) {
+      var nativeEvent = _ref.nativeEvent;
+
+      _this.layout = _extends({}, nativeEvent.layout);
+    };
+
+    _this.run = function () {
+      var callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {};
+      var _this$props2 = _this.props,
+          posX = _this$props2.posX,
+          posY = _this$props2.posY;
+
+      var distance = _this._getLargestDistanceToBounds(posX, posY);
+
+      _this.setState({
+        animating: true,
+        distance: distance
+      });
+
+      _reactNative.Animated.timing(_this.state.scale, {
+        toValue: 1,
+        duration: 349,
+        easing: _easing.easeOut,
+        useNativeDriver: _reactNative.Platform.OS === 'android'
+      }).start(function () {
+        callback(_this.props.color);
+
+        _this.setState(_this._initState());
+      });
+    };
+
+    _this.scaleInit = _reactNative.Platform.OS === 'android' ? 0.01 : 0;
+    _this.layout = { x: 0, y: 0, width: 0, height: 0 };
+    _this.state = _this._initState();
+    return _this;
+  }
+
+  _createClass(RippleBackgroundTransition, [{
+    key: 'render',
+    value: function render() {
+      return _react3.default.createElement(
+        _reactNative.View,
+        {
+          onLayout: this._handleOnLayout,
+          style: { position: 'absolute', left: 0, right: 0, bottom: 0, top: 0 },
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 52
+          }
+        },
+        this.state.animating && this._renderRipple()
+      );
+    }
+  }]);
+
+  return RippleBackgroundTransition;
+}(_react2.Component));
+
+exports.default = RippleBackgroundTransition;

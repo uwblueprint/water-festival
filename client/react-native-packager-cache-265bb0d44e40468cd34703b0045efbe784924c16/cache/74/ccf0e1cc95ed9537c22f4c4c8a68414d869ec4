@@ -1,0 +1,119 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _jsxFileName = '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/NavigationComponent.js';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ = require('../');
+
+var _2 = _interopRequireDefault(_);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var NavigationComponent = function (_PureComponent) {
+  _inherits(NavigationComponent, _PureComponent);
+
+  function NavigationComponent() {
+    _classCallCheck(this, NavigationComponent);
+
+    return _possibleConstructorReturn(this, (NavigationComponent.__proto__ || Object.getPrototypeOf(NavigationComponent)).apply(this, arguments));
+  }
+
+  _createClass(NavigationComponent, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          activeTintColor = _props.activeTintColor,
+          inactiveTintColor = _props.inactiveTintColor,
+          navigationState = _props.navigationState,
+          bottomNavigationOptions = _props.bottomNavigationOptions,
+          navigationGetLabel = _props.getLabel,
+          navigationGetLabelOld = _props.getLabelText,
+          renderIcon = _props.renderIcon,
+          jumpToIndex = _props.jumpToIndex,
+          style = _props.style;
+
+
+      var bnOptions = bottomNavigationOptions || {};
+
+      var getLabel = navigationGetLabel || navigationGetLabelOld;
+
+      var bnStyle = bnOptions.style;
+
+      var bnProps = {
+        labelColor: bnOptions.labelColor,
+        innerStyle: bnOptions.innerStyle,
+        activeLabelColor: bnOptions.activeLabelColor,
+        rippleColor: bnOptions.rippleColor,
+        backgroundColor: bnOptions.backgroundColor,
+        shifting: bnOptions.shifting
+      };
+
+      return _react2.default.createElement(
+        _2.default,
+        _extends({
+          activeTab: navigationState.index,
+
+          style: [{ height: 56 }, bnStyle || style],
+          onTabChange: function onTabChange(index) {
+            return jumpToIndex(index);
+          }
+        }, bnProps, {
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 62
+          }
+        }),
+        navigationState.routes.map(function (route, index) {
+          var focused = index === navigationState.index;
+
+          var scene = {
+            route: route,
+            index: index,
+            focused: focused,
+            tintColor: focused ? activeTintColor : inactiveTintColor
+          };
+          var label = getLabel(scene);
+          var icon = renderIcon(scene);
+
+          var tabs = bnOptions.tabs || {};
+          var tabOptions = tabs[route.key] || {};
+          var tabProps = {
+            icon: tabOptions.icon || icon,
+            activeIcon: tabOptions.activeIcon,
+            label: tabOptions.label || label,
+            labelColor: tabOptions.labelColor,
+            activeLabelColor: tabOptions.activeLabelColor,
+            barBackgroundColor: tabOptions.barBackgroundColor
+          };
+
+          return _react2.default.createElement(_.Tab, _extends({ key: index }, tabProps, {
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 97
+            }
+          }));
+        })
+      );
+    }
+  }]);
+
+  return NavigationComponent;
+}(_react.PureComponent);
+
+exports.default = NavigationComponent;

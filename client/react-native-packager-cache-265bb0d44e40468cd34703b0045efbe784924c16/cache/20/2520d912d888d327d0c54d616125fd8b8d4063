@@ -1,0 +1,4 @@
+
+var isArray = Array.isArray;
+
+module.exports = isArray;

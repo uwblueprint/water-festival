@@ -1,0 +1,9 @@
+
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+
+function setCacheAdd(value) {
+  this.__data__.set(value, HASH_UNDEFINED);
+  return this;
+}
+
+module.exports = setCacheAdd;
