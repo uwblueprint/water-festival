@@ -6,7 +6,6 @@ import {
   Text,
   View
 } from 'react-native';
-// import { Text } from 'react-native';
 
 class ContentPage extends Component {
 	static navigationOptions = {

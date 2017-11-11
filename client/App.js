@@ -14,6 +14,7 @@ import ContentPage from './ContentPage.js'
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
+import { ContentPage } from './ContentPage'
 
 class AllActivitiesScreen extends Component {
   static navigationOptions = {
@@ -238,14 +239,14 @@ const WaterFestivalApp = TabNavigator({
       backgroundColor: '#C4C4C4',
       rippleColor: 'white',
       tabs: {
-        MapScreen: {
-          icon: <Icon size={24} color="black" name="add" />
-        },
         AllActivitiesScreen: {
           icon: <Icon size={24} color="black" name="account-circle" />
         },
         MyActivitiesScreen: {
           icon: <Icon size={24} color="black" name="map" />
+        },
+        ContentPage: {
+          icon: <Icon size={24} color="black" name="add" />
         },
         InformationScreen: {
           icon: <Icon size={24} color="black" name="perm-device-information" />

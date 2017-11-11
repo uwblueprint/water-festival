@@ -1,0 +1,563 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.enableXDELogging = enableXDELogging;
+exports.disableXDELogging = disableXDELogging;
+
+var _prettyFormat = require('pretty-format');
+
+var _prettyFormat2 = _interopRequireDefault(_prettyFormat);
+
+var _uuidJs = require('uuid-js');
+
+var _uuidJs2 = _interopRequireDefault(_uuidJs);
+
+var _Constants = require('./Constants');
+
+var _Constants2 = _interopRequireDefault(_Constants);
+
+var _Queue = require('./lib/Queue');
+
+var _Queue2 = _interopRequireDefault(_Queue);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var regeneratorRuntime = require('regenerator-runtime');
+
+var logQueue = new _Queue2.default();
+var logCounter = 0;
+var sessionId = _uuidJs2.default.create().toString();
+var isSendingLogs = false;
+var groupDepth = 0;
+
+function enableXDELogging() {
+  replaceConsoleFunction('log', 'info');
+  replaceConsoleFunction('debug', 'info');
+  replaceConsoleFunction('info', 'info');
+  replaceConsoleFunction('warn', 'warn');
+  replaceConsoleFunction('error', 'error');
+
+  var originalGroup = console.group;
+  console.group = function () {
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    if (originalGroup) {
+      originalGroup.apply(console, args);
+    }
+
+    queueRemoteLogAsync('info', {}, args);
+    groupDepth++;
+  };
+  console.group.__restore = function () {
+    console.group = originalGroup;
+  };
+
+  var originalGroupCollapsed = console.groupCollapsed;
+  console.groupCollapsed = function () {
+    for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+
+    if (originalGroupCollapsed) {
+      originalGroupCollapsed.apply(console, args);
+    }
+
+    queueRemoteLogAsync('info', {
+      groupCollapsed: true
+    }, args);
+    groupDepth++;
+  };
+  console.groupCollapsed.__restore = function () {
+    console.groupCollapsed = originalGroupCollapsed;
+  };
+
+  var originalGroupEnd = console.groupEnd;
+  console.groupEnd = function () {
+    for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+
+    if (originalGroupEnd) {
+      originalGroupEnd.apply(console, args);
+    }
+
+    if (groupDepth > 0) {
+      groupDepth--;
+    }
+    queueRemoteLogAsync('info', {
+      shouldHide: true
+    }, args);
+  };
+  console.groupEnd.__restore = function () {
+    console.groupEnd = originalGroupEnd;
+  };
+
+  var originalAssert = console.assert;
+  console.assert = function (assertion, errorString) {
+    if (originalAssert) {
+      originalAssert.apply(console, [assertion, errorString]);
+    }
+
+    if (!assertion) {
+      queueRemoteLogAsync('error', {}, 'Assertion failed: ' + errorString);
+    }
+  };
+  console.assert.__restore = function () {
+    console.assert = originalAssert;
+  };
+}
+
+function disableXDELogging() {
+  console.log.__restore();
+  console.debug.__restore();
+  console.info.__restore();
+  console.warn.__restore();
+  console.error.__restore();
+
+  console.group.__restore();
+  console.groupCollapsed.__restore();
+  console.groupEnd.__restore();
+
+  console.assert.__restore();
+}
+
+function sendRemoteLogsAsync() {
+  var logs, currentLog;
+  return regeneratorRuntime.async(function sendRemoteLogsAsync$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          if (!isSendingLogs) {
+            _context.next = 2;
+            break;
+          }
+
+          return _context.abrupt('return');
+
+        case 2:
+          logs = [];
+          currentLog = logQueue.dequeue();
+
+          if (currentLog) {
+            _context.next = 8;
+            break;
+          }
+
+          return _context.abrupt('return');
+
+        case 8:
+          isSendingLogs = true;
+
+        case 9:
+
+          while (currentLog) {
+            logs.push(currentLog);
+            currentLog = logQueue.dequeue();
+          }
+
+          _context.prev = 10;
+          _context.next = 13;
+          return regeneratorRuntime.awrap(fetch(_Constants2.default.manifest.logUrl, {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json',
+              Connection: 'keep-alive',
+              'Proxy-Connection': 'keep-alive',
+              Accept: 'application/json',
+              'Device-Id': _Constants2.default.deviceId,
+              'Device-Name': _Constants2.default.deviceName,
+              'Session-Id': sessionId
+            },
+            body: JSON.stringify(logs)
+          }));
+
+        case 13:
+          _context.next = 17;
+          break;
+
+        case 15:
+          _context.prev = 15;
+          _context.t0 = _context['catch'](10);
+
+        case 17:
+
+          isSendingLogs = false;
+          sendRemoteLogsAsync();
+
+        case 19:
+        case 'end':
+          return _context.stop();
+      }
+    }
+  }, null, this, [[10, 15]]);
+}
+
+function queueRemoteLogAsync(level, additionalFields, args) {
+  var lines, _ref, body, includesStack;
+
+  return regeneratorRuntime.async(function queueRemoteLogAsync$(_context2) {
+    while (1) {
+      switch (_context2.prev = _context2.next) {
+        case 0:
+          if (!(!args || !args.map)) {
+            _context2.next = 2;
+            break;
+          }
+
+          return _context2.abrupt('return');
+
+        case 2:
+          if (args.length === 1 && typeof args[0] === 'string' && args[0].startsWith('Warning: ')) {
+            level = 'warn';
+
+            lines = args[0] && args[0].split && args[0].split('\n');
+
+            if (lines && lines[1] && lines[1].match(/^\s+in /)) {
+              args[0] = lines[0];
+            }
+          }
+
+          _context2.next = 5;
+          return regeneratorRuntime.awrap(_serializeLogArgsAsync(args, level));
+
+        case 5:
+          _ref = _context2.sent;
+          body = _ref.body;
+          includesStack = _ref.includesStack;
+
+
+          logQueue.enqueue(_extends({
+            count: logCounter++,
+            level: level,
+            groupDepth: groupDepth,
+            includesStack: includesStack,
+            body: body
+          }, additionalFields));
+
+          sendRemoteLogsAsync();
+
+        case 10:
+        case 'end':
+          return _context2.stop();
+      }
+    }
+  }, null, this);
+}
+
+function replaceConsoleFunction(consoleFunc, level, additionalFields) {
+  var original = console[consoleFunc];
+
+  var newConsoleFunc = function newConsoleFunc() {
+    for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      args[_key4] = arguments[_key4];
+    }
+
+    queueRemoteLogAsync(level, additionalFields, args);
+
+    if (original) {
+      original.apply(console, args);
+    }
+  };
+
+  newConsoleFunc.__restore = function () {
+    console[consoleFunc] = original;
+  };
+
+  console[consoleFunc] = newConsoleFunc;
+}
+
+var SENTINEL_ERROR = 'sentinel';
+var LOG_FUNCTION_NAME = 'newConsoleFunc';
+function _serializeLogArgsAsync(args, level) {
+  var stringifiedArgs, includesStack, _ref2, message, stack, error, usefulStackTop, argsString, _ref3, _message, _stack;
+
+  return regeneratorRuntime.async(function _serializeLogArgsAsync$(_context3) {
+    while (1) {
+      switch (_context3.prev = _context3.next) {
+        case 0:
+          stringifiedArgs = void 0;
+          includesStack = false;
+
+          if (!(level === 'warn' && _isUnhandledPromiseRejection(args[0]) && _stackTraceLogsSupported())) {
+            _context3.next = 12;
+            break;
+          }
+
+          _context3.next = 5;
+          return regeneratorRuntime.awrap(_symbolicateAndFormatUnhandledPromiseRejectionAsync(args[0]));
+
+        case 5:
+          _ref2 = _context3.sent;
+          message = _ref2.message;
+          stack = _ref2.stack;
+
+          stringifiedArgs = [{ message: message, stack: stack }];
+          includesStack = true;
+          _context3.next = 39;
+          break;
+
+        case 12:
+          if (!(['warn', 'error'].includes(level) && !(args.length === 1 && args[0] instanceof Error) && _stackTraceLogsSupported())) {
+            _context3.next = 35;
+            break;
+          }
+
+          error = void 0;
+          _context3.prev = 14;
+          throw new Error(SENTINEL_ERROR);
+
+        case 18:
+          _context3.prev = 18;
+          _context3.t0 = _context3['catch'](14);
+          usefulStackTop = _context3.t0.stack.split('\n').findIndex(function (frame) {
+            return frame && frame.includes(LOG_FUNCTION_NAME);
+          });
+
+          _context3.t0.stack = _context3.t0.stack.split('\n').slice(usefulStackTop, _context3.t0.stack.length).join('\n');
+          error = _context3.t0;
+
+        case 23:
+          _context3.next = 25;
+          return regeneratorRuntime.awrap(_stringifyLogArgsAsync(args));
+
+        case 25:
+          argsString = _context3.sent.join(', ');
+          _context3.next = 28;
+          return regeneratorRuntime.awrap(_symbolicateAndFormatErrorAsync(error, argsString));
+
+        case 28:
+          _ref3 = _context3.sent;
+          _message = _ref3.message;
+          _stack = _ref3.stack;
+
+          stringifiedArgs = [{ message: _message, stack: _stack }];
+          includesStack = true;
+          _context3.next = 39;
+          break;
+
+        case 35:
+          if (args.length === 1 && args[0] instanceof Error && _stackTraceLogsSupported()) {
+            includesStack = true;
+          }
+
+          _context3.next = 38;
+          return regeneratorRuntime.awrap(_stringifyLogArgsAsync(args));
+
+        case 38:
+          stringifiedArgs = _context3.sent;
+
+        case 39:
+          return _context3.abrupt('return', {
+            body: stringifiedArgs,
+            includesStack: includesStack
+          });
+
+        case 40:
+        case 'end':
+          return _context3.stop();
+      }
+    }
+  }, null, this, [[14, 18]]);
+}
+
+function _stringifyLogArgsAsync(args) {
+  var _this = this;
+
+  return regeneratorRuntime.async(function _stringifyLogArgsAsync$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          _context5.next = 2;
+          return regeneratorRuntime.awrap(Promise.all(args.map(function _callee(arg) {
+            return regeneratorRuntime.async(function _callee$(_context4) {
+              while (1) {
+                switch (_context4.prev = _context4.next) {
+                  case 0:
+                    if (!(typeof arg === 'string')) {
+                      _context4.next = 4;
+                      break;
+                    }
+
+                    return _context4.abrupt('return', arg);
+
+                  case 4:
+                    if (!(arg instanceof Error && args.length === 1 && _stackTraceLogsSupported())) {
+                      _context4.next = 10;
+                      break;
+                    }
+
+                    _context4.next = 7;
+                    return regeneratorRuntime.awrap(_symbolicateAndFormatErrorAsync(arg));
+
+                  case 7:
+                    return _context4.abrupt('return', _context4.sent);
+
+                  case 10:
+                    return _context4.abrupt('return', (0, _prettyFormat2.default)(arg));
+
+                  case 11:
+                  case 'end':
+                    return _context4.stop();
+                }
+              }
+            }, null, _this);
+          })));
+
+        case 2:
+          return _context5.abrupt('return', _context5.sent);
+
+        case 3:
+        case 'end':
+          return _context5.stop();
+      }
+    }
+  }, null, this);
+}
+
+function _stackTraceLogsSupported() {
+  return !!(_Constants2.default.manifest.developer && _Constants2.default.manifest.developer.projectRoot && __DEV__);
+}
+
+function _isUnhandledPromiseRejection(msg) {
+  return !!(msg && msg.match && msg.match(/^Possible Unhandled Promise Rejection/));
+}
+
+function _symbolicateAndFormatUnhandledPromiseRejectionAsync(message) {
+  var stack, formattedStack, lines;
+  return regeneratorRuntime.async(function _symbolicateAndFormatUnhandledPromiseRejectionAsync$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          _context6.next = 2;
+          return regeneratorRuntime.awrap(_symbolicateError(message));
+
+        case 2:
+          stack = _context6.sent;
+
+          if (!(!stack || !stack.length)) {
+            _context6.next = 5;
+            break;
+          }
+
+          return _context6.abrupt('return', message);
+
+        case 5:
+          formattedStack = _formatStack(stack);
+          lines = message.split('\n');
+          return _context6.abrupt('return', {
+            message: '[Unhandled Promise rejection: ' + lines[1] + ']',
+            stack: formattedStack
+          });
+
+        case 8:
+        case 'end':
+          return _context6.stop();
+      }
+    }
+  }, null, this);
+}
+
+function _symbolicateAndFormatErrorAsync(error, message) {
+  var stack, formattedStack;
+  return regeneratorRuntime.async(function _symbolicateAndFormatErrorAsync$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          if (!message) {
+            message = error.message;
+          }
+
+          if (!(!error.stack || !error.stack.length)) {
+            _context7.next = 3;
+            break;
+          }
+
+          return _context7.abrupt('return', (0, _prettyFormat2.default)(error));
+
+        case 3:
+          _context7.next = 5;
+          return regeneratorRuntime.awrap(_symbolicateError(error.stack));
+
+        case 5:
+          stack = _context7.sent;
+          formattedStack = _formatStack(stack);
+          return _context7.abrupt('return', {
+            message: message,
+            stack: formattedStack
+          });
+
+        case 8:
+        case 'end':
+          return _context7.stop();
+      }
+    }
+  }, null, this);
+}
+
+function _symbolicateError(stack) {
+  var parseErrorStack, parsedStack, symbolicateStackTrace, symbolicatedStack, prettyStack;
+  return regeneratorRuntime.async(function _symbolicateError$(_context8) {
+    while (1) {
+      switch (_context8.prev = _context8.next) {
+        case 0:
+          parseErrorStack = require('react-native/Libraries/Core/Devtools/parseErrorStack');
+          parsedStack = parseErrorStack({ stack: stack });
+          symbolicateStackTrace = require('react-native/Libraries/Core/Devtools/symbolicateStackTrace');
+          _context8.prev = 3;
+          _context8.next = 6;
+          return regeneratorRuntime.awrap(symbolicateStackTrace(parsedStack));
+
+        case 6:
+          symbolicatedStack = _context8.sent;
+          prettyStack = _cleanStack(symbolicatedStack);
+          return _context8.abrupt('return', prettyStack || []);
+
+        case 11:
+          _context8.prev = 11;
+          _context8.t0 = _context8['catch'](3);
+          return _context8.abrupt('return', []);
+
+        case 14:
+        case 'end':
+          return _context8.stop();
+      }
+    }
+  }, null, this, [[3, 11]]);
+}
+
+function _cleanStack(stack) {
+  return stack.filter(function (frame, i) {
+    return frame.file !== null && !(frame.file.includes('expo/src/Logs') && i === 0);
+  }).map(_removeProjectRoot);
+}
+
+function _removeProjectRoot(frame) {
+  if (_Constants2.default.manifest.developer && _Constants2.default.manifest.developer.projectRoot && frame.file && frame.file.includes(_Constants2.default.manifest.developer.projectRoot)) {
+    frame.file = frame.file.replace(_Constants2.default.manifest.developer.projectRoot, '');
+    if (frame.file[0] === '/' || frame.file[0] === '\\') {
+      frame.file = frame.file.slice(1, frame.file.length);
+    }
+    return frame;
+  } else {
+    return frame;
+  }
+}
+
+function _formatStack(stack) {
+  return stack.map(function (frame) {
+    return frame.file + ':' + frame.lineNumber + ':' + frame.column + ' in ' + frame.methodName;
+  }).join('\n');
+}
+
+if (_Constants2.default.manifest && _Constants2.default.manifest.logUrl) {
+  if (!navigator.userAgent) {
+    enableXDELogging();
+  } else {
+    queueRemoteLogAsync('info', {}, ['You are now debugging remotely, check your browser console for your application logs.']);
+  }
+}

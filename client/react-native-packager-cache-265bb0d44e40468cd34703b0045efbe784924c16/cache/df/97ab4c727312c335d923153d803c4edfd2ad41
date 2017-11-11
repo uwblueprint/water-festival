@@ -1,0 +1,325 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _react2 = require('react');
+
+var _react3 = _interopRequireDefault(_react2);
+
+var _index = require('./../../react-transform-hmr/lib/index.js');
+
+var _index2 = _interopRequireDefault(_index);
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class,
+    _temp,
+    _jsxFileName = '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/BottomNavigation.js';
+
+var _reactNative = require('react-native');
+
+var _RippleBackgroundTransition = require('./RippleBackgroundTransition');
+
+var _RippleBackgroundTransition2 = _interopRequireDefault(_RippleBackgroundTransition);
+
+var _PressRipple = require('./PressRipple');
+
+var _PressRipple2 = _interopRequireDefault(_PressRipple);
+
+var _Tab = require('./Tab');
+
+var _Tab2 = _interopRequireDefault(_Tab);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _components = {
+  BottomNavigation: {
+    displayName: 'BottomNavigation'
+  }
+};
+
+var _reactTransformHmrLibIndexJs2 = (0, _index2.default)({
+  filename: '/Users/NinaPan/Desktop/water-festival/client/node_modules/react-native-material-bottom-navigation/lib/BottomNavigation.js',
+  components: _components,
+  locals: [module],
+  imports: [_react3.default]
+});
+
+function _wrapComponent(id) {
+  return function (Component) {
+    return _reactTransformHmrLibIndexJs2(Component, id);
+  };
+}
+
+var defaultProps = {
+  activeTab: 0,
+  labelColor: 'rgba(0, 0, 0, 0.54)',
+  rippleColor: 'black',
+  backgroundColor: 'white',
+  onTabChange: function onTabChange() {}
+};
+
+var BottomNavigation = _wrapComponent('BottomNavigation')((_temp = _class = function (_Component) {
+  _inherits(BottomNavigation, _Component);
+
+  function BottomNavigation(props) {
+    _classCallCheck(this, BottomNavigation);
+
+    var _this = _possibleConstructorReturn(this, (BottomNavigation.__proto__ || Object.getPrototypeOf(BottomNavigation)).call(this, props));
+
+    _this._handleTabChange = function (_ref) {
+      var tabIndex = _ref.tabIndex,
+          barBackgroundColor = _ref.barBackgroundColor;
+
+      if (_this.nextActiveTab === _this.activeTab || !_this._canChangeTabs()) {
+        return;
+      } else {
+        _this.lastTabChangeDate = new Date();
+      }
+      var _this$iconPositions$t = _this.iconPositions[tabIndex],
+          x = _this$iconPositions$t.x,
+          y = _this$iconPositions$t.y;
+
+      _this.nextActiveTab = tabIndex;
+
+      setTimeout(function () {
+        _this.props.onTabChange(tabIndex, _this.state.activeTab);
+
+        if (_this.refs.pressRipple == null) return;
+
+        _this.setState({
+          pressRippleColor: barBackgroundColor,
+          rippleX: x + 12,
+          rippleY: 28 });
+
+        _this.refs.pressRipple.run();
+
+        if (_this.state.backgroundColor !== barBackgroundColor) {
+          _this.refs.backgroundRipple.run(function () {
+            _this.setState({ backgroundColor: barBackgroundColor });
+          });
+        }
+
+        setTimeout(function () {
+          _reactNative.LayoutAnimation.configureNext(_reactNative.LayoutAnimation.Presets.easeInEaseOut);
+
+          _this.layoutWillChange = true;
+
+          _this.setState({ activeTab: tabIndex });
+        });
+      });
+    };
+
+    _this._handleOnLayout = function (_ref2) {
+      var nativeEvent = _ref2.nativeEvent;
+      var _nativeEvent$layout = nativeEvent.layout,
+          width = _nativeEvent$layout.width,
+          height = _nativeEvent$layout.height;
+
+      if (_this.dimensions.width === -1 && _this.dimensions.height === -1) {
+        _this.dimensions = { width: width, height: height };
+      }
+
+      if (_this.dimensions.width !== width || _this.dimensions.height !== height) {
+        setTimeout(function () {
+          return _this._measureIcons();
+        });
+        _this.dimensions = { width: width, height: height };
+      }
+    };
+
+    _this._measureIcons = function () {
+      var navHandle = (0, _reactNative.findNodeHandle)(_this.refs.navigation);
+
+      _this.props.children.forEach(function (child, tabIndex) {
+        if (_this.refs['tab_' + tabIndex] == null) return;
+
+        _this.refs['tab_' + tabIndex].getIconRef().measureLayout(navHandle, function (x, y) {
+          _this.iconPositions[tabIndex] = { x: x, y: y };
+        });
+      });
+    };
+
+    _this.layoutWillChange = false;
+    _this.lastTabChangeDate = -1;
+    _this.dimensions = { width: -1, height: -1 };
+    _this.nextActiveTab = props.activeTab;
+    _this.state = {
+      activeTab: props.activeTab,
+      backgroundColor: props.backgroundColor,
+      pressRippleColor: 'transparent',
+      rippleX: 0,
+      rippleY: 0
+    };
+
+    if (props.activeLabelColor == null) {
+      _this.props.activeLabelColor = _this.props.labelColor;
+    }
+
+    if (_reactNative.Platform.OS === 'android') {
+      _reactNative.UIManager.setLayoutAnimationEnabledExperimental && _reactNative.UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+    return _this;
+  }
+
+  _createClass(BottomNavigation, [{
+    key: 'componentWillMount',
+    value: function componentWillMount() {
+      var children = this.props.children;
+      var activeTab = this.state.activeTab;
+      var barBackgroundColor = children[activeTab].props.barBackgroundColor;
+
+
+      this.iconPositions = new Array(children.length).fill({ x: 0, y: 0 });
+
+      if (children.length > 5) {
+        if (__DEV__) {
+          console.warn('You shouldn\'t put more than 5 Tabs in the ' + 'BottomNavigation. Styling may break and it\'s against the specs ' + 'in the Material Design Guidelines.');
+        }
+      }
+
+      if (barBackgroundColor) {
+        this.setState({
+          backgroundColor: barBackgroundColor
+        });
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      setTimeout(function () {
+        return _this2._measureIcons();
+      });
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
+      var _this3 = this;
+
+      if (this.layoutWillChange) {
+        setTimeout(function () {
+          return _this3._measureIcons();
+        });
+        this.layoutWillChange = false;
+      }
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var newTabIndex = nextProps.activeTab;
+      var oldTabIndex = this.state.activeTab;
+      var nextActiveTab = this.nextActiveTab;
+
+      var tabAmount = this.props.children.length;
+
+      if (newTabIndex !== oldTabIndex && newTabIndex !== nextActiveTab) {
+        if (newTabIndex < 0 && newTabIndex >= tabAmount) {
+          if (__DEV__) console.error(newTabIndex + ' is not a valid tabIndex');
+        } else {
+          this.refs['tab_' + newTabIndex].setTabActive();
+        }
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this4 = this;
+
+      var _state = this.state,
+          backgroundColor = _state.backgroundColor,
+          pressRippleColor = _state.pressRippleColor,
+          rippleX = _state.rippleX,
+          rippleY = _state.rippleY,
+          activeTab = _state.activeTab;
+
+
+      var shifting = this.props.shifting != null ? this.props.shifting : this.props.children.length > 3;
+
+      return _react3.default.createElement(
+        _reactNative.View,
+        {
+          ref: 'navigation',
+          style: [{ overflow: 'hidden' }, this.props.style],
+          onLayout: this._handleOnLayout,
+          __source: {
+            fileName: _jsxFileName,
+            lineNumber: 158
+          }
+        },
+        _react3.default.createElement(
+          _reactNative.View,
+          { style: [this.props.innerStyle, styles.container, { backgroundColor: backgroundColor }], __source: {
+              fileName: _jsxFileName,
+              lineNumber: 163
+            }
+          },
+          _react3.default.createElement(_RippleBackgroundTransition2.default, {
+            ref: 'backgroundRipple',
+            color: pressRippleColor,
+            posX: rippleX,
+            posY: rippleY,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 168
+            }
+          }),
+          _react3.default.createElement(_PressRipple2.default, {
+            ref: 'pressRipple',
+            color: this.props.rippleColor,
+            x: rippleX,
+            y: rippleY,
+            __source: {
+              fileName: _jsxFileName,
+              lineNumber: 174
+            }
+          }),
+          _react3.default.Children.map(this.props.children, function (child, tabIndex) {
+            return _react3.default.cloneElement(child, {
+              shifting: shifting,
+              active: tabIndex === activeTab,
+              tabIndex: tabIndex,
+              onTabPress: _this4._handleTabChange,
+              ref: 'tab_' + tabIndex,
+
+              labelColor: child.props.labelColor || _this4.props.labelColor,
+              activeLabelColor: child.props.activeLabelColor || _this4.props.activeLabelColor,
+              barBackgroundColor: child.props.barBackgroundColor || _this4.props.backgroundColor
+            });
+          })
+        )
+      );
+    }
+  }, {
+    key: '_canChangeTabs',
+    value: function _canChangeTabs() {
+      var TAB_BLOCK_DELAY_SECONDS = .5;
+      if (this.lastTabChangeDate < 0) {
+        return true;
+      }
+
+      return new Date() - this.lastTabChangeDate > TAB_BLOCK_DELAY_SECONDS * 1000;
+    }
+  }]);
+
+  return BottomNavigation;
+}(_react2.Component), _class.defaultProps = defaultProps, _temp));
+
+exports.default = BottomNavigation;
+
+
+var styles = _reactNative.StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});

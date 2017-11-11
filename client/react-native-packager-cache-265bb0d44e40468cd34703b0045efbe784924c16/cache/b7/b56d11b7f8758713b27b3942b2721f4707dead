@@ -1,0 +1,6 @@
+
+function stubArray() {
+  return [];
+}
+
+module.exports = stubArray;

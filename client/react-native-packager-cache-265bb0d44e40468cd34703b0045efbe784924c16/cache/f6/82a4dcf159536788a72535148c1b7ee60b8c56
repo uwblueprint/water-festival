@@ -1,0 +1,39 @@
+
+'use strict';
+
+var register = function register() {};
+
+if (__DEV__) {
+  var AppState = require('AppState');
+  var WebSocket = require('WebSocket');
+
+  var _require = require('NativeModules'),
+      PlatformConstants = _require.PlatformConstants;
+
+  var reactDevTools = require('react-devtools-core');
+
+  register = function register(plugin) {
+    if (WebSocket.isAvailable) {
+      var _isAppActive = function _isAppActive() {
+        return AppState.currentState !== 'background';
+      };
+
+      var _host = PlatformConstants && PlatformConstants.ServerHost ? PlatformConstants.ServerHost.split(':')[0] : 'localhost';
+
+      plugin.connectToDevTools({
+        isAppActive: _isAppActive,
+        host: _host,
+
+        port: window.__REACT_DEVTOOLS_PORT__,
+        resolveRNStyle: require('flattenStyle')
+      });
+    }
+  };
+
+  register(reactDevTools);
+  global.registerDevtoolsPlugin = register;
+}
+
+module.exports = {
+  register: register
+};
