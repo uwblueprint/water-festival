@@ -1,24 +1,11 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const app = express()
+const express = require('express');
+const app = express();
 
-app.use(cors())
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://water_festival:uwblueprintwaterfestival@ds249605.mlab.com:49605/water_festival');
 
-
-app.post('/', function (req, res) {
-  if(req.body.address){
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(search.search(req.body.address)));
-  }else{
-    res.send("{}") 
-  }
-})
+app.use(require('./controllers'));
 
 app.listen(9090, function () {
   console.log('Backend server is listening on port 9090!')
-})
+});
