@@ -1,5 +1,5 @@
 {
-  "name": "shogun_challenge",
+  "name": "water-festival",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shividhar/ShogunFullStackChallenge.git"
+    "url": "git+https://github.com/uwblueprint/water-festival.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shividhar/ShogunFullStackChallenge/issues"
+    "url": "https://github.com/uwblueprint/water-festival/issues"
   },
-  "homepage": "https://github.com/shividhar/ShogunFullStackChallenge#readme",
+  "homepage": "https://github.com/uwblueprint/water-festival#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
