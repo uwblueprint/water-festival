@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import ContentPage from './ContentPage.js'
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
@@ -223,7 +224,8 @@ const WaterFestivalApp = TabNavigator({
   AllActivitiesScreen: { screen: AllActivitiesScreen },
   MyActivitiesScreen: {screen: MyActivitiesScreen},
   MapScreen: { screen: MapScreen },
-  InformationScreen: {screen: InformationScreen}
+  InformationScreen: {screen: InformationScreen},
+  ContentPage: {screen: ContentPage}
 }, {
   tabBarComponent: NavigationComponent,
   tabBarPosition: 'bottom',
@@ -247,6 +249,9 @@ const WaterFestivalApp = TabNavigator({
         },
         InformationScreen: {
           icon: <Icon size={24} color="black" name="perm-device-information" />
+        },
+        ContentPage: {
+          icon: <Icon size={24} color="black" name="check" />
         }
       }
     }
