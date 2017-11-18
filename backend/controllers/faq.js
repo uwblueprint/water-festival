@@ -32,7 +32,7 @@ faqRouter.delete('/delete', function(req, res) {
 			res.send(err);
 		}
 	});
-	res.send("Deleted questions!");
+	res.send('Deleted questions!');
 })
 
 faqRouter.post('/insert', function(req, res) {
@@ -41,9 +41,10 @@ faqRouter.post('/insert', function(req, res) {
 	faq.answer = req.body.answer;
 
 	faq.save(function(err) {
-		res.json({ message: 'Question created!',
-					  question: faq,
-					  request: req.body });
+		res.json({ 
+			message: 'Question created!',
+	 	   faq: faq
+	   });
 	});
 });
 
@@ -58,7 +59,10 @@ faqRouter.post('/edit', function(req, res) {
 		faq.save(function(err, updatedFaq) {
 			if (err) return err.message;
 
-			res.send(updatedFaq);
+			res.json({ 
+				message: 'Question updated!',
+				faq: updatedFaq
+			});
 		});
 	});
 });
