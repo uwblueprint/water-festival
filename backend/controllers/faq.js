@@ -37,7 +37,6 @@ faqRouter.delete('/delete', function(req, res) {
 
 faqRouter.post('/insert', function(req, res) {
 	var faq = new Faq();
-	console.log(JSON.stringify(req.body));
 	faq.question = req.body.question;
 	faq.answer = req.body.answer;
 
