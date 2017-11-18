@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const faqRouter = express.Router()
 
+var mongodb = require('mongodb');
 var Faq = require('../models/FAQ');
 
 faqRouter.use(cors())
@@ -11,37 +12,30 @@ faqRouter.use(bodyParser.urlencoded({
   extended: true
 }));
 
-function getCurrentQuestions() {
-	var questions;
+faqRouter.get('/list', function(req, res) {
 	Faq.find(function(err, faqs) {
 		if (err) {
-			questions = err;
-			return;
+			res.json(err);
 		}
-		questions = faqs;
-	});
-	return questions;
-}
-
-faqRouter.get('/questions', function(req, res) {
-	Faq.find(function(err, faqs) {
-		if (err) {
-			res.send(err);
-		}
+		faqs = faqs.map(q => q.toJSONFor());
 		res.json(faqs);
 	});
 })
 
-faqRouter.get('/deleteAll', function(req, res) {
-	Faq.remove({}, function(err) {
+faqRouter.delete('/delete', function(req, res) {
+	var ids = req.body.questionIds.map(function(id) {
+		return new mongodb.ObjectID(id); 	
+	});
+
+	Faq.deleteMany({_id: {$in: ids}}, function(err) {
 		if (err) {
 			res.send(err);
 		}
-		res.send('Deleted all your questions!');
 	});
+	res.send("Deleted questions!");
 })
 
-faqRouter.post('/question', function(req, res) {
+faqRouter.post('/insert', function(req, res) {
 	var faq = new Faq();
 	console.log(JSON.stringify(req.body));
 	faq.question = req.body.question;
@@ -49,19 +43,25 @@ faqRouter.post('/question', function(req, res) {
 
 	faq.save(function(err) {
 		res.json({ message: 'Question created!',
-					  question: faq.question,
-		 			  answer: faq.answer,
+					  question: faq,
 					  request: req.body });
 	});
 });
 
-faqRouter.post('/', function (req, res) {
-  if(req.body.address){
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(search.search(req.body.address)));
-  }else{
-    res.send("{}") 
-  }
-})
+faqRouter.post('/edit', function(req, res) {
+	var questionToEdit = req.body;
+
+	Faq.findById(questionToEdit.id, function(err, faq) {
+		faq.set({
+			question: questionToEdit.question,
+			answer: questionToEdit.answer
+		});
+		faq.save(function(err, updatedFaq) {
+			if (err) return err.message;
+
+			res.send(updatedFaq);
+		});
+	});
+});
 
 module.exports = faqRouter;
