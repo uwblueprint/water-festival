@@ -23,7 +23,7 @@ faqRouter.get('/list', function(req, res) {
 })
 
 faqRouter.delete('/delete', function(req, res) {
-	var ids = req.body.questionIds.map(function(id) {
+	var ids = req.body.faqIDs.map(function(id) {
 		return new mongodb.ObjectID(id); 	
 	});
 
