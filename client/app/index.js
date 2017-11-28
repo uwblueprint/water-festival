@@ -13,7 +13,7 @@ import {
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
-import { FaqScreen } from './screens/faq'
+import { FaqScreenStack } from './screens/faq'
 
 class AllActivitiesScreen extends Component {
   static navigationOptions = {
@@ -207,9 +207,9 @@ MapScreen.defaultProps = { initialInput: '', x: 0, y: 0 };
 
 const WaterFestivalApp = TabNavigator({
   AllActivitiesScreen: { screen: AllActivitiesScreen },
-  MyActivitiesScreen: {screen: MyActivitiesScreen},
+  MyActivitiesScreen: { screen: MyActivitiesScreen },
   MapScreen: { screen: MapScreen },
-  FaqScreen: {screen: FaqScreen},
+  FaqScreen: { screen: FaqScreenStack },
 }, {
   tabBarComponent: NavigationComponent,
   tabBarPosition: 'bottom',
