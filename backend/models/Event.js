@@ -25,4 +25,4 @@ EventSchema.methods.toJSONFor = function(user){
   };
 };
 
-mongoose.model('Event', EventSchema);
+module.exports = mongoose.model('Event', EventSchema);

@@ -15,4 +15,4 @@ FAQSchema.methods.toJSONFor = function(user){
   };
 };
 
-mongoose.model('FAQ', FAQSchema);
+module.exports = mongoose.model('FAQ', FAQSchema);

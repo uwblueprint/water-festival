@@ -13,6 +13,7 @@ import {
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
+import { FaqScreenStack } from './screens/faq'
 
 class AllActivitiesScreen extends Component {
   static navigationOptions = {
@@ -204,26 +205,11 @@ class MapScreen extends Component {
 }
 MapScreen.defaultProps = { initialInput: '', x: 0, y: 0 };
 
-class InformationScreen extends Component {
-  static navigationOptions = {
-    title: 'Information',
-  };
-  render() {
-    const { navigate } = this.props.navigation;
-    return (
-      <View>
-        <Text>More information can be found here.</Text>
-      </View>
-    );
-  }
-}
-
-
 const WaterFestivalApp = TabNavigator({
   AllActivitiesScreen: { screen: AllActivitiesScreen },
-  MyActivitiesScreen: {screen: MyActivitiesScreen},
+  MyActivitiesScreen: { screen: MyActivitiesScreen },
   MapScreen: { screen: MapScreen },
-  InformationScreen: {screen: InformationScreen}
+  FaqScreen: { screen: FaqScreenStack },
 }, {
   tabBarComponent: NavigationComponent,
   tabBarPosition: 'bottom',
@@ -245,13 +231,14 @@ const WaterFestivalApp = TabNavigator({
         MyActivitiesScreen: {
           icon: <Icon size={24} color="black" name="map" />
         },
-        InformationScreen: {
+		  FaqScreen: {
           icon: <Icon size={24} color="black" name="perm-device-information" />
-        }
+		  }
       }
     }
   }
 })
+
 
 const styles = StyleSheet.create({
   container: {
@@ -291,8 +278,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#c7c7cc',
     backgroundColor: 'white',
-  },
-
+  }, 
 })
 
 const allActivitiesStyles = StyleSheet.create({

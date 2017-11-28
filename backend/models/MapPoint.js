@@ -17,4 +17,4 @@ MapPointSchema.methods.toJSONFor = function(user){
   };
 };
 
-mongoose.model('MapPoint', MapPointSchema);
+module.exports = mongoose.model('MapPoint', MapPointSchema);
