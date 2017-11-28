@@ -1,37 +1,34 @@
 import React, { Component } from 'react';
-import {
-  AppRegistry,
-  Button,
-  Image,
-  ScrollView,
-  SectionList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { TabNavigator } from 'react-navigation'
-import { FaqStyles } from '../styles/faqstyles'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 
-export class FaqScreen extends Component {
-  static navigationOptions = {
-    title: 'FAQ',
-  };
-  render() {
-    const { navigate } = this.props.navigation;
-    return (
-      <View>
-		  <View style={FaqStyles.faqHeader}>
-		 	<Text style={FaqStyles.titleText}>
-			 Frequently Asked Questions
-		 	</Text>
-		 </View>
-		 <View style={FaqStyles.faqPadding}>
-        <Text>Temporary FAQ page.</Text>
-		 </View>
-      </View>
-    );
-  }
+import { Header } from '../components/header'
+import { FaqList, FaqDetails } from '../components/faq'
+
+class FaqScreen extends Component {
+	static navigationOptions = ({navigation}) => ({
+		header: <Header title={'Information'} />
+	});
+
+	constructor(props) {
+		super(props);	
+	}
+
+	render() {
+		const { navigate } = this.props.navigation;
+		return (
+			<FaqList navigation={this.props.navigation}/>
+		);
+	}
 }
+
+export const FaqScreenStack = StackNavigator({
+	FaqList: { 
+		screen: FaqScreen, 
+	},
+	FaqDetails: {
+		screen: FaqDetails,	
+	}, 
+}, {
+	mode: 'modal',
+});
