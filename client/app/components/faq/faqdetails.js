@@ -11,8 +11,6 @@ import { FaqStyles } from '../../styles/faqstyles'
 import { Header } from '../header'
 import { ListSlider } from '../listslider'
 
-var API_URL = 'http://localhost:9090/faq';
-
 export class FaqDetails extends Component {
 	static navigationOptions = ({ navigation }) => ({
 		header: <Header 
