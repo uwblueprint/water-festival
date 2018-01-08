@@ -3,16 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "react-native-scripts": "1.6.0",
-    "jest-expo": "^22.0.0",
-    "react-test-renderer": "16.0.0-beta.5",
+    "babel-core": "^6.26.0",
     "babel-jest": "20.0.3",
-		"babel-preset-react-native": "1.9.2",
-		"jest": "20.0.4",
-		"react-native-material-bottom-navigation": "^0.5.2",
-		"react-native-vector-icons": "^4.4.2",
-		"react-navigation": "^1.0.0-beta.15",
-		"react-test-renderer": "16.0.0-alpha.12"
+    "babel-plugin-transform-react-jsx-source": "^6.22.0",
+    "babel-preset-react-native": "1.9.2",
+    "jest": "20.0.4",
+    "jest-expo": "^22.0.0",
+    "react-native-material-bottom-navigation": "^0.5.2",
+    "react-native-scripts": "1.6.0",
+    "react-native-vector-icons": "^4.4.2",
+    "react-navigation": "^1.0.0-beta.15",
+    "react-test-renderer": "16.0.0-alpha.12"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -26,6 +27,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/vector-icons": "^6.2.2",
     "babel-preset-expo": "^4.0.0",
     "expo": "^22.0.0",
     "react": "16.0.0-beta.5",

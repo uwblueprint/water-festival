@@ -31,6 +31,7 @@ class AllActivitiesScreen extends Component {
             {title: 'Grade 5', data: ['I Love Water', 'I <3 Water', 'H20 :)']},
           ]}
           renderItem={({item}) => <Text style={allActivitiesStyles.item}>{item}</Text>}
+					keyExtractor={(item, index) => index}
           renderSectionHeader={({section}) => <Text style={allActivitiesStyles.sectionHeader}>{section.title}</Text>}
           />
       </View>
@@ -278,7 +279,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: '#c7c7cc',
     backgroundColor: 'white',
-  }, 
+  },
 })
 
 const allActivitiesStyles = StyleSheet.create({
