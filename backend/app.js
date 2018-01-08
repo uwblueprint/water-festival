@@ -2,7 +2,10 @@ const express = require('express');
 const app = express();
 
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://water_festival:uwblueprintwaterfestival@ds249605.mlab.com:49605/water_festival');
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://water_festival:uwblueprintwaterfestival@ds249605.mlab.com:49605/water_festival', {
+	useMongoClient: true,
+});
 
 app.use(require('./controllers'));
 

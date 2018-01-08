@@ -31,7 +31,7 @@ class AllActivitiesScreen extends Component {
             {title: 'Grade 5', data: ['I Love Water', 'I <3 Water', 'H20 :)']},
           ]}
           renderItem={({item}) => <Text style={allActivitiesStyles.item}>{item}</Text>}
-					keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index}
           renderSectionHeader={({section}) => <Text style={allActivitiesStyles.sectionHeader}>{section.title}</Text>}
           />
       </View>
@@ -232,9 +232,9 @@ const WaterFestivalApp = TabNavigator({
         MyActivitiesScreen: {
           icon: <Icon size={24} color="black" name="map" />
         },
-		  FaqScreen: {
+    FaqScreen: {
           icon: <Icon size={24} color="black" name="perm-device-information" />
-		  }
+    }
       }
     }
   }
