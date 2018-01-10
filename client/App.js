@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
-import Container from './container';
-import reducers from './reducers';
+import Container from './app/container';
+import reducers from './app/reducers';
 
 const initalState = {};
 
