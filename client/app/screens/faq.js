@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation';
+import { TabNavigator, StackNavigator } from 'react-navigation';
 
-import { Header } from '../components/header'
-import { FaqList, FaqDetails } from '../components/faq'
+import { Header } from '../components/header';
+import { FaqList, FaqDetails } from '../components/faq';
 
 class FaqScreen extends Component {
 	static navigationOptions = ({navigation}) => ({
@@ -11,24 +11,23 @@ class FaqScreen extends Component {
 	});
 
 	constructor(props) {
-		super(props);	
+		super(props);
 	}
 
 	render() {
-		const { navigate } = this.props.navigation;
 		return (
-			<FaqList navigation={this.props.navigation}/>
+			<FaqList navigation={this.props.navigation} />
 		);
 	}
 }
 
 export const FaqScreenStack = StackNavigator({
-	FaqList: { 
-		screen: FaqScreen, 
+	FaqList: {
+		screen: FaqScreen,
 	},
 	FaqDetails: {
-		screen: FaqDetails,	
-	}, 
+		screen: FaqDetails,
+	},
 }, {
 	mode: 'modal',
 });
