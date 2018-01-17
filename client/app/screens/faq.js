@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
+import { TabNavigator, StackNavigator } from 'react-navigation'
 
-import { Header } from '../components/header';
-import { FaqList, FaqDetails } from '../components/faq';
+import { Header } from '../components/header'
+import { FaqList, FaqDetails } from '../components/faq'
 
 class FaqScreen extends Component {
 	static navigationOptions = ({navigation}) => ({

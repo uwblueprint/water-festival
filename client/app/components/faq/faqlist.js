@@ -72,9 +72,6 @@ class FaqList extends Component {
 		return fetch(`${API_URL}/list`)
 			.then(response => response.json())
 			.then(faqList => this.props.onFAQLoaded(faqList))
-			// .then(responseJson => {
-			// 	this.setState({ currentQuestions: responseJson });
-			// })
 			.catch(err => console.error(err));
 	}
 

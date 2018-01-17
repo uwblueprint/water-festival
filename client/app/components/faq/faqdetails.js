@@ -48,6 +48,3 @@ class FaqDetails extends Component {
 		);
 	}
 }
-
-
-export default FaqDetails;
