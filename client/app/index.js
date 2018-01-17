@@ -14,11 +14,11 @@ const store = createStore(
 );
 
 export default class WaterFestivalApp extends Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Container />
-      </Provider>
-    );
-  }
+	render() {
+		return (
+			<Provider store={store}>
+				<Container />
+			</Provider>
+		);
+	}
 }
