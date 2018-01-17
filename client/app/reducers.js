@@ -1,11 +1,5 @@
-import { Platform } from 'react-native';
 import { combineReducers } from 'redux'
 import { FAQ_LOADED } from './actions';
-
-const ADDRESS = Platform.OS === 'android'
-	? 'http://192.168.1.141'
-	: 'http://localhost';
-const API_URL = `${ADDRESS}:9090/faq`;
 
 // Retrieve FAQ List from server
 const currentQuestions = (state = [], action) => {

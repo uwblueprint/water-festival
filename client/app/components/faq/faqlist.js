@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import {
 	ScrollView,
@@ -15,7 +16,9 @@ import { TabNavigator, StackNavigator, HeaderBackButton } from 'react-navigation
 import { FaqStyles } from '../../styles/faqstyles';
 import { faqLoaded } from '../../actions';
 
-const ADDRESS = 'http://192.168.1.141';
+const ADDRESS = Platform.OS === 'android'
+	? 'http://192.168.42.22'
+	: 'http://localhost';
 const API_URL = `${ADDRESS}:9090/faq`;
 
 
