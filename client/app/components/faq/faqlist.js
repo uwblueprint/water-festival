@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Platform } from 'react-native';
+import { connect } from 'react-redux';
 import {
 	ScrollView,
 	Text,
@@ -6,34 +9,38 @@ import {
 	FlatList,
 	RefreshControl,
 } from 'react-native';
-import { ListItem, SearchBar } from 'react-native-elements'
-import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
-import Icon from 'react-native-vector-icons/Entypo'
-import { TabNavigator, StackNavigator, HeaderBackButton } from 'react-navigation'
-import { FaqStyles } from '../../styles/faqstyles'
+import { ListItem, SearchBar } from 'react-native-elements';
+import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation';
+import Icon from 'react-native-vector-icons/Entypo';
+import { TabNavigator, StackNavigator, HeaderBackButton } from 'react-navigation';
+import { FaqStyles } from '../../styles/faqstyles';
+import { faqLoaded } from '../../actions';
 
-const API_URL = 'http://localhost:9090/faq';
+const ADDRESS = Platform.OS === 'android'
+	? 'http://192.168.42.22'
+	: 'http://localhost';
+const API_URL = `${ADDRESS}:9090/faq`;
 
-export class FaqList extends Component {
-	//TODO: Remove warning for keys 
+
+class FaqList extends Component {
 	_keyExtractor = (item, index) => item.id;
 
 	constructor(props) {
 		super(props);
-		this.state = { 
+		this.state = {
 			currentQuestions: this.props.currentQuestions,
-			isRefreshing: false,	
+			isRefreshing: false,
 		};
 	}
-	
+
 	componentDidMount() {
-		this.fetchData().then(() => {
-			console.log("Finished mounting!");		
-		});
+		this.fetchData()
+			.then(() => console.log("Finished mounting!"))
+			.catch(err => console.error(err));
 	}
 
 	componentWillReceiveProps(nextProps) {
-	// Avoiding refresh is possible
+		// Avoiding refresh if possible
 	  if (nextProps.currentQuestions !== this.state.currentQuestions) {
 		 this.setState({ currentQuestions: nextProps.currentQuestions });
 	  }
@@ -41,7 +48,7 @@ export class FaqList extends Component {
 
 	render() {
 		return (
-			<ScrollView 
+			<ScrollView
 				style={FaqStyles.faqPadding, {backgroundColor: 'white'}}
 				refreshControl={
 					<RefreshControl
@@ -50,7 +57,7 @@ export class FaqList extends Component {
 					/>
 				}
 			>
-				<FlatList 
+				<FlatList
 					data={this.state.currentQuestions}
 					renderItem={this._renderListItem}
 					extraData={this.state}
@@ -64,10 +71,8 @@ export class FaqList extends Component {
 	fetchData() {
 		return fetch(`${API_URL}/list`)
 			.then(response => response.json())
-			.then(responseJson => {
-				this.setState({ currentQuestions: responseJson });
-			})
-			.catch(err => err);
+			.then(faqList => this.props.onFAQLoaded(faqList))
+			.catch(err => console.error(err));
 	}
 
 	_onRefresh() {
@@ -80,13 +85,13 @@ export class FaqList extends Component {
 	_renderListItem = ({ item, index }) => {
 		let rowBg = index % 2 == 1 ? FaqStyles.faqListItemOdd : null;
 		return (
-			<ListItem 
+			<ListItem
 				containerStyle={FaqStyles.faqListItem, rowBg}
 				titleStyle={FaqStyles.faqListItemText}
 				key={item.id}
 				title={item.question}
 				onPress={() => this._renderFaqDetails(item, index)}
-				rightIcon={<Icon 
+				rightIcon={<Icon
 								name={'chevron-thin-right'}
 								size={30}
 								color={'#787878'}
@@ -102,10 +107,34 @@ export class FaqList extends Component {
 	}
 
 	_renderFaqDetails = (question, index) => {
-		this.props.navigation.navigate('FaqDetails', { 
+		this.props.navigation.navigate('FaqDetails', {
 			index: index,
-			currentQuestion: question, 
+			currentQuestion: question,
 			questionList: this.state.currentQuestions,
 		});
 	}
 }
+
+FaqList.propTypes = {
+	currentQuestions: PropTypes.array
+};
+
+FaqList.defaultProps = {
+	currentQuestions: []
+};
+
+
+const mapStateToProps = ({ currentQuestions }) => {
+	return { currentQuestions };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFAQLoaded: faqList => {
+      dispatch(faqLoaded(faqList));
+    },
+  }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(FaqList);

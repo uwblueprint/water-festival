@@ -11,13 +11,13 @@ import { FaqStyles } from '../../styles/faqstyles'
 import { Header } from '../header'
 import { ListSlider } from '../listslider'
 
-export class FaqDetails extends Component {
+class FaqDetails extends Component {
 	static navigationOptions = ({ navigation }) => ({
-		header: <Header 
-					title={'Information'} 
+		header: <Header
+					title={'Information'}
 					hasBackButton={true}
 					navigation={navigation}
-				  /> 
+				  />
 	});
 
 	constructor(props) {
@@ -25,21 +25,19 @@ export class FaqDetails extends Component {
 	}
 
 	render() {
-		const { state } = this.props.navigation;	
-		console.log(this.props.navigation);
+		const { state } = this.props.navigation;
 		return (
-			<ListSlider 
+			<ListSlider
 				renderItem={this._renderItem}
-				currentItem={state.params.currentQuestion}
 				currentIndex={state.params.index}
 				itemList={state.params.questionList}
 			/>
 		);
 	}
 
-	_renderItem(item) {
+	_renderItem(item, index) {
 		return (
-			<View style={FaqStyles.faqDetailsContainer}>
+			<View key={index} style={FaqStyles.faqDetailsContainer}>
 				<Text style={FaqStyles.faqDetailsQuestion}>
 					{item.question}
 				</Text>

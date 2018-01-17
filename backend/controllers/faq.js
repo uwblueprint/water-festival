@@ -24,7 +24,7 @@ faqRouter.get('/list', function(req, res) {
 
 faqRouter.delete('/delete', function(req, res) {
 	var ids = req.body.faqIDs.map(function(id) {
-		return new mongodb.ObjectID(id); 	
+		return new mongodb.ObjectID(id);
 	});
 
 	Faq.deleteMany({_id: {$in: ids}}, function(err) {
@@ -41,7 +41,7 @@ faqRouter.post('/insert', function(req, res) {
 	faq.answer = req.body.answer;
 
 	faq.save(function(err) {
-		res.json({ 
+		res.json({
 			message: 'Question created!',
 	 	   faq: faq
 	   });
@@ -52,6 +52,11 @@ faqRouter.post('/edit', function(req, res) {
 	var questionToEdit = req.body;
 
 	Faq.findById(questionToEdit.id, function(err, faq) {
+		if (err) {
+			res.send(err);
+		} else if (!faq) {
+			res.send('Question ID not found!');
+		}
 		faq.set({
 			question: questionToEdit.question,
 			answer: questionToEdit.answer
@@ -59,7 +64,7 @@ faqRouter.post('/edit', function(req, res) {
 		faq.save(function(err, updatedFaq) {
 			if (err) return err.message;
 
-			res.json({ 
+			res.json({
 				message: 'Question updated!',
 				faq: updatedFaq
 			});

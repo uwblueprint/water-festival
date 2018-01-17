@@ -11,24 +11,23 @@ class FaqScreen extends Component {
 	});
 
 	constructor(props) {
-		super(props);	
+		super(props);
 	}
 
 	render() {
-		const { navigate } = this.props.navigation;
 		return (
-			<FaqList navigation={this.props.navigation}/>
+			<FaqList navigation={this.props.navigation} />
 		);
 	}
 }
 
 export const FaqScreenStack = StackNavigator({
-	FaqList: { 
-		screen: FaqScreen, 
+	FaqList: {
+		screen: FaqScreen,
 	},
 	FaqDetails: {
-		screen: FaqDetails,	
-	}, 
+		screen: FaqDetails,
+	},
 }, {
 	mode: 'modal',
 });
