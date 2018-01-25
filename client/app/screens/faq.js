@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { StackNavigator } from 'react-navigation'
 
 import { Header } from '../components/header'
 import { FaqList, FaqDetails } from '../components/faq'
 
 
-class FaqScreen extends Component {
+class FaqScreen extends React.Component {
 	static navigationOptions = () => ({
 		header: <Header title="Information" />
 	});
