@@ -1,0 +1,22 @@
+{
+    "env": {
+        "node": true,
+        "browser": true,
+        "es6": true
+    },
+    "plugins": [
+        "react"
+    ],
+    "extends": [
+        "airbnb",
+        "eslint:recommended",
+        "plugin:react/recommended"
+    ],
+    "parser": "babel-eslint",
+    "rules": {
+        "react/jsx-filename-extension": 0,
+        "react/jsx-indent": 0,
+        "indent": ["error", "tab"],
+        "react/prop-types": 0
+    }
+}
