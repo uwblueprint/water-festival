@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export const HeaderStyles = StyleSheet.create({
+const HeaderStyles = StyleSheet.create({
 	headerContainer: {
 		backgroundColor: '#293038',
 		height: 60, 
@@ -24,3 +24,5 @@ export const HeaderStyles = StyleSheet.create({
 		justifyContent: 'flex-end',
 	},
 });
+
+export default HeaderStyles;
