@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
-  Button,
   Image,
   ScrollView,
   SectionList,
@@ -10,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
+import { NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
 import { FaqScreenStack } from './screens/faq'
@@ -20,7 +18,6 @@ class AllActivitiesScreen extends Component {
     title: 'All Activities',
   };
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View style={allActivitiesStyles.container}>
         <SectionList
@@ -39,12 +36,14 @@ class AllActivitiesScreen extends Component {
   }
 }
 
+// TODO: Move screens away
+/* eslint-disable */
 class MyActivitiesScreen extends Component {
+/* eslint-enable */
   static navigationOptions = {
     title: 'My Activities',
   };
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View>
         <Text>These are my activities.</Text>
@@ -53,21 +52,23 @@ class MyActivitiesScreen extends Component {
   }
 }
 
+// TODO: Move screens away
+/* eslint-disable */
 class MapScreen extends Component {
+/* eslint-enable */
   static navigationOptions = {
     title: 'Map',
   };
+
   constructor(props) {
     super(props);
     this.state = {label: props.initialInput, x: props.x, y: props.y};
   }
-  input() {
-    this.setState({label: 'hello world'})
-  }
+
   onClick(evt) {
     this.setState({label: '', x: evt.nativeEvent.locationX, y: evt.nativeEvent.locationY});
-    x = evt.nativeEvent.locationX;
-    y =  evt.nativeEvent.locationY;
+    const x = evt.nativeEvent.locationX;
+    const y =  evt.nativeEvent.locationY;
     this.setState({label: ''});
 
     // LANDMARK #1
@@ -182,12 +183,15 @@ class MapScreen extends Component {
     else if(x > 600 && x < 610 && y > 345 && y < 355){
       this.setState({label: 'LANDMARK #24 >'});
     }
-
   }
+
+  input() {
+    this.setState({label: 'hello world'})
+  }
+
   render() {
-    const { navigate } = this.props.navigation;
     return (
-      <ScrollView horizontal={true} maximumZoomScale={5.0} >
+      <ScrollView horizontal maximumZoomScale={5.0} >
         <ScrollView>
           <TouchableOpacity onPress={(evt) => this.onClick(evt) } activeOpacity={1.0}>
             <Image
@@ -204,6 +208,7 @@ class MapScreen extends Component {
     );
   }
 }
+
 MapScreen.defaultProps = { initialInput: '', x: 0, y: 0 };
 
 const Container = TabNavigator({
@@ -238,48 +243,6 @@ const Container = TabNavigator({
       }
     }
   }
-})
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-  container: {
-    flex: 1,
-    alignContent: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    position: 'relative',
-    fontSize: 40,
-  },
-  textinputContainer: {
-    marginTop: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textinput: {
-    width: 60,
-    marginVertical: 2,
-    marginHorizontal: 2,
-    borderRadius: 5,
-    borderColor: '#c7c7cc',
-    backgroundColor: 'white',
-  },
 })
 
 const allActivitiesStyles = StyleSheet.create({
