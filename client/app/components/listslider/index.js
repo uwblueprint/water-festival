@@ -1,3 +1,3 @@
-import { ListSlider } from './listslider';
+import ListSlider from './listslider';
 
-export { ListSlider };
+export default { ListSlider };
