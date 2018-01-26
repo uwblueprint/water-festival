@@ -13,7 +13,7 @@ import {
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
-import { FaqScreenStack } from './screens/faq'
+import FaqScreenStack from './screens/FaqScreen'
 
 class AllActivitiesScreen extends Component {
   static navigationOptions = {

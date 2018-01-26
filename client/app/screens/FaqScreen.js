@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import { TabNavigator, StackNavigator } from 'react-navigation'
 
-import { Header } from '../components/header'
-import { FaqList, FaqDetails } from '../components/faq'
+import Header from '../components/Header'
+import FaqList from '../components/faq/FaqList'
+import FaqDetails from '../components/faq/FaqDetails'
 
 class FaqScreen extends Component {
 	static navigationOptions = ({navigation}) => ({
@@ -21,7 +22,7 @@ class FaqScreen extends Component {
 	}
 }
 
-export const FaqScreenStack = StackNavigator({
+export default FaqScreenStack = StackNavigator({
 	FaqList: {
 		screen: FaqScreen,
 	},

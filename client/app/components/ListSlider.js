@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Swiper from 'react-native-swiper';
 
-export class ListSlider extends Component {
+export default class ListSlider extends Component {
 	constructor(props) {
 		super(props);
 	}

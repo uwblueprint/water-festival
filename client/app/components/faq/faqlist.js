@@ -13,11 +13,11 @@ import { ListItem, SearchBar } from 'react-native-elements';
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation';
 import Icon from 'react-native-vector-icons/Entypo';
 import { TabNavigator, StackNavigator, HeaderBackButton } from 'react-navigation';
-import { FaqStyles } from '../../styles/faqstyles';
+import { FaqStyles } from '../../styles/FaqStyles';
 import { faqLoaded } from '../../actions';
 
 const ADDRESS = Platform.OS === 'android'
-	? 'http://192.168.42.22'
+	? 'http://192.168.0.108'
 	: 'http://localhost';
 const API_URL = `${ADDRESS}:9090/faq`;
 
