@@ -1,18 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { Platform } from 'react-native';
 import { connect } from 'react-redux';
 import {
+	Platform,
 	ScrollView,
-	Text,
-	View,
 	FlatList,
 	RefreshControl,
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
-import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation';
 import Icon from 'react-native-vector-icons/Entypo';
-import { TabNavigator, StackNavigator, HeaderBackButton } from 'react-navigation';
 import { FaqStyles } from '../../styles/faqstyles';
 import { faqLoaded } from '../../actions';
 
@@ -22,8 +18,8 @@ const ADDRESS = Platform.OS === 'android'
 const API_URL = `${ADDRESS}:9090/faq`;
 
 
-class FaqList extends Component {
-	_keyExtractor = (item, index) => item.id;
+class FaqList extends React.Component {
+	static keyExtractor = (item) => item.id;
 
 	constructor(props) {
 		super(props);
@@ -35,106 +31,117 @@ class FaqList extends Component {
 
 	componentDidMount() {
 		this.fetchData()
+			// eslint-disable-next-line no-console
 			.then(() => console.log("Finished mounting!"))
+			// eslint-disable-next-line no-console
 			.catch(err => console.error(err));
 	}
 
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
-	  if (nextProps.currentQuestions !== this.state.currentQuestions) {
-		 this.setState({ currentQuestions: nextProps.currentQuestions });
-	  }
+		if (nextProps.currentQuestions !== this.state.currentQuestions) {
+			this.setState({ currentQuestions: nextProps.currentQuestions });
+		}
 	}
 
-	render() {
-		return (
-			<ScrollView
-				style={FaqStyles.faqPadding, {backgroundColor: 'white'}}
-				refreshControl={
-					<RefreshControl
-						refreshing={this.state.isRefreshing}
-						onRefresh={this._onRefresh.bind(this)}
-					/>
-				}
-			>
-				<FlatList
-					data={this.state.currentQuestions}
-					renderItem={this._renderListItem}
-					extraData={this.state}
-					keyExtractor={this._keyExtractor}
-					ListHeaderComponent={this._renderHeader}
-				/>
-			</ScrollView>
-		);
+	onRefresh = () => {
+		this.setState({ isRefreshing: true });
+		this.fetchData().then(() => {
+			this.setState({ isRefreshing: false });
+		});
 	}
 
 	fetchData() {
 		return fetch(`${API_URL}/list`)
 			.then(response => response.json())
 			.then(faqList => this.props.onFAQLoaded(faqList))
+			// eslint-disable-next-line no-console
 			.catch(err => console.error(err));
 	}
 
-	_onRefresh() {
-		this.setState({isRefreshing: true});
-		this.fetchData().then(() => {
-			this.setState({isRefreshing: false});
-		});
-	}
-
-	_renderListItem = ({ item, index }) => {
+	renderListItem({ item, index }) {
 		let rowBg = index % 2 == 1 ? FaqStyles.faqListItemOdd : null;
+
+		const icon = (
+			<Icon
+				name="chevron-thin-right"
+				size={30}
+				color="#787878"
+				style={{ marginTop: 5 }}
+			/>
+		);
+
 		return (
 			<ListItem
-				containerStyle={FaqStyles.faqListItem, rowBg}
+				containerStyle={{ ...FaqStyles.faqListItem, rowBg }}
 				titleStyle={FaqStyles.faqListItemText}
 				key={item.id}
 				title={item.question}
-				onPress={() => this._renderFaqDetails(item, index)}
-				rightIcon={<Icon
-								name={'chevron-thin-right'}
-								size={30}
-								color={'#787878'}
-								style={{marginTop: 5}}
-						  />}
+				onPress={this.renderFaqDetails(item, index)}
+				rightIcon={icon}
 			/>
 		);
 	}
 
-	_renderHeader = () => {
+	renderHeader = () => {
 		//TODO: Add actual search
 		return <SearchBar placeholder="Search for questions here!" lightTheme />;
 	}
 
-	_renderFaqDetails = (question, index) => {
-		this.props.navigation.navigate('FaqDetails', {
-			index: index,
-			currentQuestion: question,
-			questionList: this.state.currentQuestions,
-		});
+	renderFaqDetails = (question, index) => {
+		return () => {
+			this.props.navigation.navigate('FaqDetails', {
+				index: index,
+				currentQuestion: question,
+				questionList: this.state.currentQuestions,
+			});
+		}
+	}
+
+	render() {
+		const refreshControl = (
+			<RefreshControl
+				refreshing={this.state.isRefreshing}
+				onRefresh={this.onRefresh}
+			/>
+		)
+
+		return (
+			<ScrollView
+				style={{ ...FaqStyles.faqPadding, backgroundColor: 'white' }}
+				refreshControl={refreshControl}
+			>
+				<FlatList
+					data={this.state.currentQuestions}
+					renderItem={this.renderListItem}
+					extraData={this.state}
+					keyExtractor={this.keyExtractor}
+					ListHeaderComponent={this.renderHeader}
+				/>
+			</ScrollView>
+		);
 	}
 }
-
-FaqList.propTypes = {
-	currentQuestions: PropTypes.array
-};
-
-FaqList.defaultProps = {
-	currentQuestions: []
-};
-
 
 const mapStateToProps = ({ currentQuestions }) => {
 	return { currentQuestions };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    onFAQLoaded: faqList => {
-      dispatch(faqLoaded(faqList));
-    },
-  }
+	return {
+		onFAQLoaded: faqList => {
+			dispatch(faqLoaded(faqList));
+		},
+	}
 };
 
+FaqList.propTypes = {
+	// eslint-disable-next-line react/forbid-prop-types
+	currentQuestions: PropTypes.array,
+}
+
+FaqList.defaultProps = {		
+	currentQuestions: [],		
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(FaqList);
