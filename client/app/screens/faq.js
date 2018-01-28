@@ -29,7 +29,7 @@ const FaqScreenStack = StackNavigator({
 		screen: FaqDetails,
 	},
 }, {
-	mode: 'modal',
-});
+		mode: 'modal',
+	});
 
 export default FaqScreenStack;

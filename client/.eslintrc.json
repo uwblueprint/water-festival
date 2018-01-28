@@ -9,14 +9,13 @@
     ],
     "extends": [
         "airbnb",
-        "eslint:recommended",
-        "plugin:react/recommended"
+        "eslint:recommended"
     ],
     "parser": "babel-eslint",
     "rules": {
         "react/jsx-filename-extension": 0,
-        "react/jsx-indent": 0,
         "react/prop-types": 0,
-        "react/jsx-indent-props": 0
+        "react/jsx-indent": [2, "tab"],
+        "react/jsx-indent-props": [2, "tab"]
     }
 }

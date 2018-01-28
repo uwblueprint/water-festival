@@ -3,8 +3,8 @@ import { StyleSheet } from 'react-native';
 const HeaderStyles = StyleSheet.create({
 	headerContainer: {
 		backgroundColor: '#293038',
-		height: 60, 
-		flexDirection: 'row', 
+		height: 60,
+		flexDirection: 'row',
 		alignItems: 'center'
 	},
 	headerText: {

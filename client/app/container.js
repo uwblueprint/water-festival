@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
 	Image,
 	ScrollView,
@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
 import { FaqScreenStack } from './screens/faq'
 
-class AllActivitiesScreen extends Component {
+class AllActivitiesScreen extends React.Component {
 	static navigationOptions = {
 		title: 'All Activities',
 	};

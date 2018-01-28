@@ -9,12 +9,13 @@ import { ListSlider } from '../listslider'
 
 class FaqDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
-		header: 
+		header: (
 			<Header
 				title="Information"
 				hasBackButton
 				navigation={navigation}
 			/>
+		)
 	});
 
 	constructor(props) {

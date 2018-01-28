@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
 	Platform,
@@ -17,7 +18,7 @@ const ADDRESS = Platform.OS === 'android'
 const API_URL = `${ADDRESS}:9090/faq`;
 
 
-class FaqList extends Component {
+class FaqList extends React.Component {
 	static keyExtractor = (item) => item.id;
 
 	constructor(props) {
@@ -44,9 +45,9 @@ class FaqList extends Component {
 	}
 
 	onRefresh = () => {
-		this.setState({isRefreshing: true});
+		this.setState({ isRefreshing: true });
 		this.fetchData().then(() => {
-			this.setState({isRefreshing: false});
+			this.setState({ isRefreshing: false });
 		});
 	}
 
@@ -60,19 +61,19 @@ class FaqList extends Component {
 
 	renderListItem({ item, index }) {
 		let rowBg = index % 2 == 1 ? FaqStyles.faqListItemOdd : null;
-		
+
 		const icon = (
 			<Icon
 				name="chevron-thin-right"
 				size={30}
 				color="#787878"
-				style={{marginTop: 5}}
+				style={{ marginTop: 5 }}
 			/>
 		);
 
 		return (
 			<ListItem
-				containerStyle={{...FaqStyles.faqListItem, rowBg}}
+				containerStyle={{ ...FaqStyles.faqListItem, rowBg }}
 				titleStyle={FaqStyles.faqListItemText}
 				key={item.id}
 				title={item.question}
@@ -104,10 +105,10 @@ class FaqList extends Component {
 				onRefresh={this.onRefresh}
 			/>
 		)
-		
+
 		return (
 			<ScrollView
-				style={{...FaqStyles.faqPadding, backgroundColor: 'white'}}
+				style={{ ...FaqStyles.faqPadding, backgroundColor: 'white' }}
 				refreshControl={refreshControl}
 			>
 				<FlatList
@@ -127,11 +128,20 @@ const mapStateToProps = ({ currentQuestions }) => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    onFAQLoaded: faqList => {
-      dispatch(faqLoaded(faqList));
-    },
-  }
+	return {
+		onFAQLoaded: faqList => {
+			dispatch(faqLoaded(faqList));
+		},
+	}
+};
+
+FaqList.propTypes = {
+	// eslint-disable-next-line react/forbid-prop-types
+	currentQuestions: PropTypes.array,
+}
+
+FaqList.defaultProps = {		
+	currentQuestions: [],		
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FaqList);

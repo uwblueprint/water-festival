@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { HeaderStyles } from './styles';
 
-export default class Header extends Component {
+export default class Header extends React.Component {
 	constructor(props) {
 		super(props);
 	}
@@ -13,9 +13,9 @@ export default class Header extends Component {
 			return null;
 		}
 		return (
-			<Icon 
-				name="chevron-left" 
-				onPress={() => this.props.navigation.goBack()} 
+			<Icon
+				name="chevron-left"
+				onPress={() => this.props.navigation.goBack()}
 				color="white"
 				size={35}
 			/>
