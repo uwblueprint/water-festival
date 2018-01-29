@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-export const FaqStyles = StyleSheet.create({
+const FaqStyles = StyleSheet.create({
 	faqPadding: {
 		paddingBottom: 40,
 	},
@@ -11,10 +11,10 @@ export const FaqStyles = StyleSheet.create({
 	},
 	faqHeader: {
 		backgroundColor: '#293038',
-		height: 60, 
-		alignItems: 'center', 
+		height: 60,
+		alignItems: 'center',
 		justifyContent: 'center',
-	}, 
+	},
 	faqListItem: {
 		height: 80,
 		justifyContent: 'center',
@@ -37,7 +37,7 @@ export const FaqStyles = StyleSheet.create({
 		paddingTop: 20
 	},
 	faqDetailsQuestion: {
-		fontSize: 25,	
+		fontSize: 25,
 		paddingBottom: 25
 	},
 	faqDetailsAnswer: {
@@ -45,3 +45,4 @@ export const FaqStyles = StyleSheet.create({
 	},
 });
 
+export default FaqStyles;

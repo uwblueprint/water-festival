@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
-import { TabNavigator, StackNavigator } from 'react-navigation'
+import React from 'react';
+import { StackNavigator } from 'react-navigation'
 
 import Header from '../components/Header'
 import FaqList from '../components/faq/FaqList'
 import FaqDetails from '../components/faq/FaqDetails'
 
-class FaqScreen extends Component {
-	static navigationOptions = ({navigation}) => ({
-		header: <Header title={'Information'} />
+
+class FaqScreen extends React.Component {
+	static navigationOptions = () => ({
+		header: <Header title="Information" />
 	});
 
 	constructor(props) {
@@ -22,7 +22,7 @@ class FaqScreen extends Component {
 	}
 }
 
-export default FaqScreenStack = StackNavigator({
+const FaqScreenStack = StackNavigator({
 	FaqList: {
 		screen: FaqScreen,
 	},
@@ -30,5 +30,7 @@ export default FaqScreenStack = StackNavigator({
 		screen: FaqDetails,
 	},
 }, {
-	mode: 'modal',
-});
+		mode: 'modal',
+	});
+
+export default FaqScreenStack;

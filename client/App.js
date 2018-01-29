@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
@@ -13,12 +13,10 @@ const store = createStore(
 	applyMiddleware(logger)
 );
 
-export default class WaterFestivalApp extends Component {
-	render() {
-		return (
-			<Provider store={store}>
-				<Container />
-			</Provider>
-		);
-	}
+export default function WaterFestivalApp() {
+	return (
+		<Provider store={store}>
+			<Container />
+		</Provider>
+	)
 }

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Platform } from 'react-native';
 import { connect } from 'react-redux';
@@ -13,16 +13,17 @@ import { ListItem, SearchBar } from 'react-native-elements';
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation';
 import Icon from 'react-native-vector-icons/Entypo';
 import { TabNavigator, StackNavigator, HeaderBackButton } from 'react-navigation';
-import { FaqStyles } from '../../styles/FaqStyles';
+import FaqStyles from '../../styles/FaqStyles';
 import { faqLoaded } from '../../actions';
 
+const LOCAL_SERVER = 'http://192.168.1.141'
 const ADDRESS = Platform.OS === 'android'
-	? 'http://192.168.0.108'
+	? LOCAL_SERVER
 	: 'http://localhost';
 const API_URL = `${ADDRESS}:9090/faq`;
 
 
-class FaqList extends Component {
+class FaqList extends React.Component {
 	_keyExtractor = (item, index) => item.id;
 
 	constructor(props) {

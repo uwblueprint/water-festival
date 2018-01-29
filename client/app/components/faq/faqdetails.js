@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
 	AppRegistry,
 	Text,
@@ -7,11 +7,11 @@ import {
 import BottomNavigation, { Tab, NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/Entypo'
 import { TabNavigator, StackNavigator, HeaderBackButton } from 'react-navigation'
-import { FaqStyles } from '../../styles/FaqStyles'
+import FaqStyles from '../../styles/FaqStyles'
 import Header from '../Header'
 import ListSlider from '../ListSlider'
 
-export default class FaqDetails extends Component {
+class FaqDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
 		header: <Header
 					title={'Information'}
@@ -48,3 +48,5 @@ export default class FaqDetails extends Component {
 		);
 	}
 }
+
+export default FaqDetails;
