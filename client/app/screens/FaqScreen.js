@@ -1,6 +1,5 @@
 import React from 'react';
 import { StackNavigator } from 'react-navigation'
-
 import Header from '../components/Header'
 import FaqList from '../components/faq/FaqList'
 import FaqDetails from '../components/faq/FaqDetails'
@@ -29,8 +28,9 @@ const FaqScreenStack = StackNavigator({
 	FaqDetails: {
 		screen: FaqDetails,
 	},
-}, {
-		mode: 'modal',
-	});
+},
+{
+	mode: 'modal',
+});
 
 export default FaqScreenStack;

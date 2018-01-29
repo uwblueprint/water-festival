@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Swiper from 'react-native-swiper';
 
-export default ListSlider = ({ currentIndex, itemList, renderItem }) => {
+const ListSlider = ({ currentIndex, itemList, renderItem }) => {
 	const props = {
 		loadMinimal: true,
 		loadMinimalSize: 1,
@@ -25,3 +25,5 @@ ListSlider.propTypes = {
 	itemList: PropTypes.array.isRequired,
 	renderItem: PropTypes.func.isRequired
 };
+
+export default ListSlider;
