@@ -19,17 +19,25 @@ class AllActivitiesScreen extends React.Component {
 	};
 	render() {
 		return (
-			<View style={allActivitiesStyles.container}>
+			<View style={ allActivitiesStyles.container }>
 				<SectionList
-					sections={[
+					sections={ [
 						{ title: 'Grade 2', data: ['Animals and Water', 'Snow Cone Station', 'Storm Water', 'Watering Hole'] },
 						{ title: 'Grade 3', data: ['Down on the Farm', 'Drainwater Detectives', 'No Water off a Duck\'s Back', 'Rethnk your Drink', 'Wet N\' Wild'] },
 						{ title: 'Grade 4', data: ['Water Water Water', 'Loo Loo Loo', 'Wellington Visitor'] },
 						{ title: 'Grade 5', data: ['I Love Water', 'I <3 Water', 'H20 :)'] },
-					]}
-					renderItem={({ item }) => <Text style={allActivitiesStyles.item}>{item}</Text>}
-					keyExtractor={(item, index) => index}
-					renderSectionHeader={({ section }) => <Text style={allActivitiesStyles.sectionHeader}>{section.title}</Text>}
+					] }
+					renderItem={ ({ item }) => (
+						<Text style={ allActivitiesStyles.item }>{item}</Text>
+					) }
+					keyExtractor={ (item, index) => index }
+					renderSectionHeader={ ({ section }) => (
+						<Text
+							style={ allActivitiesStyles.sectionHeader }
+						>
+							{section.title}
+						</Text>
+					) }
 				/>
 			</View>
 		);
@@ -191,9 +199,9 @@ class MapScreen extends React.Component {
 
 	render() {
 		return (
-			<ScrollView horizontal maximumZoomScale={5.0} >
+			<ScrollView horizontal maximumZoomScale={ 5.0 } >
 				<ScrollView>
-					<TouchableOpacity onPress={(evt) => this.onClick(evt)} activeOpacity={1.0}>
+					<TouchableOpacity onPress={ (evt) => this.onClick(evt) } activeOpacity={ 1.0 }>
 						<Image
 							source={{ uri: 'https://water-festival.herokuapp.com/map.png' }}
 							style={{ width: 838, height: 648 }}
@@ -229,16 +237,18 @@ const Container = TabNavigator({
 				rippleColor: 'white',
 				tabs: {
 					MapScreen: {
-						icon: <Icon size={24} color="black" name="add" />
+						icon: <Icon size={ 24 } color="black" name="add" />
 					},
 					AllActivitiesScreen: {
-						icon: <Icon size={24} color="black" name="account-circle" />
+						icon: <Icon size={ 24 } color="black" name="account-circle" />
 					},
 					MyActivitiesScreen: {
-						icon: <Icon size={24} color="black" name="map" />
+						icon: <Icon size={ 24 } color="black" name="map" />
 					},
 					FaqScreen: {
-						icon: <Icon size={24} color="black" name="perm-device-information" />
+						icon: (
+							<Icon size={ 24 } color="black" name="perm-device-information" />
+						)
 					}
 				}
 			}

@@ -11,9 +11,9 @@ class FaqDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
 		header: (
 			<Header
-				title='Information'
+				title="Information"
 				hasBackButton
-				navigation={navigation}
+				navigation={ navigation }
 			/>
 		)
 	});
@@ -24,11 +24,11 @@ class FaqDetails extends React.Component {
 
 	renderItem(item, index) {
 		return (
-			<View key={index} style={FaqStyles.faqDetailsContainer}>
-				<Text style={FaqStyles.faqDetailsQuestion}>
+			<View key={ index } style={ FaqStyles.faqDetailsContainer }>
+				<Text style={ FaqStyles.faqDetailsQuestion }>
 					{item.question}
 				</Text>
-				<Text style={FaqStyles.faqDetailsAnswer}>
+				<Text style={ FaqStyles.faqDetailsAnswer }>
 					{item.answer}
 				</Text>
 			</View>
@@ -39,9 +39,9 @@ class FaqDetails extends React.Component {
 		const { state } = this.props.navigation;
 		return (
 			<ListSlider
-				renderItem={this.renderItem}
-				currentIndex={state.params.index}
-				itemList={state.params.questionList}
+				renderItem={ this.renderItem }
+				currentIndex={ state.params.index }
+				itemList={ state.params.questionList }
 			/>
 		);
 	}

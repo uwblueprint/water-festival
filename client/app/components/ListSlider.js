@@ -13,7 +13,7 @@ const ListSlider = ({ currentIndex, itemList, renderItem }) => {
 		removeClippedSubviews: false,
 	};
 	return (
-		<Swiper {...props}>
+		<Swiper { ...props }>
 			{itemList.map(renderItem)}
 		</Swiper>
 	);

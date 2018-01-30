@@ -16,7 +16,7 @@ class FaqScreen extends React.Component {
 
 	render() {
 		return (
-			<FaqList navigation={this.props.navigation} />
+			<FaqList navigation={ this.props.navigation } />
 		);
 	}
 }

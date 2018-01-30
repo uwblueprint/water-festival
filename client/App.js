@@ -15,7 +15,7 @@ const store = createStore(
 
 export default function WaterFestivalApp() {
 	return (
-		<Provider store={store}>
+		<Provider store={ store }>
 			<Container />
 		</Provider>
 	)
