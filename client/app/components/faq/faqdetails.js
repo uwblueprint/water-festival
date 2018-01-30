@@ -9,11 +9,13 @@ import ListSlider from '../ListSlider'
 
 class FaqDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
-		header: <Header
-			title='Information'
-			hasBackButton
-			navigation={navigation}
-		/>
+		header: (
+			<Header
+				title='Information'
+				hasBackButton
+				navigation={navigation}
+			/>
+		)
 	});
 
 	constructor(props) {
@@ -37,7 +39,7 @@ class FaqDetails extends React.Component {
 		const { state } = this.props.navigation;
 		return (
 			<ListSlider
-				renderItem={this._renderItem}
+				renderItem={this.renderItem}
 				currentIndex={state.params.index}
 				itemList={state.params.questionList}
 			/>

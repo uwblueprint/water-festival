@@ -60,21 +60,24 @@ class FaqList extends React.Component {
 			.catch(err => console.error(err));
 	}
 
-	renderListItem = ({ item, index }) => {
+	renderListItem({ item, index }) {
 		let rowBg = index % 2 == 1 ? FaqStyles.faqListItemOdd : null;
+		const icon = (
+			<Icon
+				name='chevron-thin-right'
+				size={30}
+				color='#787878'
+				style={{marginTop: 5}}
+			/>
+		);
 		return (
 			<ListItem
-				containerStyle={FaqStyles.faqListItem, rowBg}
+				containerStyle={{ ...FaqStyles.faqListItem, rowBg }}
 				titleStyle={FaqStyles.faqListItemText}
 				key={item.id}
 				title={item.question}
-				onPress={() => this._renderFaqDetails(item, index)}
-				rightIcon={<Icon
-					name='chevron-thin-right'
-					size={30}
-					color='#787878'
-					style={{marginTop: 5}}
-				/>}
+				onPress={this.renderFaqDetails(item, index)}
+				rightIcon={icon}
 			/>
 		);
 	}
@@ -118,16 +121,6 @@ class FaqList extends React.Component {
 	}
 }
 
-FaqList.propTypes = {
-	// eslint-disable-next-line react/forbid-prop-types
-	currentQuestions: PropTypes.array
-};
-
-FaqList.defaultProps = {
-	currentQuestions: []
-};
-
-
 const mapStateToProps = ({ currentQuestions }) => {
 	return { currentQuestions };
 };
@@ -138,6 +131,15 @@ const mapDispatchToProps = dispatch => {
 			dispatch(faqLoaded(faqList));
 		},
 	}
+};
+
+FaqList.propTypes = {
+	// eslint-disable-next-line react/forbid-prop-types
+	currentQuestions: PropTypes.array
+};
+
+FaqList.defaultProps = {
+	currentQuestions: []
 };
 
 
