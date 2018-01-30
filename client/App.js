@@ -2,8 +2,8 @@ import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
-import Container from '../app/container';
-import reducers from '../app/reducers';
+import Container from './app/Container';
+import reducers from './app/reducers';
 
 const initalState = {};
 
@@ -15,7 +15,7 @@ const store = createStore(
 
 export default function WaterFestivalApp() {
 	return (
-		<Provider store={store}>
+		<Provider store={ store }>
 			<Container />
 		</Provider>
 	)

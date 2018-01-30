@@ -9,17 +9,18 @@ import {
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
-import { FaqStyles } from '../../styles/faqstyles';
+import FaqStyles from '../../styles/FaqStyles';
 import { faqLoaded } from '../../actions';
 
+const LOCAL_SERVER = 'http://192.168.1.141'
 const ADDRESS = Platform.OS === 'android'
-	? 'http://192.168.42.22'
+	? LOCAL_SERVER
 	: 'http://localhost';
 const API_URL = `${ADDRESS}:9090/faq`;
 
 
 class FaqList extends React.Component {
-	static keyExtractor = (item) => item.id;
+	keyExtractor = (item) => item.id;
 
 	constructor(props) {
 		super(props);
@@ -44,7 +45,7 @@ class FaqList extends React.Component {
 		}
 	}
 
-	onRefresh = () => {
+	onRefresh() {
 		this.setState({ isRefreshing: true });
 		this.fetchData().then(() => {
 			this.setState({ isRefreshing: false });
@@ -61,62 +62,57 @@ class FaqList extends React.Component {
 
 	renderListItem({ item, index }) {
 		let rowBg = index % 2 == 1 ? FaqStyles.faqListItemOdd : null;
-
 		const icon = (
 			<Icon
 				name="chevron-thin-right"
-				size={30}
+				size={ 30 }
 				color="#787878"
 				style={{ marginTop: 5 }}
 			/>
 		);
-
 		return (
 			<ListItem
-				containerStyle={{ ...FaqStyles.faqListItem, rowBg }}
-				titleStyle={FaqStyles.faqListItemText}
-				key={item.id}
-				title={item.question}
-				onPress={this.renderFaqDetails(item, index)}
-				rightIcon={icon}
+				containerStyle={ FaqStyles.faqListItem, rowBg }
+				titleStyle={ FaqStyles.faqListItemText }
+				key={ item.id }
+				title={ item.question }
+				onPress={ () => this.renderFaqDetails(item, index) }
+				rightIcon={ icon }
 			/>
 		);
 	}
 
-	renderHeader = () => {
+	renderHeader() {
 		//TODO: Add actual search
 		return <SearchBar placeholder="Search for questions here!" lightTheme />;
 	}
 
-	renderFaqDetails = (question, index) => {
-		return () => {
-			this.props.navigation.navigate('FaqDetails', {
-				index: index,
-				currentQuestion: question,
-				questionList: this.state.currentQuestions,
-			});
-		}
+	renderFaqDetails(question, index) {
+		this.props.navigation.navigate('FaqDetails', {
+			index,
+			currentQuestion: question,
+			questionList: this.state.currentQuestions,
+		});
 	}
 
 	render() {
 		const refreshControl = (
 			<RefreshControl
-				refreshing={this.state.isRefreshing}
-				onRefresh={this.onRefresh}
+				refreshing={ this.state.isRefreshing }
+				onRefresh={ this.onRefresh }
 			/>
-		)
-
+		);
 		return (
 			<ScrollView
-				style={{ ...FaqStyles.faqPadding, backgroundColor: 'white' }}
-				refreshControl={refreshControl}
+				style={ FaqStyles.faqPadding, { backgroundColor: 'white' }}
+				refreshControl={ refreshControl }
 			>
 				<FlatList
-					data={this.state.currentQuestions}
-					renderItem={this.renderListItem}
-					extraData={this.state}
-					keyExtractor={this.keyExtractor}
-					ListHeaderComponent={this.renderHeader}
+					data={ this.state.currentQuestions }
+					renderItem={ this.renderListItem }
+					extraData={ this.state }
+					keyExtractor={ this.keyExtractor }
+					ListHeaderComponent={ this.renderHeader }
 				/>
 			</ScrollView>
 		);
@@ -137,11 +133,12 @@ const mapDispatchToProps = dispatch => {
 
 FaqList.propTypes = {
 	// eslint-disable-next-line react/forbid-prop-types
-	currentQuestions: PropTypes.array,
-}
-
-FaqList.defaultProps = {		
-	currentQuestions: [],		
+	currentQuestions: PropTypes.array
 };
+
+FaqList.defaultProps = {
+	currentQuestions: []
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(FaqList);
