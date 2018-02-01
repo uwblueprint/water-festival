@@ -132,12 +132,12 @@ const mapDispatchToProps = dispatch => {
 };
 
 FaqList.propTypes = {
-	currentQuestions: PropTypes.array;
-	onFAQLoaded: PropTypes.func.isRequired;
+	// eslint-disable-next-line react/forbid-prop-types
+	currentQuestions: PropTypes.array
 };
 
 FaqList.defaultProps = {
-	currentQuestions: [];
+	currentQuestions: []
 };
 
 
