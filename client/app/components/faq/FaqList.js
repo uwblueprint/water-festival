@@ -132,8 +132,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 FaqList.propTypes = {
-	currentQuestions: PropTypes.array,
-	onFAQLoaded: PropTypes.func.isRequired
+	onFAQLoaded: PropTypes.func.isRequired,
+	currentQuestions: PropTypes.array
 };
 
 FaqList.defaultProps = {

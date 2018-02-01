@@ -35,5 +35,5 @@ const FaqScreenStack = StackNavigator({
 
 FaqScreen.proptypes{
 	navigation: PropTypes.object.isRequired
-}
+};
 export default FaqScreenStack;
