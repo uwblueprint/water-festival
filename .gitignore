@@ -56,5 +56,8 @@ node_modules
 # VS Code
 .vscode
 
+#.env
+.env
+
 /coverage
 /third-party
