@@ -15,7 +15,7 @@ eventRouter.use(bodyParser.urlencoded({
 eventRouter.get('/list', function(req, res) {
   Event.find(function(err, events) {
     if (err) {
-      res.json(err);
+      res.status(500).json(err);
     }
     var mappedEvents = events.map(q => q.toJSONFor());
     res.json(mappedEvents);
@@ -33,7 +33,7 @@ eventRouter.delete('/delete', function(req, res) {
     }
   }, function(err) {
     if (err) {
-      res.send(err);
+      res.status(500).send(err);
     }
   });
   res.send({
@@ -54,7 +54,7 @@ eventRouter.post('/insert', function(req, res) {
   event.save(function(err) {
     res.json({
       message: 'Event created!',
-      event: event
+      event
     });
   });
 });
@@ -66,7 +66,7 @@ eventRouter.post('/edit', function(req, res) {
     event.set(eventToEdit);
     event.save(function(err, updatedEvent) {
       if (err) {
-        return err.message;
+        res.status(500).json(err);
       }
 
       res.json({
