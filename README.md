@@ -3,6 +3,7 @@
 1. Clone the repo
 2. Go into the client directory and install packages: `cd client && npm install`
 3. Go back up to the root directory, into the backend directory and install packages: `cd ../backend && npm install`
+4. Create a `.env` file within the _backend_ directory which will hold any sensitive information (i.e. MongoDB info) and input the appropriate information.
 
 ### Starting the backend server
 1. Go into the backend directory: `cd backend`
