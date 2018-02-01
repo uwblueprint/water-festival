@@ -21,7 +21,6 @@ const ListSlider = ({ currentIndex, itemList, renderItem }) => {
 
 ListSlider.propTypes = {
 	currentIndex: PropTypes.number.isRequired,
-	// eslint-disable-next-line react/forbid-prop-types
 	itemList: PropTypes.array.isRequired,
 	renderItem: PropTypes.func.isRequired
 };
