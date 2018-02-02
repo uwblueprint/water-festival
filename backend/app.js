@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 
+require('dotenv').config();
+
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://water_festival:uwblueprintwaterfestival@ds249605.mlab.com:49605/water_festival', {
+mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@ds249605.mlab.com:49605/water_festival`, {
 	useMongoClient: true,
 });
 
