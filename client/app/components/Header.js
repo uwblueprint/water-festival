@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HeaderStyles from '../styles/HeaderStyles';
@@ -38,7 +39,7 @@ export default class Header extends React.Component {
 	}
 }
 
-Header.proptypes{
+Header.propTypes = {
 	goBack: PropTypes.func.isRequired,
-	hasBackButton: PropTypes.func.isRequired
+	hasBackButton: PropTypes.bool.isRequired
 };
