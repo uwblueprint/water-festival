@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation'
 import Header from '../components/Header'
 import FaqList from '../components/faq/FaqList'
@@ -33,7 +34,7 @@ const FaqScreenStack = StackNavigator({
 	mode: 'modal',
 });
 
-FaqScreen.proptypes{
+FaqScreen.propTypes = {
 	navigation: PropTypes.object.isRequired
 };
 export default FaqScreenStack;
