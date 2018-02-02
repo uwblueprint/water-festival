@@ -217,7 +217,17 @@ class MapScreen extends React.Component {
 	}
 }
 
-MapScreen.defaultProps = { initialInput: '', x: 0, y: 0 };
+MapScreen.propTypes = {
+	initialInput: PropTypes.string,
+	x: PropTypes.number,
+	y: PropTypes.number
+};
+
+MapScreen.defaultProps = {
+	initialInput: '',
+	x: 0,
+	y: 0
+};
 
 const Container = TabNavigator({
 	AllActivitiesScreen: { screen: AllActivitiesScreen },

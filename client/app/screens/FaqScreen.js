@@ -33,4 +33,7 @@ const FaqScreenStack = StackNavigator({
 	mode: 'modal',
 });
 
+FaqScreen.proptypes{
+	navigation: PropTypes.object.isRequired
+};
 export default FaqScreenStack;
