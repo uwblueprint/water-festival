@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
 	Text,
 	View,
 } from 'react-native';
-import FaqStyles from '../../styles/FaqStyles'
+import FaqStyles from '../../styles/FaqStyles';
 import Header from '../Header'
-import ListSlider from '../ListSlider'
+import ListSlider from '../ListSlider';
 
 class FaqDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
@@ -46,5 +47,9 @@ class FaqDetails extends React.Component {
 		);
 	}
 }
+
+FaqDetails.propTypes = {
+	navigation: PropTypes.instanceOf(PropTypes.any).isRequired
+};
 
 export default FaqDetails;
