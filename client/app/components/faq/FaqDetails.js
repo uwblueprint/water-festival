@@ -49,7 +49,7 @@ class FaqDetails extends React.Component {
 }
 
 FaqDetails.propTypes = {
-	navigation: PropTypes.element.isRequired
+	navigation: PropTypes.object.isRequired
 };
 
 export default FaqDetails;
