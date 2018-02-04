@@ -8,7 +8,8 @@ import FaqDetails from '../components/faq/FaqDetails'
 
 class FaqScreen extends React.Component {
 	static navigationOptions = () => ({
-		header: <Header title="Information" />
+		header: <Header title="Information" />,
+		title: 'Information'
 	});
 
 	constructor(props) {
