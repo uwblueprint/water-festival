@@ -22,11 +22,11 @@ eventRouter.get('/list', function(req, res) {
   });
 });
 
-eventRouter.get('/event', function(req, res) {
-  var eventToGet = req.query;
-  Event.findById(eventToGet.id, function(err, event) {
+eventRouter.get('/id/:id', function(req, res) {
+  const id = req.params.id;
+  Event.findById(id, function(err, event) {
 		if (err) {
-      return res.status(500).json(eventToGet);
+      return res.status(500).json(err);
     }
 		if (!event) {
       return res.json("Event not found!");
