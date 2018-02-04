@@ -13,6 +13,7 @@ import { NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
 import FaqScreenStack from './screens/FaqScreen'
+import MyActivitiesScreenStack from './screens/MyActivitiesScreen'
 
 class AllActivitiesScreen extends React.Component {
 	static navigationOptions = {
@@ -40,22 +41,6 @@ class AllActivitiesScreen extends React.Component {
 						</Text>
 					) }
 				/>
-			</View>
-		);
-	}
-}
-
-// TODO: Move screens away
-/* eslint-disable */
-class MyActivitiesScreen extends React.Component {
-	/* eslint-enable */
-	static navigationOptions = {
-		title: 'My Activities',
-	};
-	render() {
-		return (
-			<View>
-				<Text>These are my activities.</Text>
 			</View>
 		);
 	}
@@ -232,7 +217,7 @@ MapScreen.defaultProps = {
 
 const Container = TabNavigator({
 	AllActivitiesScreen: { screen: AllActivitiesScreen },
-	MyActivitiesScreen: { screen: MyActivitiesScreen },
+	MyActivitiesScreen: { screen: MyActivitiesScreenStack },
 	MapScreen: { screen: MapScreen },
 	FaqScreen: { screen: FaqScreenStack },
 }, {
