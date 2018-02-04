@@ -134,7 +134,7 @@ const mapDispatchToProps = dispatch => {
 
 FaqList.propTypes = {
 	onFAQLoaded: PropTypes.func.isRequired,
-	navigation: PropTypes.instanceOf(PropTypes.any).isRequired,
+	navigation: PropTypes.element.isRequired,
 	navigate: PropTypes.func.isRequired,
 	currentQuestions: PropTypes.arrayOf(PropTypes.string)
 };
