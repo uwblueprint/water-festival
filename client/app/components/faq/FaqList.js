@@ -140,8 +140,8 @@ FaqList.propTypes = {
 };
 
 FaqList.defaultProps = {
-	currentQuestions: []
-	navigate: () => {}
+	currentQuestions: [],
+	navigate:() => {}
 
 };
 
