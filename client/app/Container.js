@@ -247,18 +247,18 @@ const Container = TabNavigator({
 				backgroundColor: '#C4C4C4',
 				rippleColor: 'white',
 				tabs: {
-					MapScreen: {
-						icon: <Icon size={ 24 } color="black" name="add" />
-					},
 					AllActivitiesScreen: {
-						icon: <Icon size={ 24 } color="black" name="account-circle" />
+						icon: <Icon size={ 24 } color="black" name="view-list" />
 					},
 					MyActivitiesScreen: {
-						icon: <Icon size={ 24 } color="black" name="map" />
+						icon: <Icon size={ 24 } color="black" name="account-circle" />
+					},
+					MapScreen: {
+						icon: <Icon size={ 24 } color="black" name="place" />
 					},
 					FaqScreen: {
 						icon: (
-							<Icon size={ 24 } color="black" name="perm-device-information" />
+							<Icon size={ 24 } color="black" name="info-outline" />
 						)
 					}
 				}
