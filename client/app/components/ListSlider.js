@@ -21,7 +21,7 @@ const ListSlider = ({ currentIndex, itemList, renderItem }) => {
 
 ListSlider.propTypes = {
 	currentIndex: PropTypes.number.isRequired,
-	itemList: PropTypes.arrayOf(PropTypes.any).isRequired,
+	itemList: PropTypes.array.isRequired,
 	renderItem: PropTypes.func.isRequired
 };
 
