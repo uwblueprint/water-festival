@@ -48,7 +48,7 @@ faqRouter.post('/insert', function(req, res) {
 		} else {
 			res.json({
 				message: 'Question created!',
-				faq: faq
+				faq,
 			});
 		}
 	});
