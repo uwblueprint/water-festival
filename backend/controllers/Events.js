@@ -1,10 +1,10 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const eventRouter = express.Router()
-
 var mongodb = require('mongodb');
 var Event = require('../models/Event');
+
+const eventRouter = express.Router()
 
 eventRouter.use(cors())
 eventRouter.use(bodyParser.json());
@@ -52,6 +52,10 @@ eventRouter.post('/insert', function(req, res) {
   event.imageURI = req.body.imageURI;
 
   event.save(function(err) {
+    if (err) {
+      res.status(500).json(err);
+    }
+    
     res.json({
       message: 'Event created!',
       event

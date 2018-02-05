@@ -11,7 +11,7 @@ var EventSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 // Requires population of author
-EventSchema.methods.toJSONFor = function(user){
+EventSchema.methods.toJSONFor = function() {
   return {
     id: this._id,
     createdAt: this.createdAt,

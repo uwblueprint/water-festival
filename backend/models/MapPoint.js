@@ -7,7 +7,7 @@ var MapPointSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 // Requires population of author
-MapPointSchema.methods.toJSONFor = function(user){
+MapPointSchema.methods.toJSONFor = function() {
   return {
     id: this._id,
     createdAt: this.createdAt,

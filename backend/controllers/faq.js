@@ -1,9 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+var mongodb = require('mongodb');
+
 const faqRouter = express.Router()
 
-var mongodb = require('mongodb');
+
 var Faq = require('../models/FAQ');
 
 faqRouter.use(cors())
@@ -41,10 +43,14 @@ faqRouter.post('/insert', function(req, res) {
 	faq.answer = req.body.answer;
 
 	faq.save(function(err) {
-		res.json({
-			message: 'Question created!',
-	 	   faq: faq
-	   });
+		if (err) {
+			res.json(err);
+		} else {
+			res.json({
+				message: 'Question created!',
+				faq: faq
+			});
+		}
 	});
 });
 
