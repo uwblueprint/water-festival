@@ -2,7 +2,7 @@ var express = require('express')
   , router = express.Router()
 
 router.use('/faq', require('./faq'))
-router.use('/events', require('./Events'))
+router.use('/activities', require('./Activities'))
 
 router.get('/', function(req, res) {
 	res.send("bacon!");
