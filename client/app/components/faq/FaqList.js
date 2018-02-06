@@ -20,7 +20,6 @@ const API_URL = `${ADDRESS}:9090/faq`;
 
 
 class FaqList extends React.Component {
-	keyExtractor = (item) => item.id;
 
 	constructor(props) {
 		super(props);
@@ -51,6 +50,8 @@ class FaqList extends React.Component {
 			this.setState({ isRefreshing: false });
 		});
 	}
+  // linting error required that keyExtractor is placed after onRefresh
+	keyExtractor = (item) => item.id;
 
 	fetchData() {
 		return fetch(`${API_URL}/list`)
@@ -104,7 +105,7 @@ class FaqList extends React.Component {
 		);
 		return (
 			<ScrollView
-				style={ FaqStyles.faqPadding, { backgroundColor: 'white' }}
+				style={ FaqStyles.faqPadding, { backgroundColor: 'white' } }
 				refreshControl={ refreshControl }
 			>
 				<FlatList
@@ -133,11 +134,15 @@ const mapDispatchToProps = dispatch => {
 
 FaqList.propTypes = {
 	onFAQLoaded: PropTypes.func.isRequired,
-	currentQuestions: PropTypes.array
+	navigation: PropTypes.object.isRequired,
+	currentQuestions: PropTypes.arrayOf(PropTypes.string),
+	navigate: PropTypes.func
 };
 
 FaqList.defaultProps = {
-	currentQuestions: []
+	currentQuestions: [],
+	navigate:() => {}
+
 };
 
 
