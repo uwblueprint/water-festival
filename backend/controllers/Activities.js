@@ -59,10 +59,14 @@ activityRouter.delete('/delete', function(req, res) {
   });
   res.send({
 <<<<<<< HEAD
+<<<<<<< HEAD
     "message": "Deleted activity/activities!"
 =======
     "message": "Deleted activity!"
 >>>>>>> Renamed all events to activities, added new activites schema
+=======
+    "message": "Deleted activity/activities!"
+>>>>>>> Fixed creation of new activity
   });
 });
 
@@ -72,6 +76,7 @@ activityRouter.post('/insert', function(req, res) {
   activity.description = req.body.description;
   activity.startTime = req.body.startTime;
   activity.endTime = req.body.endTime;
+<<<<<<< HEAD
 <<<<<<< HEAD
   activity.station = req.body.station;
   activity.grade = req.body.grade;
@@ -86,11 +91,23 @@ activityRouter.post('/insert', function(req, res) {
     }
 =======
   activity.location = req.body.location;
+=======
+  activity.station = req.body.station;
+>>>>>>> Fixed creation of new activity
   activity.grade = req.body.grade;
   activity.imageURI = req.body.imageURI;
+  activity.isNewActivity = req.body.isNewActivity;
+  activity.isOpen = req.body.isOpen;
+  activity.state = req.body.state;
 
   activity.save(function(err) {
+<<<<<<< HEAD
 >>>>>>> Renamed all events to activities, added new activites schema
+=======
+    if (err){
+      return res.status(500).json(err);
+    }
+>>>>>>> Fixed creation of new activity
     res.json({
       message: 'Activity created!',
       activity
@@ -108,9 +125,12 @@ activityRouter.post('/edit', function(req, res) {
         return res.status(500).json(err);
       }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> Renamed all events to activities, added new activites schema
+=======
+>>>>>>> Fixed creation of new activity
       res.json({
         message: 'Activity updated!',
         activity: updatedActivity
