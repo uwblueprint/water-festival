@@ -14,7 +14,7 @@ var ActivitySchema = new mongoose.Schema({
 }, {timestamps: true});
 
 // Requires population of author
-ActivitySchema.methods.toJSONFor = function(user){
+ActivitySchema.methods.toJSONFor = function(){
   return {
     id: this._id,
     createdAt: this.createdAt,
