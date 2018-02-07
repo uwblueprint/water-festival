@@ -60,6 +60,7 @@ activityRouter.delete('/delete', function(req, res) {
   res.send({
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     "message": "Deleted activity/activities!"
 =======
     "message": "Deleted activity!"
@@ -67,6 +68,9 @@ activityRouter.delete('/delete', function(req, res) {
 =======
     "message": "Deleted activity/activities!"
 >>>>>>> Fixed creation of new activity
+=======
+    "message": "Deleted activity/activities!"
+>>>>>>> Fixed error message for deleting
   });
 });
 
@@ -78,6 +82,9 @@ activityRouter.post('/insert', function(req, res) {
   activity.endTime = req.body.endTime;
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Fixed error message for deleting
   activity.station = req.body.station;
   activity.grade = req.body.grade;
   activity.imageURI = req.body.imageURI;
@@ -89,6 +96,7 @@ activityRouter.post('/insert', function(req, res) {
     if (err){
       return res.status(500).json(err);
     }
+<<<<<<< HEAD
 =======
   activity.location = req.body.location;
 =======
@@ -108,6 +116,8 @@ activityRouter.post('/insert', function(req, res) {
       return res.status(500).json(err);
     }
 >>>>>>> Fixed creation of new activity
+=======
+>>>>>>> Fixed error message for deleting
     res.json({
       message: 'Activity created!',
       activity
@@ -126,11 +136,14 @@ activityRouter.post('/edit', function(req, res) {
       }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 
 >>>>>>> Renamed all events to activities, added new activites schema
 =======
 >>>>>>> Fixed creation of new activity
+=======
+>>>>>>> Fixed error message for deleting
       res.json({
         message: 'Activity updated!',
         activity: updatedActivity
