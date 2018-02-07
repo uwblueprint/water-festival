@@ -6,7 +6,7 @@ var FAQSchema = new mongoose.Schema({
 }, {timestamps: true});
 
 // Requires population of author
-FAQSchema.methods.toJSONFor = function(user){
+FAQSchema.methods.toJSONFor = function() {
   return {
     id: this._id,
     createdAt: this.createdAt,
