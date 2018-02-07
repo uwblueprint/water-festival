@@ -50,7 +50,7 @@ activityRouter.delete('/delete', function(req, res) {
     }
   });
   res.send({
-    "message": "Deleted activity!"
+    "message": "Deleted activity/activities!"
   });
 });
 
@@ -60,11 +60,17 @@ activityRouter.post('/insert', function(req, res) {
   activity.description = req.body.description;
   activity.startTime = req.body.startTime;
   activity.endTime = req.body.endTime;
-  activity.location = req.body.location;
+  activity.station = req.body.station;
   activity.grade = req.body.grade;
   activity.imageURI = req.body.imageURI;
+  activity.isNewActivity = req.body.isNewActivity;
+  activity.isOpen = req.body.isOpen;
+  activity.state = req.body.state;
 
   activity.save(function(err) {
+    if (err){
+      return res.status(500).json(err);
+    }
     res.json({
       message: 'Activity created!',
       activity
@@ -81,7 +87,6 @@ activityRouter.post('/edit', function(req, res) {
       if (err) {
         return res.status(500).json(err);
       }
-
       res.json({
         message: 'Activity updated!',
         activity: updatedActivity
