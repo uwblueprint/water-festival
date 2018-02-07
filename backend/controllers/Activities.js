@@ -25,14 +25,14 @@ activityRouter.get('/list', function(req, res) {
 activityRouter.get('/id/:id', function(req, res) {
   const id = req.params.id;
   Activity.findById(id, function(err, activity) {
-		if (err) {
+    if (err) {
       return res.status(500).json(err);
     }
-		if (!activity) {
+    if (!activity) {
       return res.json("Activity not found!");
     }
-		res.json(activity);
-	});
+    res.json(activity);
+  });
 });
 
 activityRouter.delete('/delete', function(req, res) {
@@ -68,7 +68,7 @@ activityRouter.post('/insert', function(req, res) {
   activity.state = req.body.state;
 
   activity.save(function(err) {
-    if (err){
+    if (err) {
       return res.status(500).json(err);
     }
     res.json({
