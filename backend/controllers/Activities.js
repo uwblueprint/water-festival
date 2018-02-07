@@ -50,7 +50,11 @@ activityRouter.delete('/delete', function(req, res) {
     }
   });
   res.send({
+<<<<<<< HEAD
     "message": "Deleted activity/activities!"
+=======
+    "message": "Deleted activity!"
+>>>>>>> b43761d6f400b285705f9517f3fff99dc89be2b7
   });
 });
 
@@ -60,6 +64,7 @@ activityRouter.post('/insert', function(req, res) {
   activity.description = req.body.description;
   activity.startTime = req.body.startTime;
   activity.endTime = req.body.endTime;
+<<<<<<< HEAD
   activity.station = req.body.station;
   activity.grade = req.body.grade;
   activity.imageURI = req.body.imageURI;
@@ -71,6 +76,13 @@ activityRouter.post('/insert', function(req, res) {
     if (err){
       return res.status(500).json(err);
     }
+=======
+  activity.location = req.body.location;
+  activity.grade = req.body.grade;
+  activity.imageURI = req.body.imageURI;
+
+  activity.save(function(err) {
+>>>>>>> b43761d6f400b285705f9517f3fff99dc89be2b7
     res.json({
       message: 'Activity created!',
       activity
@@ -87,6 +99,10 @@ activityRouter.post('/edit', function(req, res) {
       if (err) {
         return res.status(500).json(err);
       }
+<<<<<<< HEAD
+=======
+
+>>>>>>> b43761d6f400b285705f9517f3fff99dc89be2b7
       res.json({
         message: 'Activity updated!',
         activity: updatedActivity
