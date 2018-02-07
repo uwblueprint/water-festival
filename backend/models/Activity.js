@@ -15,10 +15,14 @@ var ActivitySchema = new mongoose.Schema({
 
 // Requires population of author
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActivitySchema.methods.toJSONFor = function(){
 =======
 ActivitySchema.methods.toJSONFor = function(user){
 >>>>>>> Renamed all events to activities, added new activites schema
+=======
+ActivitySchema.methods.toJSONFor = function(user){
+>>>>>>> 9c727a9d9112ff102fb945452e4cbb49ca1d2cff
   return {
     id: this._id,
     createdAt: this.createdAt,
