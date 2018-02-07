@@ -1,17 +1,20 @@
 var mongoose = require('mongoose');
 
-var EventSchema = new mongoose.Schema({
+var ActivitySchema = new mongoose.Schema({
   title: String,
   description: String,
   startTime: Date,
   endTime: Date,
-  location: String,
+  station: Number,
   grade: Number,
-  imageURI: String
+  imageURI: String,
+  isNewActivity: Boolean,
+  isOpen: Boolean,
+  state: String
 }, {timestamps: true});
 
 // Requires population of author
-EventSchema.methods.toJSONFor = function() {
+ActivitySchema.methods.toJSONFor = function(){
   return {
     id: this._id,
     createdAt: this.createdAt,
@@ -19,10 +22,13 @@ EventSchema.methods.toJSONFor = function() {
     description: this.description,
     startTime: this.startTime,
     endTime: this.endTime,
-    location: this.location,
+    station: this.station,
     grade: this.grade,
-    imageURI: this.imageURI
+    imageURI: this.imageURI,
+    isNewActivity: this.isNewActivity,
+    isOpen: this.isOpen,
+    state: this.state
   };
 };
 
-module.exports = mongoose.model('Event', EventSchema);
+module.exports = mongoose.model('Activity', ActivitySchema);
