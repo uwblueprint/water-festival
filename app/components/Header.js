@@ -40,7 +40,11 @@ export default class Header extends React.Component {
 }
 
 Header.propTypes = {
-	goBack: PropTypes.func.isRequired,
 	hasBackButton: PropTypes.bool.isRequired,
-	title: PropTypes.string.isRequired
+	title: PropTypes.string.isRequired,
+	goBack: PropTypes.func
+};
+
+Header.defaultProps = {
+	goBack: () => {}
 };
