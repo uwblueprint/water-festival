@@ -1,7 +1,7 @@
 # Water Festival
 ### Setup
 1. Clone the repo
-2. install packages: `cd client && npm install`.
+2. install packages: `npm install`.
 
 ### Viewing the app
 * Download the "Expo" app from the app store
