@@ -15,10 +15,7 @@
     "eslint-plugin-react": "^7.5.1",
     "jest": "20.0.4",
     "jest-expo": "^22.0.0",
-    "react-native-material-bottom-navigation": "^0.5.2",
     "react-native-scripts": "1.6.0",
-    "react-native-vector-icons": "^4.4.2",
-    "react-navigation": "^1.0.0-beta.15",
     "react-test-renderer": "16.0.0-alpha.12"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
@@ -46,7 +43,6 @@
     "react-native-vector-icons": "^4.4.2",
     "react-navigation": "^1.0.0-beta.15",
     "react-redux": "^5.0.6",
-    "react-test-renderer": "^16.0.0-beta.5",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6"
   }
