@@ -44,10 +44,11 @@ local.properties
 /android/
 
 # Node
-node_modules
+node_modules/
 *.log
 .nvm
 /danger/node_modules/
+npm-debug.*
 
 # Test generated files
 /ReactAndroid/src/androidTest/assets/AndroidTestBundle.js
@@ -58,6 +59,9 @@ node_modules
 
 #.env
 .env
+
+# Expo
+.expo/
 
 /coverage
 /third-party

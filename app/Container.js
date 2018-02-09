@@ -190,6 +190,7 @@ class MapScreen extends React.Component {
 					<TouchableOpacity onPress={ (evt) => this.onClick(evt) } activeOpacity={ 1.0 }>
 						<Image
 							source={{ uri: 'https://water-festival.herokuapp.com/map.png' }}
+							style={{ width: 838, height: 648 }}
 						>
 							<Text style={{ backgroundColor: 'white', top: this.state.y - 5, left: this.state.x - 5, position: "absolute" }}>
 								{this.state.label}
