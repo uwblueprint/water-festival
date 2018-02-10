@@ -7,15 +7,8 @@ import {
 	TouchableOpacity,
 	View,
 } from 'react-native';
-import { NavigationComponent } from 'react-native-material-bottom-navigation'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { TabNavigator } from 'react-navigation'
-import FaqScreenStack from './screens/FaqScreen'
-import MyActivitiesScreenStack from './screens/MyActivitiesScreen'
-import AllActivitiesScreenStack from './screens/AllActivitiesScreen'
 
-// TODO: Move screens away
-/* eslint-disable */
+
 class MapScreen extends React.Component {
 	/* eslint-enable */
 	static navigationOptions = {
@@ -158,6 +151,7 @@ class MapScreen extends React.Component {
 					<TouchableOpacity onPress={ (evt) => this.onClick(evt) } activeOpacity={ 1.0 }>
 						<Image
 							source={{ uri: 'https://water-festival.herokuapp.com/map.png' }}
+							style={{ width: 838, height: 648 }}
 						>
 							<Text style={{ backgroundColor: 'white', top: this.state.y - 5, left: this.state.x - 5, position: "absolute" }}>
 								{this.state.label}
@@ -182,42 +176,4 @@ MapScreen.defaultProps = {
 	y: 0
 };
 
-const Container = TabNavigator({
-	AllActivitiesScreen: { screen: AllActivitiesScreenStack },
-	MyActivitiesScreen: { screen: MyActivitiesScreenStack },
-	MapScreen: { screen: MapScreen },
-	FaqScreen: { screen: FaqScreenStack },
-}, {
-		tabBarComponent: NavigationComponent,
-		tabBarPosition: 'bottom',
-		tabBarOptions: {
-			bottomNavigationOptions: {
-				style: {
-					height: 60
-				},
-				labelColor: 'black',
-				backgroundColor: '#C4C4C4',
-				rippleColor: 'white',
-				tabs: {
-					AllActivitiesScreen: {
-						icon: <Icon size={ 24 } color="black" name="view-list" />
-					},
-					MyActivitiesScreen: {
-						icon: <Icon size={ 24 } color="black" name="account-circle" />
-					},
-					MapScreen: {
-						icon: <Icon size={ 24 } color="black" name="place" />
-					},
-					FaqScreen: {
-						icon: (
-							<Icon size={ 24 } color="black" name="info-outline" />
-						)
-					}
-				}
-			}
-		}
-	})
-
-
-
-export default Container;
+export default MapScreen;
