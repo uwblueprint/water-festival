@@ -4,10 +4,13 @@ import {
 	Image,
 	ScrollView,
 	Text,
-	TouchableOpacity
+	TouchableOpacity,
+	View,
 } from 'react-native';
 
+
 class MapScreen extends React.Component {
+	/* eslint-enable */
 	static navigationOptions = {
 		title: 'Map',
 	};
@@ -160,7 +163,6 @@ class MapScreen extends React.Component {
 		);
 	}
 }
-
 
 MapScreen.propTypes = {
 	initialInput: PropTypes.string,
