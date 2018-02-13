@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import LoginForm from './LoginForm';
-import logo from '../../images/logo.png';
+import logo from '../../images/wwcgf_logo.png';
 
 const Login = () => {
 	return (
@@ -30,8 +30,7 @@ const styles = StyleSheet.create({
 	},
 	logo: {
 		position: 'absolute',
-		width: 500,
-		height: 200
+		height: 250
 	}
 });
 
