@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux'
-import { FAQ_LOADED } from './actions';
+import {
+	FAQ_LOADED,
+	LOGIN,
+	LOGOUT
+} from './actions';
 
 // Retrieve FAQ List from server
 const currentQuestions = (state = [], action) => {
@@ -15,10 +19,23 @@ const currentQuestions = (state = [], action) => {
 	}
 };
 
+// returns login status
+const loginStatus = (state = false, action) => {
+	switch (action.type) {
+		case LOGIN:
+			return true;
+		case LOGOUT:
+			return false;
+		default:
+			return state;
+	}
+};
+
 
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
-	currentQuestions
+	currentQuestions,
+	loginStatus
 });
 
 export default reducers;

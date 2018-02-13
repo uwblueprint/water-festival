@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import LoginForm from './LoginForm';
 import logo from '../../images/logo.png';
 
@@ -19,9 +19,9 @@ class Login extends Component {
 				<View style={ styles.loginContainer }>
 					<Image resizeMode="contain" style={ styles.logo } source={ logo } />
 				</View>
-			 <View style={ styles.formContainer }>
-					 <LoginForm onLoginPress={ this.state.onLoginPress } />
-			 </View>
+				<View style={ styles.formContainer }>
+					<LoginForm onLoginPress={ this.state.onLoginPress } />
+				</View>
 			</KeyboardAvoidingView>
 		);
 	}

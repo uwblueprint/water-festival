@@ -6,16 +6,9 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	Alert,
-	Button,
 	StyleSheet,
 	StatusBar
 } from 'react-native';
-
-const onButtonPress = () => {
-	Alert.alert('Button has been pressed!');
-};
-
 
 // create a component
 class LoginForm extends Component {
@@ -29,9 +22,9 @@ class LoginForm extends Component {
 	render() {
 		return (
 			<View style={ styles.container }>
-				<StatusBar barStyle="light-content"/>
+				<StatusBar barStyle="light-content" />
 				<TextInput
-					style = { styles.input }
+					style={ styles.input }
 					autoCapitalize="none"
 					onSubmitEditing={ () => this.passwordInput.focus() }
 					autoCorrect={ false }
@@ -41,7 +34,7 @@ class LoginForm extends Component {
 					placeholderTextColor='rgba(0,0,0,0.7)'
 				/>
 				<TextInput
-					style = { styles.input }
+					style={ styles.input }
 					returnKeyType="go"
 					ref={ (input)=> this.passwordInput = input }
 					placeholder='Password'
@@ -66,7 +59,7 @@ LoginForm.propTypes = {
 // define your styles
 const styles = StyleSheet.create({
 		container: {
-		 padding: 20
+			padding: 20
 		},
 		input: {
 			height: 40,
