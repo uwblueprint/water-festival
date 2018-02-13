@@ -20,20 +20,11 @@ export default class WaterFestivalApp extends React.Component {
 	};
 
 	render() {
-		if (this.state.isLoggedIn)
-			return (
-				<Provider store={ store }>
-					<Container
-						onLogoutPress={ () => this.setState({ isLoggedIn: false }) }
-					/>
-				</Provider>
-			);
-		else
-			return (
-				<Login
-					onLoginPress={ () => this.setState({ isLoggedIn: true }) }
-				/>
-			);
+		const view = (this.state.isLoggedIn) ? <Container /> : <Login />;
+		return (
+			<Provider store={ store }>
+				{ view }
+			</Provider>
+		);
 	}
-
 }

@@ -1,6 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
 	View,
 	Text,
@@ -9,6 +10,7 @@ import {
 	StyleSheet,
 	StatusBar
 } from 'react-native';
+import { login } from '../../actions';
 
 // create a component
 class LoginForm extends Component {
@@ -52,6 +54,14 @@ class LoginForm extends Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => {
+	return {
+		onLoginPress: () => {
+			dispatch(login());
+		}
+	}
+};
+
 LoginForm.propTypes = {
 	onLoginPress: PropTypes.func.isRequired
 };
@@ -83,5 +93,4 @@ const styles = StyleSheet.create({
 		}
 });
 
-//make this component available to the app
-export default LoginForm;
+export default connect(null, mapDispatchToProps)(LoginForm);
