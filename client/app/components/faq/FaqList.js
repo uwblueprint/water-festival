@@ -12,11 +12,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import FaqStyles from '../../styles/FaqStyles';
 import { faqLoaded } from '../../actions';
 
-const LOCAL_SERVER = 'http://192.168.1.141'
-const ADDRESS = Platform.OS === 'android'
-	? LOCAL_SERVER
-	: 'http://localhost';
-const API_URL = `${ADDRESS}:9090/faq`;
+const API_URL = `https://water-fest.herokuapp.com/faq`;
 
 
 class FaqList extends React.Component {
