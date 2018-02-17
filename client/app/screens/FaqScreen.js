@@ -8,7 +8,7 @@ import FaqDetails from '../components/faq/FaqDetails'
 
 class FaqScreen extends React.Component {
 	static navigationOptions = () => ({
-		header: <Header title="Information" hasBackButton={ true } />,
+		header: <Header title="Information" />,
 		title: 'Information'
 	});
 
