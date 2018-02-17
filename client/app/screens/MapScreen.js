@@ -4,18 +4,13 @@ import {
 	Image,
 	ScrollView,
 	Text,
-<<<<<<< f16a3c409295343313f339ef17ebabc4ffcf99da:app/screens/MapScreen.js
 	TouchableOpacity,
 	View,
-=======
-	ScrollView,
-	TouchableOpacity,
-	Image,
->>>>>>> Fixed merge issues and added other fixes:client/app/screens/MapScreen.js
 } from 'react-native';
 
 
 class MapScreen extends React.Component {
+	/* eslint-enable */
 	static navigationOptions = {
 		title: 'Map',
 	};
@@ -168,7 +163,6 @@ class MapScreen extends React.Component {
 		);
 	}
 }
-
 
 MapScreen.propTypes = {
 	initialInput: PropTypes.string,
