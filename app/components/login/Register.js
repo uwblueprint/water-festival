@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
-import LoginForm from './LoginForm';
-import logo from '../../images/wwcgf_logo.png';
+import RegisterForm from './RegisterForm';
 
-class Login extends React.Component {
+class Register extends React.Component {
 	static navigationOptions = {
 		header: null
 	};
@@ -12,29 +11,26 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const { navigate } = props.navigation;
+		const { navigate, goBack } = props.navigation;
 
-		this.navigate = navigate;
-		this.onRegisterPress = this.onRegisterPress.bind(this);
+		this.goBack = goBack;
+		this.onHaveAccountPress = this.onHaveAccountPress.bind(this);
 	}
 
-	onRegisterPress() {
-		this.navigate('Register');
+	onHaveAccountPress() {
+		this.goBack();
 	}
 
 	render() {
 		return (
 			<KeyboardAvoidingView behavior="padding" style={ styles.container }>
-				<View style={ styles.loginContainer }>
-					<Image resizeMode="contain" style={ styles.logo } source={ logo } />
-				</View>
-				<LoginForm onRegisterPress={ this.onRegisterPress } />
+				<RegisterForm onHaveAccountPress={ this.onHaveAccountPress } />
 			</KeyboardAvoidingView>
 		);
 	}
 }
 
-Login.propTypes = {
+Register.propTypes = {
 	navigation: PropTypes.object.isRequired,
 }
 
@@ -57,4 +53,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default Login;
+export default Register;

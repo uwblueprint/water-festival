@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
 	View,
 	Text,
@@ -10,34 +9,13 @@ import {
 	StatusBar
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
-import { login } from '../../actions';
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
 	constructor(props) {
 		super(props);
 
-		const { onLogin, onRegisterPress } = props;
-		this.state = {
-			email: '',
-			password: '',
-			onLogin,
-			onRegisterPress
-		};
-
-		this.onLoginPress = this.onLoginPress.bind(this);
-	}
-
-	forgotPassword() {
-
-	}
-
-	onLoginPress() {
-		const { email, password } = this.state;
-
-		this.state.onLogin({
-			email,
-			password
-		});
+		const { onHaveAccountPress } = props;
+		this.state = { onHaveAccountPress };
 	}
 
 	render() {
@@ -47,36 +25,28 @@ class LoginForm extends Component {
 				<View style= {styles.contentContainer}>
 					<TextInput
 						style={ styles.input }
-						onChangeText={ email => this.setState({ email }) }
+						autoCapitalize="none"
+						onSubmitEditing={ () => this.passwordInput.focus() }
 						autoCorrect={ false }
-						onSubmitEditing={ () => this.refs.passwordField.focus() }
 						keyboardType='email-address'
 						returnKeyType="next"
-						placeholder='Email Address'
+						placeholder='Email or Mobile Num'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
 						style={ styles.input }
-						onChangeText={ password => this.setState({ password }) }
 						returnKeyType="go"
-						onSubmitEditing={ () => this.onLoginPress() }
-						ref='passwordField'
+						ref={ (input)=> this.passwordInput = input }
 						placeholder='Password'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
-					<Text
-						style={ styles.forgotPassText }
-						onPress={ this.forgotPassword }
-					>
-						Forgot your password?
-					</Text>
 					<TouchableOpacity
 						activeOpacity={ 0.8 }
 						style={ styles.buttonContainer }
-						onPress={ this.onLoginPress }
+						onPress={ () => {} }
 					>
-						<Text style={ styles.buttonText }>LOGIN</Text>
+						<Text style={ styles.buttonText }>REGISTER</Text>
 					</TouchableOpacity>
 				</View>
 				<HideWithKeyboard>
@@ -84,13 +54,13 @@ class LoginForm extends Component {
 						<Text
 							style={ styles.noAccount }
 						>
-							Don't have an account?
+							Already have an account?
 						</Text>
 						<Text
 							style={ styles.register }
-							onPress={ this.state.onRegisterPress }
+							onPress={ this.state.onHaveAccountPress }
 						>
-							REGISTER
+							LOGIN
 						</Text>
 					</View>
 				</HideWithKeyboard>
@@ -99,17 +69,8 @@ class LoginForm extends Component {
 	}
 }
 
-const mapDispatchToProps = dispatch => {
-	return {
-		onLogin: (user) => {
-			dispatch(login(user));
-		}
-	};
-};
-
-LoginForm.propTypes = {
-	onLogin: PropTypes.func.isRequired,
-	onRegisterPress: PropTypes.func.isRequired
+RegisterForm.propTypes = {
+	onHaveAccountPress: PropTypes.func.isRequired
 };
 
 // define your styles
@@ -119,7 +80,8 @@ const lightBlue = '#03A9F4';
 const styles = StyleSheet.create({
 		container: {
 			flex: 1,
-			padding: 20
+			padding: 20,
+			marginTop: 30
 		},
 		contentContainer: {
 			flex: 1
@@ -138,7 +100,8 @@ const styles = StyleSheet.create({
 			paddingVertical: 15,
 			borderRadius: 30,
 			borderWidth: 1,
-			borderColor: lightBlue
+			borderColor: lightBlue,
+			marginTop: 20
 		},
 		buttonText: {
 			color: '#fff',
@@ -166,4 +129,4 @@ const styles = StyleSheet.create({
 		}
 });
 
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default RegisterForm;

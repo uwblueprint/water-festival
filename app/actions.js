@@ -13,5 +13,5 @@ export const faqLoaded = (faqList) => {
 	return { type: FAQ_LOADED, faqList };
 };
 
-export const login = () => ({ type: LOGIN });
+export const login = (user) => ({ type: LOGIN, user });
 export const logout = () => ({ type: LOGOUT });
