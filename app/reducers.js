@@ -31,11 +31,25 @@ const loginStatus = (state = false, action) => {
 	}
 };
 
+const userLogin = (state = {}, action) => {
+	switch (action.type) {
+		case LOGIN: {
+			const { user } = action;
+			return user;
+		}
+		case LOGOUT:
+			return {};
+		default:
+			return state;
+	}
+}
+
 
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
 	currentQuestions,
-	loginStatus
+	loginStatus,
+	userLogin
 });
 
 export default reducers;

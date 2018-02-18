@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
 	Picker,
 	View,
@@ -10,12 +11,13 @@ import {
 	StatusBar
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
+import { register } from '../../actions';
 
 class RegisterForm extends Component {
 	constructor(props) {
 		super(props);
 
-		const { onHaveAccountPress } = props;
+		const { onRegister, onHaveAccountPress } = props;
 		this.state = {
 			name: '',
 			school: '',
@@ -23,8 +25,31 @@ class RegisterForm extends Component {
 			phone: '',
 			day: 0,
 			password: '',
+			onRegister,
 			onHaveAccountPress
 		};
+
+		this.onRegisterPress = this.onRegisterPress.bind(this);
+	}
+
+	onRegisterPress() {
+		const {
+			name,
+			school,
+			email,
+			phone,
+			day,
+			password
+		} = this.state;
+
+		this.state.onRegister({
+			name,
+			school,
+			email,
+			phone,
+			day,
+			password
+		});
 	}
 
 	render() {
@@ -36,9 +61,10 @@ class RegisterForm extends Component {
 						Create An Account
 					</Text>
 				</View>
-				<View style= {styles.contentContainer}>
+				<View style= { styles.contentContainer }>
 					<TextInput
 						style={ styles.input }
+						onChangeText={ name => this.setState({ name }) }
 						onSubmitEditing={ () => this.refs.schoolField.focus() }
 						keyboardType='default'
 						returnKeyType="next"
@@ -48,6 +74,7 @@ class RegisterForm extends Component {
 					<TextInput
 						ref='schoolField'
 						style={ styles.input }
+						onChangeText={ school => this.setState({ school }) }
 						onSubmitEditing={ () => this.refs.emailField.focus() }
 						keyboardType='default'
 						returnKeyType="next"
@@ -58,6 +85,7 @@ class RegisterForm extends Component {
 						ref='emailField'
 						style={ styles.input }
 						autoCapitalize="none"
+						onChangeText={ email => this.setState({ email }) }
 						onSubmitEditing={ () => this.refs.phoneField.focus() }
 						autoCorrect={ false }
 						keyboardType='email-address'
@@ -69,6 +97,7 @@ class RegisterForm extends Component {
 						ref='phoneField'
 						style={ styles.input }
 						autoCapitalize="none"
+						onChangeText={ phone => this.setState({ phone }) }
 						onSubmitEditing={ () => this.refs.passwordField.focus() }
 						autoCorrect={ false }
 						keyboardType='phone-pad'
@@ -79,37 +108,38 @@ class RegisterForm extends Component {
 					<TextInput
 						ref='passwordField'
 						style={ styles.input }
+						onChangeText={ password => this.setState({ password }) }
 						returnKeyType="go"
 						placeholder='Password'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
-					<View style={ styles.dayContainer }>
-						<View style={ styles.dayTitle }>
-							<Text>
-								Day Attending:
-							</Text>
+					<HideWithKeyboard>
+						<View style={ styles.dayContainer }>
+							<View style={ styles.dayTitle }>
+								<Text>
+									Day Attending:
+								</Text>
+							</View>
+							<Picker
+								style={ styles.dayPicker }
+								selectedValue={ this.state.day }
+								onValueChange={ (itemValue, itemIndex) => this.setState({
+									day: itemValue
+								}) }
+							>
+								<Picker.Item label="1" value={ 1 } />
+								<Picker.Item label="2" value={ 2 } />
+								<Picker.Item label="3" value={ 3 } />
+								<Picker.Item label="4" value={ 4 } />
+								<Picker.Item label="5" value={ 5 } />
+							</Picker>
 						</View>
-						<Picker
-							style={ styles.dayPicker }
-							ref='dayField'
-						  selectedValue={ this.state.day }
-						  onValueChange={ (itemValue, itemIndex) => this.setState({
-								day: itemValue
-							}) }
-							onSubmitEditing={ () => this.refs.passwordField.focus() }
-						>
-						  <Picker.Item label="1" value={ 1 } />
-						  <Picker.Item label="2" value={ 2 } />
-						  <Picker.Item label="3" value={ 3 } />
-						  <Picker.Item label="4" value={ 4 } />
-						  <Picker.Item label="5" value={ 5 } />
-						</Picker>
-					</View>
+					</HideWithKeyboard>
 					<TouchableOpacity
 						activeOpacity={ 0.8 }
 						style={ styles.buttonContainer }
-						onPress={ () => {} }
+						onPress={ this.onRegisterPress }
 					>
 						<Text style={ styles.buttonText }>REGISTER</Text>
 					</TouchableOpacity>
@@ -134,7 +164,16 @@ class RegisterForm extends Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => {
+	return {
+		onRegister: (user) => {
+			dispatch(register(user));
+		}
+	};
+};
+
 RegisterForm.propTypes = {
+	onRegister: PropTypes.func.isRequired,
 	onHaveAccountPress: PropTypes.func.isRequired
 };
 
@@ -182,16 +221,18 @@ const styles = StyleSheet.create({
 	dayContainer: {
 		flex: 1,
 		flexDirection: 'row',
-		maxHeight: 60
+		alignItems: 'center',
+		maxHeight: 60,
+		marginTop: 30,
+		marginBottom: 30
 	},
 	dayTitle: {
 		flex: 0.35,
-		justifyContent: 'center',
-		marginLeft: 10
+		alignItems: 'center'
 	},
 	dayPicker: {
 		flex: 0.3,
-		height: 60
+		height: 50
 	},
 	noAccount: {
 		color: 'black',
@@ -207,4 +248,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default RegisterForm;
+export default connect(null, mapDispatchToProps)(RegisterForm);
