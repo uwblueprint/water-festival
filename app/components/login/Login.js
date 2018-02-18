@@ -10,9 +10,7 @@ const Login = () => {
 			<View style={ styles.loginContainer }>
 				<Image resizeMode="contain" style={ styles.logo } source={ logo } />
 			</View>
-			<View style={ styles.formContainer }>
-				<LoginForm />
-			</View>
+			<LoginForm />
 		</KeyboardAvoidingView>
 	);
 };
@@ -26,11 +24,13 @@ const styles = StyleSheet.create({
 	loginContainer:{
 		alignItems: 'center',
 		flexGrow: 1,
-		justifyContent: 'center'
+		justifyContent: 'center',
+		maxHeight: 180,
+		marginTop: 70
 	},
 	logo: {
 		position: 'absolute',
-		height: 250
+		height: 180
 	}
 });
 
