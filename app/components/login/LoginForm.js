@@ -56,11 +56,11 @@ class LoginForm extends Component {
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
+						ref='passwordField'
 						style={ styles.input }
 						onChangeText={ password => this.setState({ password }) }
 						returnKeyType="go"
 						onSubmitEditing={ () => this.onLoginPress() }
-						ref='passwordField'
 						placeholder='Password'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+	Picker,
 	View,
 	Text,
 	TextInput,
@@ -15,32 +16,96 @@ class RegisterForm extends Component {
 		super(props);
 
 		const { onHaveAccountPress } = props;
-		this.state = { onHaveAccountPress };
+		this.state = {
+			name: '',
+			school: '',
+			email: '',
+			phone: '',
+			day: 0,
+			password: '',
+			onHaveAccountPress
+		};
 	}
 
 	render() {
 		return (
 			<View style={ styles.container }>
 				<StatusBar barStyle="light-content" />
+				<View>
+					<Text style={ styles.title }>
+						Create An Account
+					</Text>
+				</View>
 				<View style= {styles.contentContainer}>
 					<TextInput
 						style={ styles.input }
-						autoCapitalize="none"
-						onSubmitEditing={ () => this.passwordInput.focus() }
-						autoCorrect={ false }
-						keyboardType='email-address'
+						onSubmitEditing={ () => this.refs.schoolField.focus() }
+						keyboardType='default'
 						returnKeyType="next"
-						placeholder='Email or Mobile Num'
+						placeholder='Full name'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
+						ref='schoolField'
+						style={ styles.input }
+						onSubmitEditing={ () => this.refs.emailField.focus() }
+						keyboardType='default'
+						returnKeyType="next"
+						placeholder='School Name'
+						placeholderTextColor='rgba(0,0,0,0.7)'
+					/>
+					<TextInput
+						ref='emailField'
+						style={ styles.input }
+						autoCapitalize="none"
+						onSubmitEditing={ () => this.refs.phoneField.focus() }
+						autoCorrect={ false }
+						keyboardType='email-address'
+						returnKeyType="next"
+						placeholder='Email Address'
+						placeholderTextColor='rgba(0,0,0,0.7)'
+					/>
+					<TextInput
+						ref='phoneField'
+						style={ styles.input }
+						autoCapitalize="none"
+						onSubmitEditing={ () => this.refs.passwordField.focus() }
+						autoCorrect={ false }
+						keyboardType='phone-pad'
+						returnKeyType="next"
+						placeholder='Mobile Number'
+						placeholderTextColor='rgba(0,0,0,0.7)'
+					/>
+					<TextInput
+						ref='passwordField'
 						style={ styles.input }
 						returnKeyType="go"
-						ref={ (input)=> this.passwordInput = input }
 						placeholder='Password'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
+					<View style={ styles.dayContainer }>
+						<View style={ styles.dayTitle }>
+							<Text>
+								Day Attending:
+							</Text>
+						</View>
+						<Picker
+							style={ styles.dayPicker }
+							ref='dayField'
+						  selectedValue={ this.state.day }
+						  onValueChange={ (itemValue, itemIndex) => this.setState({
+								day: itemValue
+							}) }
+							onSubmitEditing={ () => this.refs.passwordField.focus() }
+						>
+						  <Picker.Item label="1" value={ 1 } />
+						  <Picker.Item label="2" value={ 2 } />
+						  <Picker.Item label="3" value={ 3 } />
+						  <Picker.Item label="4" value={ 4 } />
+						  <Picker.Item label="5" value={ 5 } />
+						</Picker>
+					</View>
 					<TouchableOpacity
 						activeOpacity={ 0.8 }
 						style={ styles.buttonContainer }
@@ -57,7 +122,7 @@ class RegisterForm extends Component {
 							Already have an account?
 						</Text>
 						<Text
-							style={ styles.register }
+							style={ styles.login }
 							onPress={ this.state.onHaveAccountPress }
 						>
 							LOGIN
@@ -78,55 +143,68 @@ const darkBlue = '#0288D1';
 const lightBlue = '#03A9F4';
 
 const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			padding: 20,
-			marginTop: 30
-		},
-		contentContainer: {
-			flex: 1
-		},
-		footer: {
-			alignItems: 'center'
-		},
-		input: {
-			height: 40,
-			marginTop: 15,
-			padding: 10,
-			color: '#000'
-		},
-		buttonContainer: {
-			backgroundColor: darkBlue,
-			paddingVertical: 15,
-			borderRadius: 30,
-			borderWidth: 1,
-			borderColor: lightBlue,
-			marginTop: 20
-		},
-		buttonText: {
-			color: '#fff',
-			textAlign: 'center',
-			fontWeight: '700'
-		},
-		forgotPassText: {
-			color: 'blue',
-			textAlign: 'right',
-			fontSize: 13,
-			marginBottom: 25,
-			marginRight: 20
-		},
-		noAccount: {
-			color: 'black',
-			textAlign: 'center'
-		},
-		register: {
-			color: 'blue',
-			width: 100,
-			textAlign: 'center',
-			fontSize: 15,
-			fontWeight: "bold",
-			marginTop: 10
-		}
+	title: {
+		fontSize: 25,
+		textAlign: 'center',
+		fontWeight: 'bold',
+		marginBottom: 20
+	},
+	container: {
+		flex: 1,
+		padding: 20,
+		marginTop: 30
+	},
+	contentContainer: {
+		flex: 1
+	},
+	footer: {
+		alignItems: 'center'
+	},
+	input: {
+		height: 40,
+		marginTop: 15,
+		padding: 10,
+		color: '#000'
+	},
+	buttonContainer: {
+		backgroundColor: darkBlue,
+		paddingVertical: 15,
+		borderRadius: 30,
+		borderWidth: 1,
+		borderColor: lightBlue,
+		marginTop: 30
+	},
+	buttonText: {
+		color: '#fff',
+		textAlign: 'center',
+		fontWeight: '700'
+	},
+	dayContainer: {
+		flex: 1,
+		flexDirection: 'row',
+		maxHeight: 60
+	},
+	dayTitle: {
+		flex: 0.35,
+		justifyContent: 'center',
+		marginLeft: 10
+	},
+	dayPicker: {
+		flex: 0.3,
+		height: 60
+	},
+	noAccount: {
+		color: 'black',
+		textAlign: 'center'
+	},
+	login: {
+		color: 'blue',
+		width: 100,
+		textAlign: 'center',
+		fontSize: 15,
+		fontWeight: "bold",
+		marginTop: 10
+	}
 });
 
 export default RegisterForm;
