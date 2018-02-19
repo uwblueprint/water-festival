@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 class MyActivitiesScreen extends React.Component {
-	/* eslint-enable */
 	static navigationOptions = {
 		title: 'My Activities',
 	};
