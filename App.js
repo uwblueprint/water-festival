@@ -2,8 +2,7 @@ import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
-import Container from './app/Container';
-import LoginScreen from './app/screens/LoginScreen';
+import MainContainer from './app/MainContainer';
 import reducers from './app/reducers';
 
 const initalState = {};
@@ -14,17 +13,10 @@ const store = createStore(
 	applyMiddleware(logger)
 );
 
-export default class WaterFestivalApp extends React.Component {
-	state = {
-		isLoggedIn: false
-	};
+const WaterFestivalApp = () => (
+	<Provider store={ store }>
+		<MainContainer />
+	</Provider>
+);
 
-	render() {
-		const view = (this.state.isLoggedIn) ? <Container /> : <LoginScreen />;
-		return (
-			<Provider store={ store }>
-				{ view }
-			</Provider>
-		);
-	}
-}
+export default WaterFestivalApp;

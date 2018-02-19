@@ -20,7 +20,7 @@ const currentQuestions = (state = [], action) => {
 };
 
 // returns login status
-const loginStatus = (state = false, action) => {
+const isLoggedIn = (state = false, action) => {
 	switch (action.type) {
 		case LOGIN:
 			return true;
@@ -48,7 +48,7 @@ const userLogin = (state = {}, action) => {
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
 	currentQuestions,
-	loginStatus,
+	isLoggedIn,
 	userLogin
 });
 
