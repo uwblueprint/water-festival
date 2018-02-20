@@ -1,12 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import {
-	Image,
-	ScrollView,
-	Text,
-	TouchableOpacity,
-	View,
-} from 'react-native';
 import { NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
