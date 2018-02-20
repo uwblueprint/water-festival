@@ -135,7 +135,7 @@ FaqList.propTypes = {
 	// Action
 	onFAQLoaded: PropTypes.func.isRequired,
 	// Reducer
-	currentQuestions: PropTypes.arrayOf(PropTypes.object).isRequired,
+	currentQuestions: PropTypes.array.isRequired,
 };
 
 FaqList.defaultProps = {
