@@ -18,7 +18,7 @@ export default class Header extends React.Component {
 			<Icon
 				name="chevron-left"
 				onPress={ this.goBack }
-				color="black"
+				color="white"
 				size={ 35 }
 			/>
 		);

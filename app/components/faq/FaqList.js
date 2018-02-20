@@ -22,6 +22,8 @@ class FaqList extends React.Component {
 			currentQuestions: this.props.currentQuestions,
 			isRefreshing: false,
 		};
+
+		this.renderListItem = this.renderListItem.bind(this);
 	}
 
 	componentDidMount() {
@@ -137,7 +139,6 @@ FaqList.propTypes = {
 };
 
 FaqList.defaultProps = {
-	currentQuestions: [],
 	navigate: () => {}
 };
 
