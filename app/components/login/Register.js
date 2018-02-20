@@ -39,17 +39,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#f2f6ff',
-	},
-	loginContainer:{
-		alignItems: 'center',
-		flexGrow: 1,
-		justifyContent: 'center',
-		maxHeight: 180,
-		marginTop: 70
-	},
-	logo: {
-		position: 'absolute',
-		height: 180
 	}
 });
 

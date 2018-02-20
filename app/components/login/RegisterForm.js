@@ -60,6 +60,9 @@ class RegisterForm extends Component {
 					<Text style={ styles.title }>
 						Create An Account
 					</Text>
+					<Text style={ styles.disclaimer }>
+						Diclaimer: This information will only be used during the event and will be discarded once the event is over.
+					</Text>
 				</View>
 				<View style= { styles.contentContainer }>
 					<TextInput
@@ -187,16 +190,22 @@ const darkBlue = '#0288D1';
 const lightBlue = '#03A9F4';
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		padding: 20,
+		marginTop: 10
+	},
 	title: {
 		fontSize: 25,
 		textAlign: 'center',
 		fontWeight: 'bold',
-		marginBottom: 20
+		marginBottom: 10
 	},
-	container: {
-		flex: 1,
-		padding: 20,
-		marginTop: 30
+	disclaimer: {
+		textAlign: 'center',
+		fontStyle: 'italic',
+		fontSize: 13,
+		marginBottom: 5
 	},
 	contentContainer: {
 		flex: 1
