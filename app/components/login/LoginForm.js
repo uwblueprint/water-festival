@@ -51,17 +51,19 @@ class LoginForm extends Component {
 						autoCorrect={ false }
 						onSubmitEditing={ () => this.refs.passwordField.focus() }
 						keyboardType='email-address'
-						returnKeyType="next"
+						returnKeyType='next'
 						placeholder='Email Address'
+						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
 						ref='passwordField'
 						style={ styles.input }
 						onChangeText={ password => this.setState({ password }) }
-						returnKeyType="go"
+						returnKeyType='go'
 						onSubmitEditing={ () => this.onLoginPress() }
 						placeholder='Password'
+						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
@@ -161,7 +163,7 @@ const styles = StyleSheet.create({
 			width: 100,
 			textAlign: 'center',
 			fontSize: 15,
-			fontWeight: "bold",
+			fontWeight: 'bold',
 			marginTop: 10
 		}
 });

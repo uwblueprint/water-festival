@@ -69,6 +69,7 @@ class RegisterForm extends Component {
 						keyboardType='default'
 						returnKeyType="next"
 						placeholder='Full name'
+						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
@@ -79,6 +80,7 @@ class RegisterForm extends Component {
 						keyboardType='default'
 						returnKeyType="next"
 						placeholder='School Name'
+						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
@@ -91,6 +93,7 @@ class RegisterForm extends Component {
 						keyboardType='email-address'
 						returnKeyType="next"
 						placeholder='Email Address'
+						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
@@ -103,6 +106,7 @@ class RegisterForm extends Component {
 						keyboardType='phone-pad'
 						returnKeyType="next"
 						placeholder='Mobile Number'
+						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
@@ -111,6 +115,7 @@ class RegisterForm extends Component {
 						onChangeText={ password => this.setState({ password }) }
 						returnKeyType="go"
 						placeholder='Password'
+						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
