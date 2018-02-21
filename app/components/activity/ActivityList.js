@@ -189,8 +189,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 ActivityList.propTypes = {
-	currentActivities: PropTypes.object.isRequired,
-	myActivities: PropTypes.object.isRequired,
+	currentActivities: PropTypes.array.isRequired,
+	myActivities: PropTypes.array.isRequired,
 	onActivityLoaded: PropTypes.func.isRequired,
 	onAddActivity: PropTypes.func.isRequired,
 	onRemoveActivity: PropTypes.func.isRequired,
