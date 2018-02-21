@@ -13,6 +13,8 @@ import {
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
 import { register } from '../../actions';
+import ErrorMessage from './ErrorMessage';
+import { darkBlue, errorRed, lightBlue } from '../../styles/Colours';
 
 class RegisterForm extends Component {
 	constructor(props) {
@@ -77,7 +79,7 @@ class RegisterForm extends Component {
 
 	getUnderlineColour(fieldName) {
 		return (this.state.errorField === fieldName)
-		 	? errorRed
+			? errorRed
 			: darkBlue;
 	}
 
@@ -93,16 +95,12 @@ class RegisterForm extends Component {
 						Diclaimer: This information will only be used during the event and will be discarded once the event is over.
 					</Text>
 				</View>
-				<View style={ styles.messageContainer }>
-					<Text style={ styles.error }>
-						{ this.state.errorMsg }
-					</Text>
-				</View>
-				<View style= { styles.contentContainer }>
+				<ErrorMessage msg={ this.state.errorMsg } />
+				<View style={ styles.contentContainer }>
 					<TextInput
 						style={ styles.input }
 						onChangeText={ name => this.setState({ name }) }
-						onSubmitEditing={ () => this.refs.schoolField.focus() }
+						onSubmitEditing={ () => this.schoolField.focus() }
 						keyboardType='default'
 						returnKeyType="next"
 						placeholder='Full name'
@@ -110,10 +108,10 @@ class RegisterForm extends Component {
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
-						ref='schoolField'
+						ref={ c => this.schoolField = c }
 						style={ styles.input }
 						onChangeText={ school => this.setState({ school }) }
-						onSubmitEditing={ () => this.refs.phoneField.focus() }
+						onSubmitEditing={ () => this.phoneField.focus() }
 						keyboardType='default'
 						returnKeyType="next"
 						placeholder='School Name'
@@ -121,11 +119,11 @@ class RegisterForm extends Component {
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
-						ref='phoneField'
+						ref={ c => this.phoneField = c }
 						style={ styles.input }
 						autoCapitalize="none"
 						onChangeText={ phone => this.setState({ phone }) }
-						onSubmitEditing={ () => this.refs.usernameField.focus() }
+						onSubmitEditing={ () => this.usernameField.focus() }
 						autoCorrect={ false }
 						keyboardType='phone-pad'
 						returnKeyType="next"
@@ -134,11 +132,11 @@ class RegisterForm extends Component {
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
-						ref='usernameField'
+						ref={ c => this.usernameField = c }
 						style={ styles.input }
 						autoCapitalize="none"
 						onChangeText={ username => this.setState({ username }) }
-						onSubmitEditing={ () => this.refs.passwordField.focus() }
+						onSubmitEditing={ () => this.passwordField.focus() }
 						autoCorrect={ false }
 						returnKeyType="next"
 						placeholder='Username'
@@ -146,7 +144,7 @@ class RegisterForm extends Component {
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
-						ref='passwordField'
+						ref={ c => this.passwordField = c }
 						style={ styles.input }
 						onChangeText={ password => this.setState({ password }) }
 						returnKeyType="go"
@@ -165,7 +163,7 @@ class RegisterForm extends Component {
 							<Picker
 								style={ styles.dayPicker }
 								selectedValue={ this.state.day }
-								onValueChange={ (itemValue, itemIndex) => this.setState({
+								onValueChange={ (itemValue) => this.setState({
 									day: itemValue
 								}) }
 							>
@@ -219,10 +217,6 @@ RegisterForm.propTypes = {
 };
 
 // define your styles
-const darkBlue = '#0288D1';
-const errorRed = '#ff0033';
-const lightBlue = '#03A9F4';
-
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -240,14 +234,6 @@ const styles = StyleSheet.create({
 		fontStyle: 'italic',
 		fontSize: 13,
 		marginBottom: 5
-	},
-	messageContainer: {
-		height: 20
-	},
-	error: {
-		fontSize: 15,
-		color: errorRed,
-		textAlign: 'center'
 	},
 	contentContainer: {
 		flex: 1
@@ -295,7 +281,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	login: {
-		color: 'blue',
+		color: darkBlue,
 		width: 100,
 		textAlign: 'center',
 		fontSize: 15,

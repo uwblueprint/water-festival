@@ -9,7 +9,7 @@ class MainContainer extends React.Component {
 		super(props);
 
 		this.state = {
-			isLoggedIn: props.loginStatus
+			isLoggedIn: props.isLoggedIn
 		};
 	}
 

@@ -10,7 +10,10 @@ import {
 	StatusBar
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
+import validate from '../../utils/validation';
 import { login } from '../../actions';
+import ErrorMessage from './ErrorMessage';
+import { darkBlue, errorRed, lightBlue } from '../../styles/Colours';
 
 class LoginForm extends Component {
 	constructor(props) {
@@ -21,48 +24,74 @@ class LoginForm extends Component {
 			username: '',
 			password: '',
 			onLogin,
-			onRegisterPress
+			onRegisterPress,
+			errorMsg: '',
+			errorField: ''
 		};
 
 		this.onLoginPress = this.onLoginPress.bind(this);
+		this.getUnderlineColour = this.getUnderlineColour.bind(this);
+	}
+
+	onLoginPress() {
+		const { username, password } = this.state;
+
+		validate({
+			username,
+			password
+		}, 'LOGIN', (error, field) => {
+			if (!error) {
+				this.setState({
+					errorMsg: '',
+					errorField: ''
+				});
+				this.state.onLogin({
+					username,
+					password
+				});
+			} else {
+				this.setState({
+					errorMsg: error,
+					errorField: field
+				});
+			}
+		});
+	}
+
+	getUnderlineColour(fieldName) {
+		return (this.state.errorField === fieldName)
+			? errorRed
+			: darkBlue;
 	}
 
 	forgotPassword() {
 
 	}
 
-	onLoginPress() {
-		const { username, password } = this.state;
-
-		this.state.onLogin({
-			username,
-			password
-		});
-	}
-
 	render() {
 		return (
 			<View style={ styles.container }>
 				<StatusBar barStyle="light-content" />
-				<View style= {styles.contentContainer}>
+				<ErrorMessage msg={ this.state.errorMsg } />
+				<View style={ styles.contentContainer }>
 					<TextInput
 						style={ styles.input }
 						onChangeText={ username => this.setState({ username }) }
 						autoCorrect={ false }
-						onSubmitEditing={ () => this.refs.passwordField.focus() }
+						onSubmitEditing={ () => this.passwordField.focus() }
 						returnKeyType='next'
 						placeholder='Username'
-						underlineColorAndroid={ darkBlue }
+						underlineColorAndroid={ this.getUnderlineColour('username') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
-						ref='passwordField'
+						ref={ c => this.passwordField = c }
 						style={ styles.input }
 						onChangeText={ password => this.setState({ password }) }
 						returnKeyType='go'
 						onSubmitEditing={ () => this.onLoginPress() }
 						placeholder='Password'
-						underlineColorAndroid={ darkBlue }
+						underlineColorAndroid={ this.getUnderlineColour('password') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
@@ -85,7 +114,7 @@ class LoginForm extends Component {
 						<Text
 							style={ styles.noAccount }
 						>
-							Don't have an account?
+							{"Don't have an account?"}
 						</Text>
 						<Text
 							style={ styles.register }
@@ -112,10 +141,6 @@ LoginForm.propTypes = {
 	onLogin: PropTypes.func.isRequired,
 	onRegisterPress: PropTypes.func.isRequired
 };
-
-// define your styles
-const darkBlue = '#0288D1';
-const lightBlue = '#03A9F4';
 
 const styles = StyleSheet.create({
 		container: {
@@ -147,7 +172,7 @@ const styles = StyleSheet.create({
 			fontWeight: '700'
 		},
 		forgotPassText: {
-			color: 'blue',
+			color: lightBlue,
 			textAlign: 'right',
 			fontSize: 13,
 			marginBottom: 25,
@@ -158,7 +183,7 @@ const styles = StyleSheet.create({
 			textAlign: 'center'
 		},
 		register: {
-			color: 'blue',
+			color: darkBlue,
 			width: 100,
 			textAlign: 'center',
 			fontSize: 15,

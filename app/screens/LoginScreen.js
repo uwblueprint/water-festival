@@ -1,8 +1,7 @@
-import React from 'react';
 import { StackNavigator } from 'react-navigation';
+import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 import Login from '../components/login/Login';
 import Register from '../components/login/Register';
-import CardStackStyleInterpolator from 'react-navigation/src/views/CardStack/CardStackStyleInterpolator';
 
 
 const loginScreenStack = StackNavigator({
@@ -12,7 +11,7 @@ const loginScreenStack = StackNavigator({
 {
  headerMode: 'screen',
  transitionConfig: () => ({
-	 screenInterpolator: CardStackStyleInterpolator.forHorizontal
+	screenInterpolator: CardStackStyleInterpolator.forHorizontal
  })
 });
 

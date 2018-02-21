@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView } from 'react-native';
 import RegisterForm from './RegisterForm';
 
 class Register extends React.Component {
@@ -11,7 +11,7 @@ class Register extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const { navigate, goBack } = props.navigation;
+		const { goBack } = props.navigation;
 
 		this.goBack = goBack;
 		this.onHaveAccountPress = this.onHaveAccountPress.bind(this);

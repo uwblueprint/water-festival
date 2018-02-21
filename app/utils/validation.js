@@ -47,14 +47,18 @@ const registrationConstraints = {
 
 const loginConstraints = {
   username: {
-    presence: true
+    presence: {
+      allowEmpty: false
+    },
   },
   password: {
-    presence: true
+    presence: {
+      allowEmpty: false
+    },
   },
 };
 
-export default validate = (formObj, type, callback) => {
+const validate = (formObj, type, callback) => {
   const constraint = (type === 'LOGIN')
     ? loginConstraints
     : registrationConstraints;
@@ -72,3 +76,5 @@ export default validate = (formObj, type, callback) => {
     return callback(res.password[0], 'password');
   return callback(null, null);
 }
+
+export default validate;
