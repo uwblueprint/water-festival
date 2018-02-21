@@ -9,6 +9,15 @@ const ActivityStyles = StyleSheet.create({
 		fontWeight: 'bold',
 		color: '#FFFFFF',
 	},
+  sectionHeader: {
+    paddingTop: 3,
+    paddingLeft: 36,
+    paddingBottom: 2,
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    backgroundColor: '#92D3F9',
+  },
 	activityHeader: {
 		backgroundColor: '#293038',
 		height: 60,

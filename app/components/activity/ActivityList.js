@@ -2,10 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
+	View,
 	Platform,
 	ScrollView,
 	FlatList,
 	RefreshControl,
+	SectionList,
+	Text,
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -61,6 +64,27 @@ class ActivityList extends React.Component {
 			.catch(err => console.error(err));
 	}
 
+	getSectionList = () => {
+		var sectionList = [];
+		for (activity of this.state.currentActivities){
+			for (grade of activity.grade){
+				var matchingSection = sectionList.find(section => section.key === grade)
+				if (matchingSection){
+					matchingSection.data.push(activity);
+				} else {
+					sectionList.push({
+						data:[activity],
+						key:grade
+					})
+				}
+			}
+		}
+		sectionList.sort(function(a, b) {
+	    return a.key - b.key;
+		});
+		return sectionList;
+	}
+
 	renderListItem = ({ item, index }) => {
 		var addIcon = (
 			<Icon
@@ -112,6 +136,8 @@ class ActivityList extends React.Component {
 	}
 
 	render() {
+		var sectionList = this.getSectionList();
+
 		const refreshControl = (
 			<RefreshControl
 				refreshing={ this.state.isRefreshing }
@@ -123,12 +149,17 @@ class ActivityList extends React.Component {
 				style={ ActivityStyles.activityPadding, { backgroundColor: 'white' } }
 				refreshControl={ refreshControl }
 			>
-				<FlatList
-					data={ this.state.currentActivities }
+				<SectionList
+					sections={sectionList}
 					renderItem={ this.renderListItem }
-					extraData={ this.state }
 					keyExtractor={ this.keyExtractor }
-					ListHeaderComponent={ this.renderHeader }
+					renderSectionHeader={ ({ section }) => (
+						<Text
+							style={ ActivityStyles.sectionHeader }
+						>
+							Grade {section.key}
+						</Text>
+					)}
 				/>
 			</ScrollView>
 		);
