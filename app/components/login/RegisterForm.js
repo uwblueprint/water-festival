@@ -14,6 +14,7 @@ import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
 import { register } from '../../actions';
 import ErrorMessage from './ErrorMessage';
+import Modal from '../Modal';
 import { darkBlue, errorRed, lightBlue } from '../../styles/Colours';
 
 class RegisterForm extends Component {
@@ -31,7 +32,8 @@ class RegisterForm extends Component {
 			onRegister,
 			onHaveAccountPress,
 			errorMsg: '',
-			errorField: ''
+			errorField: '',
+			isModalVisible: false
 		};
 
 		this.onRegisterPress = this.onRegisterPress.bind(this);
@@ -76,6 +78,10 @@ class RegisterForm extends Component {
 							errorMsg,
 							errorField: 'username'
 						});
+					} else {
+						this.setState({
+							isModalVisible: true
+						});
 					}
 				});
 			} else {
@@ -97,6 +103,10 @@ class RegisterForm extends Component {
 		return (
 			<View style={ styles.container }>
 				<StatusBar barStyle="light-content" />
+				<Modal
+					isModalVisible={ this.state.isModalVisible }
+					onClose={ this.state.onHaveAccountPress }
+				/>
 				<View>
 					<Text style={ styles.title }>
 						Create An Account
@@ -237,7 +247,10 @@ const mapDispatchToProps = dispatch => {
 							console.log('Something went wrong', json);
 							callback('Oops, something went wrong!');
 						}
-					} else dispatch(register(user))
+					} else {
+						callback(null);
+						dispatch(register(user));
+					}
 				})
 				.catch(err => console.error(err));
 		}
