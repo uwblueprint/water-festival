@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
 	Text,
 	View,
-  Button,
+	Button,
 } from 'react-native';
 import ActivityStyles from '../../styles/ActivityStyles';
 import Header from '../Header'
@@ -22,27 +22,27 @@ class ActivityDetails extends React.Component {
 
 	constructor(props) {
 		super(props);
-    this.state = {
+		this.state = {
 			myActivities: this.props.navigation.state.params.myActivities,
 		};
 	}
 
-  addActivity(id){
-    const { state } = this.props.navigation;
-    state.params.onAddActivity(id);
+	addActivity(id){
+		const { state } = this.props.navigation;
+		state.params.onAddActivity(id);
 
-    this.setState({ myActivities:[...this.state.myActivities, id] });
-  }
+		this.setState({ myActivities:[...this.state.myActivities, id] });
+	}
 
-  removeActivity(id){
-    const { state } = this.props.navigation;
-    state.params.onRemoveActivity(id);
+	removeActivity(id){
+		const { state } = this.props.navigation;
+		state.params.onRemoveActivity(id);
 
-    var newActivities = this.state.myActivities;
-    var index = newActivities.indexOf(id);
-    newActivities.splice(index, 1);
-    this.setState({ myActivities:newActivities });
-  }
+		var newActivities = this.state.myActivities;
+		var index = newActivities.indexOf(id);
+		newActivities.splice(index, 1);
+		this.setState({ myActivities:newActivities });
+	}
 
 	renderButton(id){
 		const addButton = (

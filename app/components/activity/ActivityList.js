@@ -52,7 +52,7 @@ class ActivityList extends React.Component {
 	}
 
 	getSectionList = () => {
-		var sectionList = [];
+		const sectionList = [];
 		for (const activity of this.state.currentActivities){
 			for (const grade of activity.grade){
 				var matchingSection = sectionList.find(section => section.key === grade)
@@ -127,7 +127,7 @@ class ActivityList extends React.Component {
 		// Due to SectionList, the passed-in index is for each section (incorrect)
 		index = this.state.currentActivities.indexOf(activity);
 		this.props.navigation.navigate('ActivityDetails', {
-			index: index,
+			index,
 			currentActivity: activity,
 			activitiesList: this.state.currentActivities,
 			onAddActivity: this.props.onAddActivity,
@@ -170,8 +170,8 @@ class ActivityList extends React.Component {
 
 const mapStateToProps = ( state ) => {
 	return { currentActivities : state.currentActivities,
-						myActivities: state.myActivities
-					};
+		myActivities: state.myActivities
+	};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -180,8 +180,8 @@ const mapDispatchToProps = dispatch => {
 			dispatch(activityLoaded(activityList));
 		},
 		onAddActivity: activity => {
-      dispatch(addActivity(activity));
-    },
+			dispatch(addActivity(activity));
+		},
 		onRemoveActivity: activity => {
 			dispatch(removeActivity(activity));
 		}
