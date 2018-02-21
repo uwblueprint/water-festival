@@ -70,7 +70,14 @@ class RegisterForm extends Component {
 					password
 				};
 
-				this.state.onRegister(user);
+				this.state.onRegister(user, errorMsg => {
+					if (errorMsg) {
+						this.setState({
+							errorMsg,
+							errorField: 'username'
+						});
+					}
+				});
 			} else {
 				this.setState({
 					errorMsg: error,
@@ -208,8 +215,7 @@ class RegisterForm extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onRegister: (userObj) => {
-			console.log('userObj', userObj);
+		onRegister: (userObj, callback) => {
 			const API_URL = `https://water-fest.herokuapp.com/users`;
 			const data = {
 				method: 'POST',
@@ -223,9 +229,15 @@ const mapDispatchToProps = dispatch => {
 			fetch(`${API_URL}/insert`, data)
 				.then(response => response.json())
 				.then(json => {
-					const { user, message } = json;
-					if (!user) console.error(message);
-					else dispatch(register(user))
+					const { user, message, code } = json;
+					if (!user) {
+						if (code && code === 11000) callback('Username has already been taken!');
+						else if (message) callback(message);
+						else {
+							console.log('Something went wrong', json);
+							callback('Oops, something went wrong!');
+						}
+					} else dispatch(register(user))
 				})
 				.catch(err => console.error(err));
 		}
