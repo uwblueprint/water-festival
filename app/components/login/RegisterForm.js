@@ -26,7 +26,7 @@ class RegisterForm extends Component {
 			school: '',
 			username: '',
 			phone: '',
-			day: 0,
+			day: 1,
 			password: '',
 			onRegister,
 			onHaveAccountPress,
@@ -60,14 +60,17 @@ class RegisterForm extends Component {
 					errorMsg: '',
 					errorField: ''
 				});
-				this.state.onRegister({
+
+				const user = {
 					name,
 					school,
 					username,
-					phone,
+					phoneNumber: phone,
 					day,
 					password
-				});
+				};
+
+				this.state.onRegister(user);
 			} else {
 				this.setState({
 					errorMsg: error,
@@ -205,8 +208,26 @@ class RegisterForm extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onRegister: (user) => {
-			dispatch(register(user));
+		onRegister: (userObj) => {
+			console.log('userObj', userObj);
+			const API_URL = `https://water-fest.herokuapp.com/users`;
+			const data = {
+				method: 'POST',
+				body: JSON.stringify(userObj),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+			};
+
+			fetch(`${API_URL}/insert`, data)
+				.then(response => response.json())
+				.then(json => {
+					const { user, message } = json;
+					if (!user) console.error(message);
+					else dispatch(register(user))
+				})
+				.catch(err => console.error(err));
 		}
 	};
 };
