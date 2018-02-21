@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-	Platform,
 	ScrollView,
 	FlatList,
 	RefreshControl,
@@ -23,6 +22,8 @@ class FaqList extends React.Component {
 			currentQuestions: this.props.currentQuestions,
 			isRefreshing: false,
 		};
+
+		this.renderListItem = this.renderListItem.bind(this);
 	}
 
 	componentDidMount() {
@@ -129,13 +130,14 @@ const mapDispatchToProps = dispatch => {
 };
 
 FaqList.propTypes = {
+	currentQuestions: PropTypes.array.isRequired,
 	onFAQLoaded: PropTypes.func.isRequired,
 	navigation: PropTypes.object.isRequired,
 	navigate: PropTypes.func
 };
 
 FaqList.defaultProps = {
-	navigate:() => {}
+	navigate: () => {}
 };
 
 

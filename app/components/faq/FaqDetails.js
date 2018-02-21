@@ -14,7 +14,7 @@ class FaqDetails extends React.Component {
 			<Header
 				title="Information"
 				hasBackButton
-				navigation={ navigation }
+				goBack={ navigation.goBack }
 			/>
 		)
 	});
