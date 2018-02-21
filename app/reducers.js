@@ -41,11 +41,13 @@ const myActivities = (state = [], action) => {
 			if (activityIndex < 0){
 				return [...state, action.activityId];
 			}
+			break;
 		} case REMOVE_ACTIVITY: {
 			if (activityIndex >= 0) {
 				state.splice(activityIndex, 1);
 				return [...state];
 			}
+			break;
 		}
 		default:
 			return state;

@@ -2,10 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
-	View,
-	Platform,
 	ScrollView,
-	FlatList,
 	RefreshControl,
 	SectionList,
 	Text,
@@ -15,7 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActivityStyles from '../../styles/ActivityStyles';
 import { activityLoaded, addActivity, removeActivity } from '../../actions';
 
-const API_URL = `https://water-fest.herokuapp.com/activities`;
+const API_URL = "https://water-fest.herokuapp.com/activities";
 
 
 class ActivityList extends React.Component {
@@ -43,7 +40,7 @@ class ActivityList extends React.Component {
 			nextProps.myActivities !== this.state.myActivities) {
 			this.setState({ currentActivities: nextProps.currentActivities,
 					myActivities: nextProps.myActivities,
-			 });
+				});
 		}
 	}
 
@@ -53,21 +50,11 @@ class ActivityList extends React.Component {
 			this.setState({ isRefreshing: false });
 		});
 	}
-  // linting error required that keyExtractor is placed after onRefresh
-	keyExtractor = (item) => item.id;
-
-	fetchData() {
-		return fetch(`${API_URL}/list`)
-			.then(response => response.json())
-			.then(activityList => this.props.onActivityLoaded(activityList))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
-	}
 
 	getSectionList = () => {
 		var sectionList = [];
-		for (activity of this.state.currentActivities){
-			for (grade of activity.grade){
+		for (const activity of this.state.currentActivities){
+			for (const grade of activity.grade){
 				var matchingSection = sectionList.find(section => section.key === grade)
 				if (matchingSection){
 					matchingSection.data.push(activity);
@@ -80,31 +67,43 @@ class ActivityList extends React.Component {
 			}
 		}
 		sectionList.sort(function(a, b) {
-	    return a.key - b.key;
+			return a.key - b.key;
 		});
 		return sectionList;
 	}
 
+	// linting error required that keyExtractor is placed after getSectionList
+	keyExtractor = (item) => item.id;
+
+	// linting error required that fetchData is placed after getSectionList
+	fetchData() {
+		return fetch(`${API_URL}/list`)
+			.then(response => response.json())
+			.then(activityList => this.props.onActivityLoaded(activityList))
+			// eslint-disable-next-line no-console
+			.catch(err => console.error(err));
+	}
+
 	renderListItem = ({ item, index }) => {
-		var addIcon = (
+		const addIcon = (
 			<Icon
-				style={ActivityStyles.activityListItemIcon}
+				style={ ActivityStyles.activityListItemIcon }
 				name="add-circle-outline"
 				color="black"
 				size={ 35 }
-				onPress={() => this.props.onAddActivity(item.id)}
+				onPress={ () => this.props.onAddActivity(item.id) }
 			/>
 		);
-		var removeIcon = (
+		const removeIcon = (
 			<Icon
-				style={ActivityStyles.activityListItemIcon}
+				style={ ActivityStyles.activityListItemIcon }
 				name="remove-circle-outline"
 				color="black"
 				size={ 35 }
-				onPress={() => this.props.onRemoveActivity(item.id)}
+				onPress={ () => this.props.onRemoveActivity(item.id) }
 			/>
 		);
-		var icon = this.state.myActivities.includes(item.id)? removeIcon : addIcon;
+		const icon = this.state.myActivities.includes(item.id)? removeIcon : addIcon;
 		return (
 			<ListItem
 				containerStyle={ ActivityStyles.activityListItem }
@@ -113,7 +112,7 @@ class ActivityList extends React.Component {
 				key={ item.id }
 				title={ item.title }
 				subtitle={ "Station " + item.station }
-				onPress= { () => this.renderActivityDetails(item, index) }
+				onPress={ () => this.renderActivityDetails(item, index) }
 				rightIcon={ icon }
 			/>
 		);
@@ -125,19 +124,21 @@ class ActivityList extends React.Component {
 	}
 
 	renderActivityDetails(activity, index) {
+		// Due to SectionList, the passed-in index is for each section (incorrect)
+		index = this.state.currentActivities.indexOf(activity);
 		this.props.navigation.navigate('ActivityDetails', {
-			index,
+			index: index,
 			currentActivity: activity,
 			activitiesList: this.state.currentActivities,
 			onAddActivity: this.props.onAddActivity,
 			onRemoveActivity: this.props.onRemoveActivity,
+			myActivities: this.state.myActivities,
 			isMyActivity: this.state.myActivities.includes(activity.id),
 		});
 	}
 
 	render() {
-		var sectionList = this.getSectionList();
-
+		const sectionList = this.getSectionList();
 		const refreshControl = (
 			<RefreshControl
 				refreshing={ this.state.isRefreshing }
@@ -150,26 +151,27 @@ class ActivityList extends React.Component {
 				refreshControl={ refreshControl }
 			>
 				<SectionList
-					sections={sectionList}
+					sections={ sectionList }
 					renderItem={ this.renderListItem }
 					keyExtractor={ this.keyExtractor }
+					ListHeaderComponent={ this.renderHeader }
 					renderSectionHeader={ ({ section }) => (
 						<Text
 							style={ ActivityStyles.sectionHeader }
 						>
-							Grade {section.key}
+							Grade { section.key }
 						</Text>
-					)}
+					) }
 				/>
 			</ScrollView>
 		);
 	}
 }
 
-const mapStateToProps = ( state, ownProps ) => {
+const mapStateToProps = ( state ) => {
 	return { currentActivities : state.currentActivities,
-        	 	myActivities: state.myActivities
-			 };
+						myActivities: state.myActivities
+					};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -187,6 +189,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 ActivityList.propTypes = {
+	currentActivities: PropTypes.object.isRequired,
+	myActivities: PropTypes.object.isRequired,
 	onActivityLoaded: PropTypes.func.isRequired,
 	onAddActivity: PropTypes.func.isRequired,
 	onRemoveActivity: PropTypes.func.isRequired,
