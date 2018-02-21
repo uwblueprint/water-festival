@@ -45,6 +45,7 @@
     "react-navigation": "^1.0.0-beta.15",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
-    "redux-logger": "^3.0.6"
+    "redux-logger": "^3.0.6",
+    "validate.js": "^0.12.0"
   }
 }

@@ -11,6 +11,7 @@ import {
 	StatusBar
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
+import validate from '../../utils/validation';
 import { register } from '../../actions';
 
 class RegisterForm extends Component {
@@ -21,35 +22,63 @@ class RegisterForm extends Component {
 		this.state = {
 			name: '',
 			school: '',
-			email: '',
+			username: '',
 			phone: '',
 			day: 0,
 			password: '',
 			onRegister,
-			onHaveAccountPress
+			onHaveAccountPress,
+			errorMsg: '',
+			errorField: ''
 		};
 
 		this.onRegisterPress = this.onRegisterPress.bind(this);
+		this.getUnderlineColour = this.getUnderlineColour.bind(this);
 	}
 
 	onRegisterPress() {
 		const {
 			name,
 			school,
-			email,
 			phone,
+			username,
 			day,
 			password
 		} = this.state;
 
-		this.state.onRegister({
-			name,
-			school,
-			email,
-			phone,
-			day,
+		validate({
+			fullName: name,
+			schoolName: school,
+			mobileNumber: phone,
+			username,
 			password
+		}, 'REGISTER', (error, field) => {
+			if (!error) {
+				this.setState({
+					errorMsg: '',
+					errorField: ''
+				});
+				this.state.onRegister({
+					name,
+					school,
+					username,
+					phone,
+					day,
+					password
+				});
+			} else {
+				this.setState({
+					errorMsg: error,
+					errorField: field
+				});
+			}
 		});
+	}
+
+	getUnderlineColour(fieldName) {
+		return (this.state.errorField === fieldName)
+		 	? errorRed
+			: darkBlue;
 	}
 
 	render() {
@@ -64,6 +93,11 @@ class RegisterForm extends Component {
 						Diclaimer: This information will only be used during the event and will be discarded once the event is over.
 					</Text>
 				</View>
+				<View style={ styles.messageContainer }>
+					<Text style={ styles.error }>
+						{ this.state.errorMsg }
+					</Text>
+				</View>
 				<View style= { styles.contentContainer }>
 					<TextInput
 						style={ styles.input }
@@ -72,31 +106,18 @@ class RegisterForm extends Component {
 						keyboardType='default'
 						returnKeyType="next"
 						placeholder='Full name'
-						underlineColorAndroid={ darkBlue }
+						underlineColorAndroid={ this.getUnderlineColour('name') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
 						ref='schoolField'
 						style={ styles.input }
 						onChangeText={ school => this.setState({ school }) }
-						onSubmitEditing={ () => this.refs.emailField.focus() }
+						onSubmitEditing={ () => this.refs.phoneField.focus() }
 						keyboardType='default'
 						returnKeyType="next"
 						placeholder='School Name'
-						underlineColorAndroid={ darkBlue }
-						placeholderTextColor='rgba(0,0,0,0.7)'
-					/>
-					<TextInput
-						ref='emailField'
-						style={ styles.input }
-						autoCapitalize="none"
-						onChangeText={ email => this.setState({ email }) }
-						onSubmitEditing={ () => this.refs.phoneField.focus() }
-						autoCorrect={ false }
-						keyboardType='email-address'
-						returnKeyType="next"
-						placeholder='Email Address'
-						underlineColorAndroid={ darkBlue }
+						underlineColorAndroid={ this.getUnderlineColour('school') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
@@ -104,12 +125,24 @@ class RegisterForm extends Component {
 						style={ styles.input }
 						autoCapitalize="none"
 						onChangeText={ phone => this.setState({ phone }) }
-						onSubmitEditing={ () => this.refs.passwordField.focus() }
+						onSubmitEditing={ () => this.refs.usernameField.focus() }
 						autoCorrect={ false }
 						keyboardType='phone-pad'
 						returnKeyType="next"
 						placeholder='Mobile Number'
-						underlineColorAndroid={ darkBlue }
+						underlineColorAndroid={ this.getUnderlineColour('phone') }
+						placeholderTextColor='rgba(0,0,0,0.7)'
+					/>
+					<TextInput
+						ref='usernameField'
+						style={ styles.input }
+						autoCapitalize="none"
+						onChangeText={ username => this.setState({ username }) }
+						onSubmitEditing={ () => this.refs.passwordField.focus() }
+						autoCorrect={ false }
+						returnKeyType="next"
+						placeholder='Username'
+						underlineColorAndroid={ this.getUnderlineColour('username') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
@@ -118,7 +151,7 @@ class RegisterForm extends Component {
 						onChangeText={ password => this.setState({ password }) }
 						returnKeyType="go"
 						placeholder='Password'
-						underlineColorAndroid={ darkBlue }
+						underlineColorAndroid={ this.getUnderlineColour('password') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
@@ -187,6 +220,7 @@ RegisterForm.propTypes = {
 
 // define your styles
 const darkBlue = '#0288D1';
+const errorRed = '#ff0033';
 const lightBlue = '#03A9F4';
 
 const styles = StyleSheet.create({
@@ -206,6 +240,14 @@ const styles = StyleSheet.create({
 		fontStyle: 'italic',
 		fontSize: 13,
 		marginBottom: 5
+	},
+	messageContainer: {
+		height: 20
+	},
+	error: {
+		fontSize: 15,
+		color: errorRed,
+		textAlign: 'center'
 	},
 	contentContainer: {
 		flex: 1

@@ -18,7 +18,7 @@ class LoginForm extends Component {
 
 		const { onLogin, onRegisterPress } = props;
 		this.state = {
-			email: '',
+			username: '',
 			password: '',
 			onLogin,
 			onRegisterPress
@@ -32,10 +32,10 @@ class LoginForm extends Component {
 	}
 
 	onLoginPress() {
-		const { email, password } = this.state;
+		const { username, password } = this.state;
 
 		this.state.onLogin({
-			email,
+			username,
 			password
 		});
 	}
@@ -47,12 +47,11 @@ class LoginForm extends Component {
 				<View style= {styles.contentContainer}>
 					<TextInput
 						style={ styles.input }
-						onChangeText={ email => this.setState({ email }) }
+						onChangeText={ username => this.setState({ username }) }
 						autoCorrect={ false }
 						onSubmitEditing={ () => this.refs.passwordField.focus() }
-						keyboardType='email-address'
 						returnKeyType='next'
-						placeholder='Email Address'
+						placeholder='Username'
 						underlineColorAndroid={ darkBlue }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
