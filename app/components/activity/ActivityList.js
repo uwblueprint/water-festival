@@ -17,6 +17,11 @@ const API_URL = "https://water-fest.herokuapp.com/activities";
 
 class ActivityList extends React.Component {
 
+	static navigationOptions = {
+    gestureEnabled: false
+  }
+
+
 	constructor(props) {
 		super(props);
 		this.state = {
