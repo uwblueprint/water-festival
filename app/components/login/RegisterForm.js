@@ -266,6 +266,7 @@ const mapDispatchToProps = dispatch => {
 						if (code && code === 11000) callback('Username has already been taken!');
 						else if (message) callback(message);
 						else {
+							// eslint-disable-next-line no-console
 							console.log('Something went wrong', json);
 							callback('Oops, something went wrong!');
 						}
@@ -273,7 +274,8 @@ const mapDispatchToProps = dispatch => {
 						dispatch(register(user));
 						callback(null);
 					}
-				})
+				})				
+				// eslint-disable-next-line no-console
 				.catch(err => console.error(err));
 		}
 	};

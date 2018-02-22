@@ -159,6 +159,7 @@ const mapDispatchToProps = dispatch => {
 						callback(null);
 					}
 				})
+				// eslint-disable-next-line no-console
 				.catch(err => console.error(err));
 		}
 	};
