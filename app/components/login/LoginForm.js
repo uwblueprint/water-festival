@@ -178,7 +178,9 @@ const styles = StyleSheet.create({
 			flex: 1
 		},
 		footer: {
-			alignItems: 'center'
+			alignItems: 'center',
+			height: 50,
+			marginTop: 80
 		},
 		input: {
 			height: 40,
@@ -215,7 +217,7 @@ const styles = StyleSheet.create({
 			textAlign: 'center',
 			fontSize: 15,
 			fontWeight: 'bold',
-			marginTop: 10
+			marginTop: 5
 		}
 });
 

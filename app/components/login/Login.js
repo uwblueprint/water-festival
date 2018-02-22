@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, Image, StyleSheet, ScrollView } from 'react-native';
 import LoginForm from './LoginForm';
 import logo from '../../images/wwcgf_logo.png';
 
@@ -24,12 +24,12 @@ class Login extends React.Component {
 
 	render() {
 		return (
-			<KeyboardAvoidingView behavior="padding" style={ styles.container }>
-				<View style={ styles.loginContainer }>
+			<ScrollView style={ styles.container }>
+				<View style={{ alignItems: 'center' }}>
 					<Image resizeMode="contain" style={ styles.logo } source={ logo } />
 				</View>
 				<LoginForm onRegisterPress={ this.onRegisterPress } />
-			</KeyboardAvoidingView>
+			</ScrollView>
 		);
 	}
 }
@@ -42,17 +42,12 @@ Login.propTypes = {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#f2f6ff',
-	},
-	loginContainer:{
-		alignItems: 'center',
-		flexGrow: 1,
-		justifyContent: 'center',
-		maxHeight: 180,
-		marginTop: 70
+		backgroundColor: '#f2f6ff'
 	},
 	logo: {
-		position: 'absolute',
+		justifyContent: 'center',
+		marginTop: 70,
+		alignItems: 'center',
 		height: 180
 	}
 });

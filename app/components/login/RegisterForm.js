@@ -29,6 +29,7 @@ class RegisterForm extends Component {
 			phone: '',
 			day: 1,
 			password: '',
+			confirmPassword: '',
 			onRegister,
 			onHaveAccountPress,
 			errorMsg: '',
@@ -47,8 +48,17 @@ class RegisterForm extends Component {
 			phone,
 			username,
 			day,
-			password
+			password,
+			confirmPassword
 		} = this.state;
+
+		if (password !== confirmPassword) {
+			this.setState({
+				errorMsg: 'Passwords do not match',
+				errorField: 'confirmPassword'
+			});
+			return;
+		}
 
 		validate({
 			fullName: name,
@@ -112,7 +122,7 @@ class RegisterForm extends Component {
 						Create An Account
 					</Text>
 					<Text style={ styles.disclaimer }>
-						Diclaimer: This information will only be used during the event and will be discarded once the event is over.
+						Disclaimer: This information will only be used during the event and will be discarded once the event is over.
 					</Text>
 				</View>
 				<ErrorMessage msg={ this.state.errorMsg } />
@@ -134,7 +144,7 @@ class RegisterForm extends Component {
 						onSubmitEditing={ () => this.phoneField.focus() }
 						keyboardType='default'
 						returnKeyType="next"
-						placeholder='School Name'
+						placeholder='School name'
 						underlineColorAndroid={ this.getUnderlineColour('school') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
@@ -147,7 +157,7 @@ class RegisterForm extends Component {
 						autoCorrect={ false }
 						keyboardType='phone-pad'
 						returnKeyType="next"
-						placeholder='Mobile Number'
+						placeholder='Mobile number'
 						underlineColorAndroid={ this.getUnderlineColour('phone') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
@@ -167,9 +177,20 @@ class RegisterForm extends Component {
 						ref={ c => this.passwordField = c }
 						style={ styles.input }
 						onChangeText={ password => this.setState({ password }) }
-						returnKeyType="go"
+						onSubmitEditing={ () => this.confirmPasswordField.focus() }
+						returnKeyType="next"
 						placeholder='Password'
 						underlineColorAndroid={ this.getUnderlineColour('password') }
+						placeholderTextColor='rgba(0,0,0,0.7)'
+						secureTextEntry
+					/>
+					<TextInput
+						ref={ c => this.confirmPasswordField = c }
+						style={ styles.input }
+						onChangeText={ confirmPassword => this.setState({ confirmPassword }) }
+						returnKeyType="go"
+						placeholder='Confirm password'
+						underlineColorAndroid={ this.getUnderlineColour('confirmPassword') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
@@ -203,6 +224,7 @@ class RegisterForm extends Component {
 						<Text style={ styles.buttonText }>REGISTER</Text>
 					</TouchableOpacity>
 				</View>
+
 				<HideWithKeyboard>
 					<View style={ styles.footer }>
 						<Text
@@ -266,8 +288,8 @@ RegisterForm.propTypes = {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		padding: 20,
-		marginTop: 10
+		paddingHorizontal: 20,
+		marginTop: 30
 	},
 	title: {
 		fontSize: 25,
@@ -282,14 +304,17 @@ const styles = StyleSheet.create({
 		marginBottom: 5
 	},
 	contentContainer: {
-		flex: 1
+		flex: 1,
+		height: 440
 	},
 	footer: {
-		alignItems: 'center'
+		alignItems: 'center',
+		height: 50,
+		marginTop: 10
 	},
 	input: {
 		height: 40,
-		marginTop: 15,
+		marginTop: 10,
 		padding: 10,
 		color: '#000'
 	},
@@ -299,7 +324,7 @@ const styles = StyleSheet.create({
 		borderRadius: 30,
 		borderWidth: 1,
 		borderColor: lightBlue,
-		marginTop: 30
+		marginTop: 10
 	},
 	buttonText: {
 		color: '#fff',
@@ -332,7 +357,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontSize: 15,
 		fontWeight: "bold",
-		marginTop: 10
+		marginTop: 5
 	}
 });
 

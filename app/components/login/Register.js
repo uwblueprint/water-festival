@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import RegisterForm from './RegisterForm';
 
 class Register extends React.Component {
@@ -23,9 +23,9 @@ class Register extends React.Component {
 
 	render() {
 		return (
-			<KeyboardAvoidingView behavior="padding" style={ styles.container }>
+			<ScrollView style={ styles.container }>
 				<RegisterForm onHaveAccountPress={ this.onHaveAccountPress } />
-			</KeyboardAvoidingView>
+			</ScrollView>
 		);
 	}
 }
@@ -38,7 +38,7 @@ Register.propTypes = {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#f2f6ff',
+		backgroundColor: '#f2f6ff'
 	}
 });
 
