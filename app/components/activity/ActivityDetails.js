@@ -15,7 +15,7 @@ class ActivityDetails extends React.Component {
 				title="Activity Details"
 				hasBackButton
 				navigation={ navigation }
-				goBack={ () => navigation.goBack(null) }
+				goBack={ () => navigation.goBack() }
 			/>
 		),
 		title: "All Activities",
