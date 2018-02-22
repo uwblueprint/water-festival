@@ -48,6 +48,13 @@ class LoginForm extends Component {
 				this.state.onLogin({
 					username,
 					password
+				}, errorMsg => {
+					if (errorMsg) {
+						this.setState({
+							errorMsg,
+							errorField: ''
+						});
+					}
 				});
 			} else {
 				this.setState({
@@ -131,8 +138,28 @@ class LoginForm extends Component {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onLogin: (user) => {
-			dispatch(login(user));
+		onLogin: (userObj, callback) => {
+			const API_URL = 'https://water-fest.herokuapp.com/users/authenticate';
+			const data = {
+				method: 'POST',
+				body: JSON.stringify(userObj),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				}
+			};
+
+			fetch(API_URL, data)
+				.then(response => response.json())
+				.then(json => {
+					const { user, success, error } = json;
+					if (!success) callback(error);
+					else {
+						dispatch(login(user));
+						callback(null);
+					}
+				})
+				.catch(err => console.error(err));
 		}
 	};
 };

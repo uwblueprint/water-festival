@@ -226,7 +226,7 @@ class RegisterForm extends Component {
 const mapDispatchToProps = dispatch => {
 	return {
 		onRegister: (userObj, callback) => {
-			const API_URL = `https://water-fest.herokuapp.com/users`;
+			const API_URL = 'https://water-fest.herokuapp.com/users/insert';
 			const data = {
 				method: 'POST',
 				body: JSON.stringify(userObj),
@@ -236,7 +236,7 @@ const mapDispatchToProps = dispatch => {
 				}
 			};
 
-			fetch(`${API_URL}/insert`, data)
+			fetch(API_URL, data)
 				.then(response => response.json())
 				.then(json => {
 					const { user, message, code } = json;
@@ -248,8 +248,8 @@ const mapDispatchToProps = dispatch => {
 							callback('Oops, something went wrong!');
 						}
 					} else {
-						callback(null);
 						dispatch(register(user));
+						callback(null);
 					}
 				})
 				.catch(err => console.error(err));
