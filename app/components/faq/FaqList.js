@@ -24,6 +24,7 @@ class FaqList extends React.Component {
 		};
 
 		this.renderListItem = this.renderListItem.bind(this);
+		this.onRefresh = this.onRefresh.bind(this);
 	}
 
 	componentDidMount() {
