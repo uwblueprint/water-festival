@@ -57,12 +57,12 @@ const ActivityStyles = StyleSheet.create({
 	},
 	activityDetailsStation: {
 		fontSize: 18,
-		paddingBottom: 8,
+		paddingBottom: 10,
 		color: "#1a417a"
 	},
 	activityDetailsGrade: {
 		fontSize: 18,
-		paddingTop: 8.
+		paddingBottom: 20.
 	},
 	activityDetailsDescription: {
 		fontSize: 17,

@@ -93,14 +93,14 @@ class ActivityDetails extends React.Component {
 					{"Station " + activity.station}
 				</Text>
 				{image}
-				<Text style={ ActivityStyles.activityDetailsGrade }>
-					{"Grade(s): " + activity.grade}
-				</Text>
 				<Text style={ ActivityStyles.activityDetailsDescriptionTitle }>
 					{"Description"}
 				</Text>
 				<Text style={ ActivityStyles.activityDetailsDescription }>
 					{activity.description}
+				</Text>
+				<Text style={ ActivityStyles.activityDetailsGrade }>
+					{"Grade(s): " + activity.grade}
 				</Text>
 				{button}
 			</View>
