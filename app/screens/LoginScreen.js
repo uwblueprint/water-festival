@@ -9,10 +9,10 @@ const loginScreenStack = StackNavigator({
 	Register: { screen: Register },
 },
 {
- headerMode: 'screen',
- transitionConfig: () => ({
-	screenInterpolator: CardStackStyleInterpolator.forHorizontal
- })
+	headerMode: 'screen',
+	transitionConfig: () => ({
+		screenInterpolator: CardStackStyleInterpolator.forHorizontal
+	})
 });
 
 export default loginScreenStack;
