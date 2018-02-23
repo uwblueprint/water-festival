@@ -7,7 +7,6 @@ import {
 	TouchableOpacity
 } from 'react-native';
 
-
 class MapScreen extends React.Component {
 	static navigationOptions = {
 		title: 'Map',

@@ -24,6 +24,7 @@ class FaqList extends React.Component {
 		};
 
 		this.renderListItem = this.renderListItem.bind(this);
+		this.onRefresh = this.onRefresh.bind(this);
 	}
 
 	componentDidMount() {
@@ -130,10 +131,12 @@ const mapDispatchToProps = dispatch => {
 };
 
 FaqList.propTypes = {
-	currentQuestions: PropTypes.array.isRequired,
-	onFAQLoaded: PropTypes.func.isRequired,
 	navigation: PropTypes.object.isRequired,
-	navigate: PropTypes.func
+	navigate: PropTypes.func,
+	// Action
+	onFAQLoaded: PropTypes.func.isRequired,
+	// Reducer
+	currentQuestions: PropTypes.array.isRequired,
 };
 
 FaqList.defaultProps = {

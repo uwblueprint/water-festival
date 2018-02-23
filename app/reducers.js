@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux'
 import {
 	FAQ_LOADED,
+	LOGIN,
+	LOGOUT,
 	ACTIVITY_LOADED,
 	ADD_ACTIVITY,
-	REMOVE_ACTIVITY,
+	REMOVE_ACTIVITY
 } from './actions';
-
 
 // Retrieve FAQ List from server
 const currentQuestions = (state = [], action) => {
@@ -20,6 +21,32 @@ const currentQuestions = (state = [], action) => {
 			return state;
 	}
 };
+
+// returns login status
+const isLoggedIn = (state = false, action) => {
+	switch (action.type) {
+		case LOGIN:
+			return true;
+		case LOGOUT:
+			return false;
+		default:
+			return state;
+	}
+};
+
+const userLogin = (state = {}, action) => {
+	switch (action.type) {
+		case LOGIN: {
+			const { user } = action;
+			return user;
+		}
+		case LOGOUT:
+			return {};
+		default:
+			return state;
+	}
+}
+
 
 // Retrieve Activities List from server
 const currentActivities = (state = [], action) => {
@@ -54,9 +81,12 @@ const myActivities = (state = [], action) => {
 	}
 };
 
+
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
 	currentQuestions,
+	isLoggedIn,
+	userLogin,
 	currentActivities,
 	myActivities
 });
