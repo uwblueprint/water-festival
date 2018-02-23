@@ -6,14 +6,13 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	StyleSheet,
 	StatusBar
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
 import { login } from '../../actions';
 import ErrorMessage from './ErrorMessage';
-import { darkBlue, errorRed, lightBlue } from '../../styles/Colours';
+import styles from '../../styles/LoginFormStyles';
 
 class LoginForm extends Component {
 	constructor(props) {
@@ -26,11 +25,9 @@ class LoginForm extends Component {
 			onLogin,
 			onRegisterPress,
 			errorMsg: '',
-			errorField: ''
 		};
 
 		this.onLoginPress = this.onLoginPress.bind(this);
-		this.getUnderlineColour = this.getUnderlineColour.bind(this);
 	}
 
 	onLoginPress() {
@@ -39,36 +36,21 @@ class LoginForm extends Component {
 		validate({
 			username,
 			password
-		}, 'LOGIN', (error, field) => {
+		}, 'LOGIN', (error) => {
 			if (!error) {
-				this.setState({
-					errorMsg: '',
-					errorField: ''
-				});
+				this.setState({ errorMsg: '' });
 				this.state.onLogin({
 					username,
 					password
 				}, errorMsg => {
 					if (errorMsg) {
-						this.setState({
-							errorMsg,
-							errorField: ''
-						});
+						this.setState({ errorMsg });
 					}
 				});
 			} else {
-				this.setState({
-					errorMsg: error,
-					errorField: field
-				});
+				this.setState({ errorMsg: error });
 			}
 		});
-	}
-
-	getUnderlineColour(fieldName) {
-		return (this.state.errorField === fieldName)
-			? errorRed
-			: darkBlue;
 	}
 
 	forgotPassword() {
@@ -88,7 +70,7 @@ class LoginForm extends Component {
 						onSubmitEditing={ () => this.passwordField.focus() }
 						returnKeyType='next'
 						placeholder='Username'
-						underlineColorAndroid={ this.getUnderlineColour('username') }
+						underlineColorAndroid='rgba(0,0,0,0)'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
@@ -98,7 +80,7 @@ class LoginForm extends Component {
 						returnKeyType='go'
 						onSubmitEditing={ () => this.onLoginPress() }
 						placeholder='Password'
-						underlineColorAndroid={ this.getUnderlineColour('password') }
+						underlineColorAndroid='rgba(0,0,0,0)'
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
@@ -152,8 +134,8 @@ const mapDispatchToProps = dispatch => {
 			fetch(API_URL, data)
 				.then(response => response.json())
 				.then(json => {
-					const { user, success, error } = json;
-					if (!success) callback(error);
+					const { user, success } = json;
+					if (!success) callback('Username and/or password is invalid.');
 					else {
 						dispatch(login(user));
 						callback(null);
@@ -169,57 +151,5 @@ LoginForm.propTypes = {
 	onLogin: PropTypes.func.isRequired,
 	onRegisterPress: PropTypes.func.isRequired
 };
-
-const styles = StyleSheet.create({
-		container: {
-			flex: 1,
-			padding: 20
-		},
-		contentContainer: {
-			flex: 1
-		},
-		footer: {
-			alignItems: 'center',
-			height: 50,
-			marginTop: 80
-		},
-		input: {
-			height: 40,
-			marginTop: 15,
-			padding: 10,
-			color: '#000'
-		},
-		buttonContainer: {
-			backgroundColor: darkBlue,
-			paddingVertical: 15,
-			borderRadius: 30,
-			borderWidth: 1,
-			borderColor: lightBlue
-		},
-		buttonText: {
-			color: '#fff',
-			textAlign: 'center',
-			fontWeight: '700'
-		},
-		forgotPassText: {
-			color: lightBlue,
-			textAlign: 'right',
-			fontSize: 13,
-			marginBottom: 25,
-			marginRight: 20
-		},
-		noAccount: {
-			color: 'black',
-			textAlign: 'center'
-		},
-		register: {
-			color: darkBlue,
-			width: 100,
-			textAlign: 'center',
-			fontSize: 15,
-			fontWeight: 'bold',
-			marginTop: 5
-		}
-});
 
 export default connect(null, mapDispatchToProps)(LoginForm);

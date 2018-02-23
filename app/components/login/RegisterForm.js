@@ -1,26 +1,24 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import {
 	Picker,
 	View,
 	Text,
 	TextInput,
 	TouchableOpacity,
-	StyleSheet,
 	StatusBar
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
 import ErrorMessage from './ErrorMessage';
 import Modal from '../Modal';
-import { darkBlue, errorRed, lightBlue } from '../../styles/Colours';
+import styles from '../../styles/RegisterFormStyles';
 
 class RegisterForm extends Component {
 	constructor(props) {
 		super(props);
 
-		const { onRegister, onHaveAccountPress } = props;
+		const { onHaveAccountPress } = props;
 		this.state = {
 			name: '',
 			school: '',
@@ -29,11 +27,10 @@ class RegisterForm extends Component {
 			day: 1,
 			password: '',
 			confirmPassword: '',
-			onRegister,
-			onHaveAccountPress,
 			errorMsg: '',
 			errorField: '',
-			isModalVisible: false
+			isModalVisible: false,
+			onHaveAccountPress
 		};
 
 		this.onRegisterPress = this.onRegisterPress.bind(this);
@@ -81,7 +78,7 @@ class RegisterForm extends Component {
 					password
 				};
 
-				this.state.onRegister(user, errorMsg => {
+				this.registerUser(user, errorMsg => {
 					if (errorMsg) {
 						this.setState({
 							errorMsg,
@@ -104,8 +101,37 @@ class RegisterForm extends Component {
 
 	getUnderlineColour(fieldName) {
 		return (this.state.errorField === fieldName)
-			? errorRed
-			: darkBlue;
+			? styles.inputError
+			: styles.input;
+	}
+
+	registerUser(userObj, callback) {
+		const API_URL = 'https://water-fest.herokuapp.com/users/insert';
+		const data = {
+			method: 'POST',
+			body: JSON.stringify(userObj),
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			}
+		};
+
+		fetch(API_URL, data)
+			.then(response => response.json())
+			.then(json => {
+				const { user, message, code } = json;
+				if (!user) {
+					if (code && code === 11000) callback('Username has already been taken!');
+					else if (message) callback(message);
+					else {
+						// eslint-disable-next-line no-console
+						console.log('Something went wrong', json);
+						callback('Oops, something went wrong!');
+					}
+				} else callback(null);
+			})
+			// eslint-disable-next-line no-console
+			.catch(err => console.error(err));
 	}
 
 	render() {
@@ -127,7 +153,8 @@ class RegisterForm extends Component {
 				<ErrorMessage msg={ this.state.errorMsg } />
 				<View style={ styles.contentContainer }>
 					<TextInput
-						style={ styles.input(this.getUnderlineColour('name')) }
+						style={ this.getUnderlineColour('name') }
+						underlineColorAndroid='rgba(0,0,0,0)'
 						onChangeText={ name => this.setState({ name }) }
 						onSubmitEditing={ () => this.schoolField.focus() }
 						keyboardType='default'
@@ -137,7 +164,8 @@ class RegisterForm extends Component {
 					/>
 					<TextInput
 						ref={ c => this.schoolField = c }
-						style={ styles.input(this.getUnderlineColour('school')) }
+						style={ this.getUnderlineColour('school') }
+						underlineColorAndroid='rgba(0,0,0,0)'
 						onChangeText={ school => this.setState({ school }) }
 						onSubmitEditing={ () => this.phoneField.focus() }
 						keyboardType='default'
@@ -147,8 +175,9 @@ class RegisterForm extends Component {
 					/>
 					<TextInput
 						ref={ c => this.phoneField = c }
-						style={ styles.input(this.getUnderlineColour('phone')) }
+						style={ this.getUnderlineColour('phone') }
 						autoCapitalize='none'
+						underlineColorAndroid='rgba(0,0,0,0)'
 						onChangeText={ phone => this.setState({ phone }) }
 						onSubmitEditing={ () => this.usernameField.focus() }
 						autoCorrect={ false }
@@ -159,8 +188,9 @@ class RegisterForm extends Component {
 					/>
 					<TextInput
 						ref={ c => this.usernameField = c }
-						style={ styles.input(this.getUnderlineColour('username')) }
+						style={ this.getUnderlineColour('username') }
 						autoCapitalize='none'
+						underlineColorAndroid='rgba(0,0,0,0)'
 						onChangeText={ username => this.setState({ username }) }
 						onSubmitEditing={ () => this.passwordField.focus() }
 						autoCorrect={ false }
@@ -170,7 +200,8 @@ class RegisterForm extends Component {
 					/>
 					<TextInput
 						ref={ c => this.passwordField = c }
-						style={ styles.input(this.getUnderlineColour('password')) }
+						style={ this.getUnderlineColour('password') }
+						underlineColorAndroid='rgba(0,0,0,0)'
 						onChangeText={ password => this.setState({ password }) }
 						onSubmitEditing={ () => this.confirmPasswordField.focus() }
 						returnKeyType='next'
@@ -180,7 +211,8 @@ class RegisterForm extends Component {
 					/>
 					<TextInput
 						ref={ c => this.confirmPasswordField = c }
-						style={ styles.input(this.getUnderlineColour('confirmPassword')) }
+						style={ this.getUnderlineColour('confirmPassword') }
+						underlineColorAndroid='rgba(0,0,0,0)'
 						onChangeText={ confirmPassword => this.setState({ confirmPassword }) }
 						returnKeyType='go'
 						placeholder='Confirm password'
@@ -238,121 +270,8 @@ class RegisterForm extends Component {
 	}
 }
 
-const mapDispatchToProps = dispatch => {
-	return {
-		onRegister: (userObj, callback) => {
-			const API_URL = 'https://water-fest.herokuapp.com/users/insert';
-			const data = {
-				method: 'POST',
-				body: JSON.stringify(userObj),
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				}
-			};
-
-			fetch(API_URL, data)
-				.then(response => response.json())
-				.then(json => {
-					const { user, message, code } = json;
-					if (!user) {
-						if (code && code === 11000) callback('Username has already been taken!');
-						else if (message) callback(message);
-						else {
-							// eslint-disable-next-line no-console
-							console.log('Something went wrong', json);
-							callback('Oops, something went wrong!');
-						}
-					} else callback(null);
-				})
-				// eslint-disable-next-line no-console
-				.catch(err => console.error(err));
-		}
-	};
-};
-
 RegisterForm.propTypes = {
-	onRegister: PropTypes.func.isRequired,
 	onHaveAccountPress: PropTypes.func.isRequired
 };
 
-// define your styles
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		paddingHorizontal: 20,
-		marginTop: 30
-	},
-	title: {
-		fontSize: 25,
-		textAlign: 'center',
-		fontWeight: 'bold',
-		marginBottom: 10
-	},
-	disclaimer: {
-		textAlign: 'center',
-		fontStyle: 'italic',
-		fontSize: 13,
-		marginBottom: 5
-	},
-	contentContainer: {
-		flex: 1,
-		height: 440
-	},
-	footer: {
-		alignItems: 'center',
-		height: 50,
-		marginTop: 10
-	},
-	input: (borderBottomColor) => {
-		height: 40,
-		marginTop: 10,
-		padding: 10,
-		color: '#000',
-		borderBottomWidth: 1,
-		borderBottomColor
-	},
-	buttonContainer: {
-		backgroundColor: darkBlue,
-		paddingVertical: 15,
-		borderRadius: 30,
-		borderWidth: 1,
-		borderColor: lightBlue,
-		marginTop: 10
-	},
-	buttonText: {
-		color: '#fff',
-		textAlign: 'center',
-		fontWeight: '700'
-	},
-	dayContainer: {
-		flex: 1,
-		flexDirection: 'row',
-		alignItems: 'center',
-		maxHeight: 60,
-		marginTop: 30,
-		marginBottom: 30
-	},
-	dayTitle: {
-		flex: 0.35,
-		alignItems: 'center'
-	},
-	dayPicker: {
-		flex: 0.3,
-		height: 50
-	},
-	noAccount: {
-		color: 'black',
-		textAlign: 'center'
-	},
-	login: {
-		color: darkBlue,
-		width: 100,
-		textAlign: 'center',
-		fontSize: 15,
-		fontWeight: 'bold',
-		marginTop: 5
-	}
-});
-
-export default connect(null, mapDispatchToProps)(RegisterForm);
+export default RegisterForm;
