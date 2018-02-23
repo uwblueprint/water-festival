@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
-import { register } from '../../actions';
 import ErrorMessage from './ErrorMessage';
 import Modal from '../Modal';
 import { darkBlue, errorRed, lightBlue } from '../../styles/Colours';
@@ -112,7 +111,7 @@ class RegisterForm extends Component {
 	render() {
 		return (
 			<View style={ styles.container }>
-				<StatusBar barStyle="light-content" />
+				<StatusBar barStyle='light-content' />
 				<Modal
 					isModalVisible={ this.state.isModalVisible }
 					onClose={ this.state.onHaveAccountPress }
@@ -128,69 +127,63 @@ class RegisterForm extends Component {
 				<ErrorMessage msg={ this.state.errorMsg } />
 				<View style={ styles.contentContainer }>
 					<TextInput
-						style={ styles.input }
+						style={ styles.input(this.getUnderlineColour('name')) }
 						onChangeText={ name => this.setState({ name }) }
 						onSubmitEditing={ () => this.schoolField.focus() }
 						keyboardType='default'
-						returnKeyType="next"
+						returnKeyType='next'
 						placeholder='Full name'
-						underlineColorAndroid={ this.getUnderlineColour('name') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
 						ref={ c => this.schoolField = c }
-						style={ styles.input }
+						style={ styles.input(this.getUnderlineColour('school')) }
 						onChangeText={ school => this.setState({ school }) }
 						onSubmitEditing={ () => this.phoneField.focus() }
 						keyboardType='default'
-						returnKeyType="next"
+						returnKeyType='next'
 						placeholder='School name'
-						underlineColorAndroid={ this.getUnderlineColour('school') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
 						ref={ c => this.phoneField = c }
-						style={ styles.input }
-						autoCapitalize="none"
+						style={ styles.input(this.getUnderlineColour('phone')) }
+						autoCapitalize='none'
 						onChangeText={ phone => this.setState({ phone }) }
 						onSubmitEditing={ () => this.usernameField.focus() }
 						autoCorrect={ false }
 						keyboardType='phone-pad'
-						returnKeyType="next"
+						returnKeyType='next'
 						placeholder='Mobile number'
-						underlineColorAndroid={ this.getUnderlineColour('phone') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
 						ref={ c => this.usernameField = c }
-						style={ styles.input }
-						autoCapitalize="none"
+						style={ styles.input(this.getUnderlineColour('username')) }
+						autoCapitalize='none'
 						onChangeText={ username => this.setState({ username }) }
 						onSubmitEditing={ () => this.passwordField.focus() }
 						autoCorrect={ false }
-						returnKeyType="next"
+						returnKeyType='next'
 						placeholder='Username'
-						underlineColorAndroid={ this.getUnderlineColour('username') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 					/>
 					<TextInput
 						ref={ c => this.passwordField = c }
-						style={ styles.input }
+						style={ styles.input(this.getUnderlineColour('password')) }
 						onChangeText={ password => this.setState({ password }) }
 						onSubmitEditing={ () => this.confirmPasswordField.focus() }
-						returnKeyType="next"
+						returnKeyType='next'
 						placeholder='Password'
-						underlineColorAndroid={ this.getUnderlineColour('password') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
 					<TextInput
 						ref={ c => this.confirmPasswordField = c }
-						style={ styles.input }
+						style={ styles.input(this.getUnderlineColour('confirmPassword')) }
 						onChangeText={ confirmPassword => this.setState({ confirmPassword }) }
-						returnKeyType="go"
+						returnKeyType='go'
 						placeholder='Confirm password'
-						underlineColorAndroid={ this.getUnderlineColour('confirmPassword') }
 						placeholderTextColor='rgba(0,0,0,0.7)'
 						secureTextEntry
 					/>
@@ -208,11 +201,11 @@ class RegisterForm extends Component {
 									day: itemValue
 								}) }
 							>
-								<Picker.Item label="1" value={ 1 } />
-								<Picker.Item label="2" value={ 2 } />
-								<Picker.Item label="3" value={ 3 } />
-								<Picker.Item label="4" value={ 4 } />
-								<Picker.Item label="5" value={ 5 } />
+								<Picker.Item label='1' value={ 1 } />
+								<Picker.Item label='2' value={ 2 } />
+								<Picker.Item label='3' value={ 3 } />
+								<Picker.Item label='4' value={ 4 } />
+								<Picker.Item label='5' value={ 5 } />
 							</Picker>
 						</View>
 					</HideWithKeyboard>
@@ -270,11 +263,8 @@ const mapDispatchToProps = dispatch => {
 							console.log('Something went wrong', json);
 							callback('Oops, something went wrong!');
 						}
-					} else {
-						dispatch(register(user));
-						callback(null);
-					}
-				})				
+					} else callback(null);
+				})
 				// eslint-disable-next-line no-console
 				.catch(err => console.error(err));
 		}
@@ -314,11 +304,13 @@ const styles = StyleSheet.create({
 		height: 50,
 		marginTop: 10
 	},
-	input: {
+	input: (borderBottomColor) => {
 		height: 40,
 		marginTop: 10,
 		padding: 10,
-		color: '#000'
+		color: '#000',
+		borderBottomWidth: 1,
+		borderBottomColor
 	},
 	buttonContainer: {
 		backgroundColor: darkBlue,
@@ -358,7 +350,7 @@ const styles = StyleSheet.create({
 		width: 100,
 		textAlign: 'center',
 		fontSize: 15,
-		fontWeight: "bold",
+		fontWeight: 'bold',
 		marginTop: 5
 	}
 });
