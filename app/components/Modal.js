@@ -11,7 +11,9 @@ export default class ModalComponent extends Component {
 
 		this.state = {
 			isModalVisible: props.isModalVisible,
+			// true if button is a simple close action
 			isSimpleClose: props.isSimpleClose,
+			// needs to be defined only if isSimpleClose is false
 			onClose: props.onClose
 		};
 

@@ -18,7 +18,11 @@ const registrationConstraints = {
     format: {
       pattern: "[0-9]+",
       message: "can only contain digits"
-    }
+    },
+		length: {
+			is: 10,
+			message: "must be 10 digits long"
+		}
   },
   username: {
     presence: {

@@ -121,7 +121,7 @@ class RegisterForm extends Component {
 			.then(json => {
 				const { user, message, code } = json;
 				if (!user) {
-					if (code && code === 11000) callback('Username has already been taken!');
+					if (code === 11000) callback('Username has already been taken!');
 					else if (message) callback(message);
 					else {
 						// eslint-disable-next-line no-console
