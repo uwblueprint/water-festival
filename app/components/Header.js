@@ -17,7 +17,7 @@ export default class Header extends React.Component {
 		return (
 			<Icon
 				name="chevron-left"
-				onPress={ this.goBack }
+				onPress={ () => this.goBack() }
 				color="white"
 				size={ 35 }
 			/>
@@ -47,4 +47,4 @@ Header.propTypes = {
 
 Header.defaultProps = {
 	goBack: () => {}
-};
+}

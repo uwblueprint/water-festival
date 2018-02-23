@@ -6,7 +6,6 @@ import {
 } from 'react-native';
 import FaqStyles from '../../styles/FaqStyles';
 import Header from '../Header'
-import ListSlider from '../ListSlider';
 
 class FaqDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
@@ -14,18 +13,22 @@ class FaqDetails extends React.Component {
 			<Header
 				title="Information"
 				hasBackButton
-				goBack={ navigation.goBack }
+				goBack={ () => navigation.goBack() }
 			/>
-		)
+		),
+		title: "Information",
+		swipeEnabled: false,
 	});
 
 	constructor(props) {
 		super(props);
 	}
 
-	renderItem(item, index) {
+	render() {
+		const { state } = this.props.navigation;
+		const item = state.params.currentQuestion;
 		return (
-			<View key={ index } style={ FaqStyles.faqDetailsContainer }>
+			<View key={ state.params.index } style={ FaqStyles.faqDetailsContainer }>
 				<Text style={ FaqStyles.faqDetailsQuestion }>
 					{item.question}
 				</Text>
@@ -33,17 +36,6 @@ class FaqDetails extends React.Component {
 					{item.answer}
 				</Text>
 			</View>
-		);
-	}
-
-	render() {
-		const { state } = this.props.navigation;
-		return (
-			<ListSlider
-				renderItem={ this.renderItem }
-				currentIndex={ state.params.index }
-				itemList={ state.params.questionList }
-			/>
 		);
 	}
 }

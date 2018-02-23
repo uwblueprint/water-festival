@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import ActivityStyles from '../../styles/ActivityStyles';
 import Header from '../Header'
-import ListSlider from '../ListSlider';
 
 class ActivityDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
@@ -16,8 +15,11 @@ class ActivityDetails extends React.Component {
 				title="Activity Details"
 				hasBackButton
 				navigation={ navigation }
+				goBack={ () => navigation.goBack() }
 			/>
-		)
+		),
+		title: "All Activities",
+		swipeEnabled: false,
 	});
 
 	constructor(props) {
@@ -64,35 +66,26 @@ class ActivityDetails extends React.Component {
 		return this.state.myActivities.includes(id) ? removeButton : addButton;
 	}
 
-	renderItem = (item, index) => {
-		const button = this.renderButton(item.id);
+	render() {
+		const { state } = this.props.navigation;
+		const activity = state.params.currentActivity;
+		const button = this.renderButton(activity.id);
 		return (
-			<View key={ index } style={ ActivityStyles.activityDetailsContainer }>
+			<View key={ state.params.index } style={ ActivityStyles.activityDetailsContainer }>
 				<Text style={ ActivityStyles.activityDetailsTitle }>
-					{item.title}
+					{activity.title}
 				</Text>
 				<Text style={ ActivityStyles.activityDetailsStation }>
-					{"Station " + item.station}
+					{"Station " + activity.station}
 				</Text>
 				<Text style={ ActivityStyles.activityDetailsDescriptionTitle }>
 					{"Description"}
 				</Text>
 				<Text style={ ActivityStyles.activityDetailsDescription }>
-					{item.description}
+					{activity.description}
 				</Text>
 				{button}
 			</View>
-		);
-	}
-
-	render() {
-		const { state } = this.props.navigation;
-		return (
-			<ListSlider
-				renderItem={ this.renderItem }
-				currentIndex={ state.params.index }
-				itemList={ state.params.activitiesList }
-			/>
 		);
 	}
 }
