@@ -76,6 +76,10 @@ const ActivityStyles = StyleSheet.create({
 		fontSize: 17,
 		paddingRight: 20,
 	},
+	activityDetailsImage:{
+		width: 300,
+		height: 180,
+	},
 });
 
 export default ActivityStyles;

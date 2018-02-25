@@ -71,7 +71,7 @@ class ActivityDetails extends React.Component {
 		if(imageURI){
 			return (
 				<Image
-					style={{width: 300, height: 180}}
+					style={ ActivityStyles.activityDetailsImage }
 					source={{uri: imageURI}}
 				/>
 			);
