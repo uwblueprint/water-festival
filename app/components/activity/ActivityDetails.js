@@ -4,6 +4,7 @@ import {
 	Text,
 	View,
 	Button,
+	Image,
 } from 'react-native';
 import ActivityStyles from '../../styles/ActivityStyles';
 import Header from '../Header'
@@ -66,10 +67,23 @@ class ActivityDetails extends React.Component {
 		return this.state.myActivities.includes(id) ? removeButton : addButton;
 	}
 
+	renderImage(imageURI){
+		if(imageURI){
+			return (
+				<Image
+					style={ ActivityStyles.activityDetailsImage }
+					source={{uri: imageURI}}
+				/>
+			);
+		}
+		return (null);
+	}
+
 	render() {
 		const { state } = this.props.navigation;
 		const activity = state.params.currentActivity;
 		const button = this.renderButton(activity.id);
+		const image = this.renderImage(activity.imageURI);
 		return (
 			<View key={ state.params.index } style={ ActivityStyles.activityDetailsContainer }>
 				<Text style={ ActivityStyles.activityDetailsTitle }>
@@ -78,11 +92,15 @@ class ActivityDetails extends React.Component {
 				<Text style={ ActivityStyles.activityDetailsStation }>
 					{"Station " + activity.station}
 				</Text>
+				{image}
 				<Text style={ ActivityStyles.activityDetailsDescriptionTitle }>
 					{"Description"}
 				</Text>
 				<Text style={ ActivityStyles.activityDetailsDescription }>
 					{activity.description}
+				</Text>
+				<Text style={ ActivityStyles.activityDetailsGrade }>
+					{"Grade(s): " + activity.grade}
 				</Text>
 				{button}
 			</View>
