@@ -35,7 +35,7 @@ const Container = TabNavigator({
 					},
 					HomeScreen: {
 						icon: (
-							<Icon size={ 24 } color="black" name="info-outline" />
+							<Icon size={ 24 } color="black" name="home" />
 						)
 					}
 				}
