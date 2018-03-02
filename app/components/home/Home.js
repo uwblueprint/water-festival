@@ -35,7 +35,7 @@ Home.propTypes = {
 };
 
 Home.defaultProps = {
-	navigate:() => {}
+	navigate: () => {}
 };
 
 export default Home;
