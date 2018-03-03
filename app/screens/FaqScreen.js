@@ -1,15 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator, NavigationActions } from 'react-navigation'
 import Header from '../components/Header'
 import FaqList from '../components/faq/FaqList'
 import FaqDetails from '../components/faq/FaqDetails'
 
 
 class FaqScreen extends React.Component {
-	static navigationOptions = () => ({
-		header: <Header title="Information" hasBackButton={ false } />,
-		title: 'Information'
+
+	static navigationOptions = ({ navigation }) => ({
+		header: (
+			<Header
+				title="Information"
+				hasBackButton
+				// Need NavigationActions to access prev page bc nested stack navigators
+				goBack={ () => navigation.dispatch(NavigationActions.back()) }
+			/>
+		),
+		title: "Information",
 	});
 
 	constructor(props) {
@@ -33,6 +41,7 @@ const FaqScreenStack = StackNavigator({
 },
 {
 	mode: 'modal',
+	headerMode: "none",
 });
 
 FaqScreen.propTypes = {
