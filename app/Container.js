@@ -21,6 +21,7 @@ const Container = TabNavigator({
 					height: 60
 				},
 				labelColor: 'black',
+				shifting: false,
 				backgroundColor: '#C4C4C4',
 				rippleColor: 'white',
 				tabs: {
