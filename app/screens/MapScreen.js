@@ -154,33 +154,37 @@ class MapScreen extends React.Component {
 
 		// Only update when map stops moving
 		if (type !== "onPanResponderRelease") return;
+
+		// Placeholder for now
+		return { positionX, positionY, scale, type, zoomCurrentDistance };
 	}
 
 	render() {
 		return (
-				<ImageZoom
-					cropWidth={ Dimensions.get('window').width }
-					cropHeight={ Dimensions.get('window').height }
-					imageWidth={ Dimensions.get('window').width }
-					imageHeight={ Dimensions.get('window').height }
-					onMove={ this.onMapPress }
+			<ImageZoom
+				cropWidth={ Dimensions.get('window').width }
+				cropHeight={ Dimensions.get('window').height }
+				imageWidth={ Dimensions.get('window').width }
+				imageHeight={ Dimensions.get('window').height }
+				onMove={ this.onMapPress }
+			>
+				<Image
+					source={{ uri: 'https://water-fest.herokuapp.com/images/map.png' }}
+					style={{ flex: 1 }}
+					resizeMode="contain"
 				>
-					<Image
-						source={{ uri: 'https://water-fest.herokuapp.com/images/map.png' }}
-						style={{ flex: 1 }}
-						resizeMode="contain"
+					<Text
+						style={{
+							backgroundColor: 'white',
+							top: this.state.y - 5,
+							left: this.state.x - 5,
+							position: "absolute"
+						}}
 					>
-						<Text
-							style={{
-								backgroundColor: 'white',
-								top: this.state.y - 5,
-								left: this.state.x - 5,
-								position: "absolute"
-							}}>
-							{this.state.label}
-						</Text>
-					</Image>
-				</ImageZoom>
+						{this.state.label}
+					</Text>
+				</Image>
+			</ImageZoom>
 		);
 	}
 }
