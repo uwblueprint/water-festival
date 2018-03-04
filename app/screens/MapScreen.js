@@ -1,11 +1,10 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
 	Image,
-	ScrollView,
 	Text,
-	TouchableOpacity
+	Dimensions
 } from 'react-native';
+import ImageZoom from 'react-native-image-pan-zoom';
 
 class MapScreen extends React.Component {
 	static navigationOptions = {
@@ -14,7 +13,14 @@ class MapScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { label: props.initialInput, x: props.x, y: props.y };
+
+		this.state = {
+			label: '',
+			x: 0,
+			y: 0
+		};
+
+		this.onClick = this.onClick.bind(this);
 	}
 
 	onClick(evt) {
@@ -137,41 +143,50 @@ class MapScreen extends React.Component {
 		}
 	}
 
-	input() {
-		this.setState({ label: 'hello world' })
+	onMapPress(data) {
+		const {
+			positionX,
+			positionY,
+			scale,
+			type,
+			zoomCurrentDistance
+		} = data;
+
+		// Only update when map stops moving
+		if (type !== "onPanResponderRelease") return;
+
+		// Placeholder for now
+		return { positionX, positionY, scale, type, zoomCurrentDistance };
 	}
 
 	render() {
 		return (
-			<ScrollView horizontal maximumZoomScale={ 5.0 } >
-				<ScrollView>
-					<TouchableOpacity onPress={ (evt) => this.onClick(evt) } activeOpacity={ 1.0 }>
-						<Image
-							source={{ uri: 'https://water-festival.herokuapp.com/map.png' }}
-							style={{ width: 838, height: 648 }}
-						>
-							<Text style={{ backgroundColor: 'white', top: this.state.y - 5, left: this.state.x - 5, position: "absolute" }}>
-								{this.state.label}
-							</Text>
-						</Image>
-					</TouchableOpacity>
-				</ScrollView>
-			</ScrollView>
+			<ImageZoom
+				cropWidth={ Dimensions.get('window').width }
+				cropHeight={ Dimensions.get('window').height }
+				imageWidth={ Dimensions.get('window').width }
+				imageHeight={ Dimensions.get('window').height }
+				onMove={ this.onMapPress }
+			>
+				<Image
+					source={{ uri: 'https://water-fest.herokuapp.com/images/map.png' }}
+					style={{ flex: 1 }}
+					resizeMode="contain"
+				>
+					<Text
+						style={{
+							backgroundColor: 'white',
+							top: this.state.y - 5,
+							left: this.state.x - 5,
+							position: "absolute"
+						}}
+					>
+						{this.state.label}
+					</Text>
+				</Image>
+			</ImageZoom>
 		);
 	}
 }
-
-
-MapScreen.propTypes = {
-	initialInput: PropTypes.string,
-	x: PropTypes.number,
-	y: PropTypes.number
-};
-
-MapScreen.defaultProps = {
-	initialInput: '',
-	x: 0,
-	y: 0
-};
 
 export default MapScreen;
