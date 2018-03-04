@@ -21,6 +21,7 @@ class ActivityList extends React.Component {
 		super(props);
 		this.state = {
 			currentActivities: this.props.currentActivities,
+			filteredActivities: this.props.currentActivities,
 			myActivities: this.props.myActivities,
 			isRefreshing: false,
 		};
@@ -40,6 +41,7 @@ class ActivityList extends React.Component {
 			nextProps.myActivities !== this.state.myActivities) {
 			this.setState({ currentActivities: nextProps.currentActivities,
 					myActivities: nextProps.myActivities,
+					filteredActivities: nextProps.currentActivities,
 				});
 		}
 	}
@@ -53,7 +55,7 @@ class ActivityList extends React.Component {
 
 	getSectionList = () => {
 		const sectionList = [];
-		for (const activity of this.state.currentActivities){
+		for (const activity of this.state.filteredActivities){
 			for (const grade of activity.grade){
 				var matchingSection = sectionList.find(section => section.key === grade)
 				if (matchingSection){
@@ -82,6 +84,16 @@ class ActivityList extends React.Component {
 			.then(activityList => this.props.onActivityLoaded(activityList))
 			// eslint-disable-next-line no-console
 			.catch(err => console.error(err));
+	}
+
+	handleSearchChange = (term) => {
+		const { currentActivities } = this.state;
+
+		const filteredActivities = currentActivities.filter(item => {
+      			return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
+		});
+		
+		this.setState({ filteredActivities })
 	}
 
 	renderListItem = ({ item, index }) => {
@@ -118,9 +130,17 @@ class ActivityList extends React.Component {
 		);
 	}
 
-	renderHeader() {
-		//TODO: Add actual search
-		return <SearchBar placeholder="Search for activities here!" lightTheme />;
+	renderHeader = () => {
+		return (
+			<SearchBar 
+				placeholder="Search for activities here!"
+				cancelButtonTitle="Cancel"
+				onClearText={ this.handleSearchChange } 
+				onCancel={ this.handleSearchChange } 
+				onChangeText={ this.handleSearchChange } 
+				lightTheme 
+			/>
+		);
 	}
 
 	renderActivityDetails(activity, index) {

@@ -20,6 +20,7 @@ class FaqList extends React.Component {
 		super(props);
 		this.state = {
 			currentQuestions: this.props.currentQuestions,
+			filteredQuestions: this.props.currentQuestions,
 			isRefreshing: false,
 		};
 
@@ -38,7 +39,7 @@ class FaqList extends React.Component {
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (nextProps.currentQuestions !== this.state.currentQuestions) {
-			this.setState({ currentQuestions: nextProps.currentQuestions });
+			this.setState({ currentQuestions: nextProps.currentQuestions, filteredQuestions: this.props.currentQuestions });
 		}
 	}
 
@@ -57,6 +58,16 @@ class FaqList extends React.Component {
 			.then(faqList => this.props.onFAQLoaded(faqList))
 			// eslint-disable-next-line no-console
 			.catch(err => console.error(err));
+	}
+
+	handleSearchChange = (term) => {
+		const { currentQuestions } = this.state;
+
+		const filteredQuestions = currentQuestions.filter(item => {
+      			return item.question.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
+		});
+		
+		this.setState({ filteredQuestions })
 	}
 
 	renderListItem({ item, index }) {
@@ -80,10 +91,18 @@ class FaqList extends React.Component {
 			/>
 		);
 	}
-
-	renderHeader() {
-		//TODO: Add actual search
-		return <SearchBar placeholder="Search for questions here!" lightTheme />;
+	
+	renderHeader = () => {
+		return (
+			<SearchBar 
+				placeholder="Search for questions here!"
+				cancelButtonTitle="Cancel"
+				onClearText={ this.handleSearchChange } 
+				onCancel={ this.handleSearchChange } 
+				onChangeText={ this.handleSearchChange } 
+				lightTheme 
+			/>
+		);
 	}
 
 	renderFaqDetails(question, index) {
@@ -107,7 +126,7 @@ class FaqList extends React.Component {
 				refreshControl={ refreshControl }
 			>
 				<FlatList
-					data={ this.state.currentQuestions }
+					data={ this.state.filteredQuestions }
 					renderItem={ this.renderListItem }
 					extraData={ this.state }
 					keyExtractor={ this.keyExtractor }
