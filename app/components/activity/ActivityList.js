@@ -8,7 +8,7 @@ import {
 	Text,
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialIcons';
+import Icon from 'react-native-vector-icons/Ionicons';
 import ActivityStyles from '../../styles/ActivityStyles';
 import { activityLoaded, addActivity, removeActivity } from '../../actions';
 
@@ -92,7 +92,7 @@ class ActivityList extends React.Component {
 		const filteredActivities = currentActivities.filter(item => {
       			return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
-		
+
 		this.setState({ filteredActivities })
 	}
 
@@ -100,8 +100,8 @@ class ActivityList extends React.Component {
 		const addIcon = (
 			<Icon
 				style={ ActivityStyles.activityListItemIcon }
-				name="add-circle-outline"
-				color="black"
+				name="ios-add-circle"
+				color="#0288D1"
 				size={ 35 }
 				onPress={ () => this.props.onAddActivity(item.id) }
 			/>
@@ -109,8 +109,8 @@ class ActivityList extends React.Component {
 		const removeIcon = (
 			<Icon
 				style={ ActivityStyles.activityListItemIcon }
-				name="remove-circle-outline"
-				color="black"
+				name="ios-remove-circle"
+				color="#0288D1"
 				size={ 35 }
 				onPress={ () => this.props.onRemoveActivity(item.id) }
 			/>
@@ -132,13 +132,14 @@ class ActivityList extends React.Component {
 
 	renderHeader = () => {
 		return (
-			<SearchBar 
+			<SearchBar
 				placeholder="Search for activities here!"
 				cancelButtonTitle="Cancel"
-				onClearText={ this.handleSearchChange } 
-				onCancel={ this.handleSearchChange } 
-				onChangeText={ this.handleSearchChange } 
-				lightTheme 
+				containerStyle={{ backgroundColor:'#FFFFFF' }}
+				onClearText={ this.handleSearchChange }
+				onCancel={ this.handleSearchChange }
+				onChangeText={ this.handleSearchChange }
+				lightTheme
 			/>
 		);
 	}

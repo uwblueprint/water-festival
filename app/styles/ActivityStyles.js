@@ -13,10 +13,9 @@ const ActivityStyles = StyleSheet.create({
 		paddingTop: 3,
 		paddingLeft: 36,
 		paddingBottom: 2,
-		fontSize: 15,
-		fontWeight: 'bold',
+		fontSize: 17,
 		color: '#FFFFFF',
-		backgroundColor: '#92D3F9',
+		backgroundColor: '#0288D1',
 	},
 	activityHeader: {
 		backgroundColor: '#293038',
@@ -28,19 +27,20 @@ const ActivityStyles = StyleSheet.create({
 		height: 80,
 		justifyContent: 'center',
 		alignItems: 'center',
-    borderBottomWidth: 0,
+    borderBottomWidth: 1,
 	},
 	activityListItemText: {
 		paddingTop: 8,
 		paddingBottom: 2,
 		paddingLeft: 10,
 		fontSize: 20,
+		color: "#777777",
 	},
 	activityListItemSubtitle: {
-		paddingTop: 2,
 		paddingBottom: 10,
 		paddingLeft: 10,
 		fontSize: 15,
+		color: "#5DB3E2",
 	},
 	activityListItemIcon: {
 		paddingTop: 10
@@ -58,7 +58,6 @@ const ActivityStyles = StyleSheet.create({
 	activityDetailsStation: {
 		fontSize: 18,
 		paddingBottom: 10,
-		color: "#1a417a"
 	},
 	activityDetailsGrade: {
 		fontSize: 18,
@@ -73,8 +72,24 @@ const ActivityStyles = StyleSheet.create({
 		fontSize: 20,
 	},
 	activityDetailsButton: {
-		fontSize: 17,
 		paddingRight: 20,
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderRadius : 20,
+		backgroundColor: "#0288D1",
+		overflow: 'hidden',
+	},
+	activityDetailsButtonRemove: {
+		paddingRight: 20,
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderRadius : 20,
+		backgroundColor: "red",
+		overflow: 'hidden',
+	},
+	activityDetailsButtonText: {
+		fontSize: 17,
+		color: "white",
 	},
 	activityDetailsImage:{
 		width: 300,

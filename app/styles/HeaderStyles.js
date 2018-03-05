@@ -2,21 +2,22 @@ import { StyleSheet } from 'react-native';
 
 const HeaderStyles = StyleSheet.create({
 	headerContainer: {
-		backgroundColor: '#293038',
+		backgroundColor: '#FFFFFF',
 		height: 60,
 		flexDirection: 'row',
-		alignItems: 'center'
+		alignItems: 'center',
 	},
 	headerText: {
-		fontSize: 22,
+		fontSize: 24,
 		fontWeight: 'bold',
-		color: '#FFFFFF',
+		color: '#696969',
 		textAlign: 'center'
 	},
 	leftContainer: {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
+		paddingLeft: 20,
 	},
 	rightContainer: {
 		flex: 1,

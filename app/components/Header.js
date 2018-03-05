@@ -16,10 +16,10 @@ export default class Header extends React.Component {
 		}
 		return (
 			<Icon
-				name="chevron-left"
+				name="arrow-back"
 				onPress={ () => this.goBack() }
-				color="white"
-				size={ 35 }
+				color="#696969"
+				size={ 25 }
 			/>
 		);
 	}

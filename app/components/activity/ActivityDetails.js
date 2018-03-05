@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import {
 	Text,
 	View,
-	Button,
 	Image,
 } from 'react-native';
+import Button from 'react-native-button';
 import ActivityStyles from '../../styles/ActivityStyles';
 import Header from '../Header'
 
@@ -50,19 +50,23 @@ class ActivityDetails extends React.Component {
 	renderButton(id){
 		const addButton = (
 			<Button
-				title="Add to My Activities"
-				color="#1a417a"
 				onPress={ () => this.addActivity(id) }
-				style={ ActivityStyles.activityDetailsButton }
-			/>
+				activeOpacity={ 1 }
+				containerStyle={ ActivityStyles.activityDetailsButton }
+				style={ ActivityStyles.activityDetailsButtonText }
+			>
+				Add to My Schedule
+			</Button>
 		);
 		const removeButton = (
 			<Button
-				title="Remove from My Activities"
-				color="#1a417a"
 				onPress={ () => this.removeActivity(id) }
-				style={ ActivityStyles.activityDetailsButton }
-			/>
+				activeOpacity={ 1 }
+				containerStyle={ ActivityStyles.activityDetailsButtonRemove }
+				style={ ActivityStyles.activityDetailsButtonText }
+			>
+				Remove from My Schedule
+			</Button>
 		);
 		return this.state.myActivities.includes(id) ? removeButton : addButton;
 	}
