@@ -49,48 +49,84 @@ const ActivityStyles = StyleSheet.create({
 	activityDetailsContainer: {
 		backgroundColor: 'white',
 		flex: 1,
-		paddingLeft: 30,
-		paddingTop: 20,
+	},
+	activityDetailsContainerText: {
+		paddingLeft: 60,
+		paddingTop: 30,
 		paddingRight: 20,
+	},
+	activityDetailsContainerButtons: {
+		alignItems: 'center',
+		justifyContent: 'center',
 	},
 	activityDetailsTitle: {
 		fontSize: 25,
+		color: "#696969"
 	},
 	activityDetailsStation: {
 		fontSize: 18,
 		paddingBottom: 10,
+		color: "#696969"
 	},
 	activityDetailsGrade: {
-		fontSize: 18,
-		paddingBottom: 20.
+		fontSize: 20,
+		paddingBottom: 50,
+		color: "#696969"
 	},
 	activityDetailsDescription: {
 		fontSize: 17,
-		paddingBottom: 25
+		paddingBottom: 25,
+		color: "#696969"
 	},
 	activityDetailsDescriptionTitle:{
 		paddingTop: 25,
 		fontSize: 20,
+		color: "#696969"
 	},
-	activityDetailsButton: {
-		paddingRight: 20,
+	activityDetailsMapButton: {
 		paddingTop: 10,
 		paddingBottom: 10,
-		borderRadius : 20,
+		borderRadius : 30,
+		marginBottom: 20,
 		backgroundColor: "#0288D1",
 		overflow: 'hidden',
+		width: 235,
 	},
-	activityDetailsButtonRemove: {
-		paddingRight: 20,
+	activityDetailsMapButtonText: {
+		fontSize: 20,
+		fontWeight: "300",
+		color: "#FFFFFF",
+		textAlign: "center",
+	},
+	activityDetailsButton: {
 		paddingTop: 10,
 		paddingBottom: 10,
-		borderRadius : 20,
-		backgroundColor: "red",
+		borderRadius : 30,
+		backgroundColor: "white",
+		borderColor: "#8DDC99",
+		borderWidth: 2,
 		overflow: 'hidden',
+		width: 200,
+	},
+	activityDetailsButtonRemove: {
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderRadius : 30,
+		backgroundColor: "white",
+		borderColor: "#CD2A2A",
+		borderWidth: 2,
+		overflow: 'hidden',
+		width: 220,
 	},
 	activityDetailsButtonText: {
-		fontSize: 17,
-		color: "white",
+		fontSize: 19,
+		color: "#8DDC99",
+		textAlign: "center",
+	},
+	activityDetailsButtonRemoveText: {
+		fontSize: 19,
+		color: "#CD2A2A",
+		textAlign: "center",
 	},
 	activityDetailsImage:{
 		width: 300,
@@ -99,7 +135,15 @@ const ActivityStyles = StyleSheet.create({
 	activitySearch: {
 		backgroundColor:'#FFFFFF',
 		borderTopColor: "#FFFFFF",
-		borderBottomColor: "#C0C0C0",
+		borderBottomColor: "white",
+		marginLeft: 20,
+		marginRight: 20,
+		marginBottom: 10,
+	},
+	activitySearchInput: {
+		backgroundColor:'#F2F6FF',
+		borderRadius: 10,
+		fontSize: 16,
 	},
 });
 

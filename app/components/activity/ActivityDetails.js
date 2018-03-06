@@ -55,7 +55,7 @@ class ActivityDetails extends React.Component {
 				containerStyle={ ActivityStyles.activityDetailsButton }
 				style={ ActivityStyles.activityDetailsButtonText }
 			>
-				Add to My Schedule
+				ADD ACTIVITY
 			</Button>
 		);
 		const removeButton = (
@@ -63,9 +63,9 @@ class ActivityDetails extends React.Component {
 				onPress={ () => this.removeActivity(id) }
 				activeOpacity={ 1 }
 				containerStyle={ ActivityStyles.activityDetailsButtonRemove }
-				style={ ActivityStyles.activityDetailsButtonText }
+				style={ ActivityStyles.activityDetailsButtonRemoveText }
 			>
-				Remove from My Schedule
+				DELETE ACTIVITY
 			</Button>
 		);
 		return this.state.myActivities.includes(id) ? removeButton : addButton;
@@ -90,23 +90,34 @@ class ActivityDetails extends React.Component {
 		const image = this.renderImage(activity.imageURI);
 		return (
 			<View key={ state.params.index } style={ ActivityStyles.activityDetailsContainer }>
-				<Text style={ ActivityStyles.activityDetailsTitle }>
-					{activity.title}
-				</Text>
-				<Text style={ ActivityStyles.activityDetailsStation }>
-					{"Station " + activity.station}
-				</Text>
-				{image}
-				<Text style={ ActivityStyles.activityDetailsDescriptionTitle }>
-					{"Description"}
-				</Text>
-				<Text style={ ActivityStyles.activityDetailsDescription }>
-					{activity.description}
-				</Text>
-				<Text style={ ActivityStyles.activityDetailsGrade }>
-					{"Grade(s): " + activity.grade}
-				</Text>
-				{button}
+				<View style={ ActivityStyles.activityDetailsContainerText }>
+					<Text style={ ActivityStyles.activityDetailsTitle }>
+						{activity.title}
+					</Text>
+					<Text style={ ActivityStyles.activityDetailsStation }>
+						{"Station " + activity.station}
+					</Text>
+					{image}
+					<Text style={ ActivityStyles.activityDetailsDescriptionTitle }>
+						{"Description"}
+					</Text>
+					<Text style={ ActivityStyles.activityDetailsDescription }>
+						{activity.description}
+					</Text>
+					<Text style={ ActivityStyles.activityDetailsGrade }>
+						{"Grade(s): " + activity.grade}
+					</Text>
+				</View>
+				<View style={ ActivityStyles.activityDetailsContainerButtons }>
+					<Button
+						activeOpacity={ 1 }
+						containerStyle={ ActivityStyles.activityDetailsMapButton }
+						style={ ActivityStyles.activityDetailsMapButtonText }
+					>
+						SHOW ON MAP
+					</Button>
+					{button}
+				</View>
 			</View>
 		);
 	}

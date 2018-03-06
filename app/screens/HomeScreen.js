@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation'
-import Header from '../components/Header'
 import FaqScreenstack from './FaqScreen'
-import AllActivitiesScreenStack from './AllActivitiesScreen'
-import MyActivitiesScreenStack from './MyActivitiesScreen'
 import Home from '../components/home/Home'
 
 

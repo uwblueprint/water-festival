@@ -8,7 +8,7 @@ const HeaderStyles = StyleSheet.create({
 		alignItems: 'center',
 	},
 	headerText: {
-		fontSize: 24,
+		fontSize: 28,
 		fontWeight: 'bold',
 		color: '#696969',
 		textAlign: 'center'

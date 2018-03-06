@@ -77,6 +77,14 @@ class Home extends React.Component {
 				>
 					FAQ
 				</Button>
+				<Button
+					onPress={ () => this.props.navigation.navigate("Logout") }
+					activeOpacity={ 1 }
+					containerStyle={ HomeStyles.logoutButton }
+					style={ HomeStyles.logoutButtonText }
+				>
+					LOGOUT
+				</Button>
 
 			</View>
 		);

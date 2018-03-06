@@ -19,7 +19,10 @@ const FaqStyles = StyleSheet.create({
 		height: 80,
 		justifyContent: 'center',
 		alignItems: 'center',
-		borderBottomColor: "#C0C0C0"
+		borderBottomColor: "#C0C0C0",
+		borderTopColor: "#C0C0C0",
+		borderTopWidth: 1,
+		borderBottomWidth: 0,
 	},
 	// TODO: can we fix the hard coded stuff?
 	faqListItemText: {
@@ -35,24 +38,37 @@ const FaqStyles = StyleSheet.create({
 	faqDetailsContainer: {
 		backgroundColor: 'white',
 		flex: 1,
-		paddingLeft: 30,
+		paddingLeft: 60,
 		paddingTop: 20,
 		paddingRight: 30,
 	},
 	faqDetailsQuestion: {
 		fontSize: 30,
-		paddingBottom: 25,
+		paddingBottom: 30,
 		fontWeight: "bold",
 		color: "#696969",
 	},
 	faqDetailsAnswer: {
 		fontSize: 17,
+		color: "#696969",
 	},
 	faqSearch: {
 		backgroundColor:'#FFFFFF',
 		borderTopColor: "#FFFFFF",
-		borderBottomColor: "#C0C0C0",
+		borderBottomColor: "#FFFFFF",
+		marginLeft: 20,
+		marginRight: 20,
+		marginBottom: 10,
 	},
+	faqSearchInput: {
+		backgroundColor:'#F2F6FF',
+		borderRadius: 10,
+		fontSize: 16,
+	},
+	faqFooter: {
+		borderTopWidth:1,
+		borderTopColor: "#C0C0C0",
+	}
 });
 
 export default FaqStyles;

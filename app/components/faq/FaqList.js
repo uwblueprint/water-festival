@@ -5,7 +5,6 @@ import {
 	ScrollView,
 	FlatList,
 	RefreshControl,
-	TouchableHighlight,
 	View,
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
@@ -66,7 +65,7 @@ class FaqList extends React.Component {
 		const { currentQuestions } = this.state;
 
 		const filteredQuestions = currentQuestions.filter(item => {
-      			return item.question.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
+						return item.question.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
 
 		this.setState({ filteredQuestions })
@@ -96,13 +95,22 @@ class FaqList extends React.Component {
 	renderHeader = () => {
 		return (
 			<SearchBar
-				placeholder="Search for questions here!"
+				placeholder="Search"
 				cancelButtonTitle="Cancel"
 				containerStyle={ FaqStyles.faqSearch }
+				inputStyle={ FaqStyles.faqSearchInput }
 				onClearText={ this.handleSearchChange }
 				onCancel={ this.handleSearchChange }
 				onChangeText={ this.handleSearchChange }
 				lightTheme
+			/>
+		);
+	}
+
+	renderFooter = () => {
+		return (
+			<View
+				style={ FaqStyles.faqFooter }
 			/>
 		);
 	}
@@ -133,6 +141,7 @@ class FaqList extends React.Component {
 					extraData={ this.state }
 					keyExtractor={ this.keyExtractor }
 					ListHeaderComponent={ this.renderHeader }
+					ListFooterComponent={ this.renderFooter }
 				/>
 			</ScrollView>
 		);

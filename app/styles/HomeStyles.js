@@ -14,7 +14,7 @@ const HomeStyles = StyleSheet.create({
 		justifyContent: 'center',
 		marginTop: 10,
 		alignItems: 'center',
-		height: 120
+		height: 110
 	},
 	welcomeMessage: {
 		padding: 15,
@@ -34,8 +34,27 @@ const HomeStyles = StyleSheet.create({
 		marginBottom: 15,
 	},
 	buttonText: {
-		fontSize: 17,
+		fontSize: 19,
 		color: "white",
+		fontWeight: "300",
+	},
+	logoutButton: {
+		width: 200,
+		height: 45,
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderRadius : 20,
+		borderWidth: 1,
+		marginTop: 15,
+		borderColor: "#0288D1",
+		backgroundColor: "white",
+		overflow: 'hidden',
+		marginBottom: 15,
+	},
+	logoutButtonText: {
+		fontSize: 17,
+		color: "#0288D1",
+		fontWeight: "300",
 	},
 });
 

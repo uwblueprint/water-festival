@@ -90,7 +90,7 @@ class ActivityList extends React.Component {
 		const { currentActivities } = this.state;
 
 		const filteredActivities = currentActivities.filter(item => {
-      			return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
+						return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
 
 		this.setState({ filteredActivities })
@@ -133,9 +133,10 @@ class ActivityList extends React.Component {
 	renderHeader = () => {
 		return (
 			<SearchBar
-				placeholder="Search for activities here!"
+				placeholder="Search"
 				cancelButtonTitle="Cancel"
 				containerStyle={ ActivityStyles.activitySearch }
+				inputStyle={ ActivityStyles.activitySearchInput }
 				onClearText={ this.handleSearchChange }
 				onCancel={ this.handleSearchChange }
 				onChangeText={ this.handleSearchChange }
