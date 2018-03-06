@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^6.2.2",
+    "auth0-js": "^9.3.2",
     "babel-preset-expo": "^4.0.0",
     "expo": "^22.0.0",
     "prop-types": "^15.6.0",
@@ -40,6 +41,7 @@
     "react-native-button": "^2.3.0",
     "react-native-elements": "^0.18.2",
     "react-native-hide-with-keyboard": "^1.0.0",
+    "react-native-image-pan-zoom": "^2.0.16",
     "react-native-material-bottom-navigation": "^0.5.2",
     "react-native-modal": "^5.0.1",
     "react-native-swiper": "^1.5.13",
