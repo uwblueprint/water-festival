@@ -20,24 +20,29 @@ const Container = TabNavigator({
 				style: {
 					height: 75,
 					borderTopWidth: 1,
-					borderTopColor: "#B1B1B1"
+					borderTopColor: "#C0C0C0"
 				},
 				labelColor: '#707070',
 				shifting: false,
 				backgroundColor: 'white',
 				rippleColor: 'white',
+				activeLabelColor: '#0288D1',
 				tabs: {
 					HomeScreen: {
-						icon: <Icon size={ 26 } color="#707070" name="home" />
+						icon: <Icon size={ 26 } color="#707070" name="home" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="home" />
 					},
 					AllActivitiesScreen: {
-						icon: <Icon size={ 26 } color="#707070" name="perm-contact-calendar" />
+						icon: <Icon size={ 26 } color="#707070" name="perm-contact-calendar" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="perm-contact-calendar" />
 					},
 					MyActivitiesScreen: {
-						icon: <Icon size={ 26 } color="#707070" name="access-time" />
+						icon: <Icon size={ 26 } color="#707070" name="access-time" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="access-time" />
 					},
 					MapScreen: {
-						icon: <Icon size={ 26 } color="#707070" name="map" />
+						icon: <Icon size={ 26 } color="#707070" name="map" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="map" />
 					},
 				}
 			}

@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation'
 import Header from '../components/Header'
-import FaqScreen from './FaqScreen'
+import FaqScreenstack from './FaqScreen'
+import AllActivitiesScreenStack from './AllActivitiesScreen'
+import MyActivitiesScreenStack from './MyActivitiesScreen'
 import Home from '../components/home/Home'
 
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
-		header: <Header title="Home" hasBackButton={ false } />,
+		header: null,
 		title: 'Home'
 	});
 
@@ -28,7 +30,7 @@ const HomeScreenStack = StackNavigator({
 		screen: HomeScreen,
 	},
 	FaqScreen: {
-		screen: FaqScreen,
+		screen: FaqScreenstack,
 	},
 },
 {

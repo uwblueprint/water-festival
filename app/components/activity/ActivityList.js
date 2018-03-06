@@ -135,7 +135,7 @@ class ActivityList extends React.Component {
 			<SearchBar
 				placeholder="Search for activities here!"
 				cancelButtonTitle="Cancel"
-				containerStyle={{ backgroundColor:'#FFFFFF' }}
+				containerStyle={ ActivityStyles.activitySearch }
 				onClearText={ this.handleSearchChange }
 				onCancel={ this.handleSearchChange }
 				onChangeText={ this.handleSearchChange }

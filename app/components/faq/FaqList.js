@@ -5,9 +5,11 @@ import {
 	ScrollView,
 	FlatList,
 	RefreshControl,
+	TouchableHighlight,
+	View,
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaqStyles from '../../styles/FaqStyles';
 import { faqLoaded } from '../../actions';
 
@@ -66,23 +68,22 @@ class FaqList extends React.Component {
 		const filteredQuestions = currentQuestions.filter(item => {
       			return item.question.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
-		
+
 		this.setState({ filteredQuestions })
 	}
 
 	renderListItem({ item, index }) {
-		let rowBg = index % 2 == 1 ? FaqStyles.faqListItemOdd : null;
 		const icon = (
 			<Icon
-				name="chevron-thin-right"
+				name="arrow-forward"
 				size={ 30 }
-				color="#787878"
+				color="#0288D1"
 				style={{ marginTop: 5 }}
 			/>
 		);
 		return (
 			<ListItem
-				containerStyle={ FaqStyles.faqListItem, rowBg }
+				containerStyle={ FaqStyles.faqListItem }
 				titleStyle={ FaqStyles.faqListItemText }
 				key={ item.id }
 				title={ item.question }
@@ -91,16 +92,17 @@ class FaqList extends React.Component {
 			/>
 		);
 	}
-	
+
 	renderHeader = () => {
 		return (
-			<SearchBar 
+			<SearchBar
 				placeholder="Search for questions here!"
 				cancelButtonTitle="Cancel"
-				onClearText={ this.handleSearchChange } 
-				onCancel={ this.handleSearchChange } 
-				onChangeText={ this.handleSearchChange } 
-				lightTheme 
+				containerStyle={ FaqStyles.faqSearch }
+				onClearText={ this.handleSearchChange }
+				onCancel={ this.handleSearchChange }
+				onChangeText={ this.handleSearchChange }
+				lightTheme
 			/>
 		);
 	}

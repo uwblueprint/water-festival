@@ -28,6 +28,7 @@ const ActivityStyles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
     borderBottomWidth: 1,
+		borderBottomColor: "#C0C0C0",
 	},
 	activityListItemText: {
 		paddingTop: 8,
@@ -94,6 +95,11 @@ const ActivityStyles = StyleSheet.create({
 	activityDetailsImage:{
 		width: 300,
 		height: 180,
+	},
+	activitySearch: {
+		backgroundColor:'#FFFFFF',
+		borderTopColor: "#FFFFFF",
+		borderBottomColor: "#C0C0C0",
 	},
 });
 
