@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HeaderStyles from '../styles/HeaderStyles';
+import { darkGray } from '../styles/Colours';
 
 export default class Header extends React.Component {
 	constructor(props) {
@@ -18,7 +19,7 @@ export default class Header extends React.Component {
 			<Icon
 				name="arrow-back"
 				onPress={ () => this.goBack() }
-				color="#696969"
+				color={ darkGray }
 				size={ 25 }
 			/>
 		);

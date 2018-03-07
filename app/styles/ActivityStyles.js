@@ -1,4 +1,12 @@
 import { StyleSheet } from 'react-native'
+import {
+	darkBlue, 
+	lightGray,
+	darkGray,
+	green,
+	deleteRed,
+	grayBlue
+} from './Colours';
 
 const ActivityStyles = StyleSheet.create({
 	activityPadding: {
@@ -8,18 +16,18 @@ const ActivityStyles = StyleSheet.create({
 	titleText: {
 		fontSize: 30,
 		fontWeight: 'bold',
-		color: '#FFFFFF',
+		color: 'white',
 	},
 	sectionHeader: {
 		paddingTop: 3,
 		paddingLeft: 36,
 		paddingBottom: 2,
 		fontSize: 17,
-		color: '#FFFFFF',
-		backgroundColor: '#0288D1',
+		color: 'white',
+		backgroundColor: darkBlue,
 	},
 	activityHeader: {
-		backgroundColor: '#293038',
+		backgroundColor: darkGray,
 		height: 60,
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -28,21 +36,22 @@ const ActivityStyles = StyleSheet.create({
 		height: 80,
 		justifyContent: 'center',
 		alignItems: 'center',
-    borderBottomWidth: 1,
-		borderBottomColor: "#C0C0C0",
+		borderBottomWidth: 1,
+		borderBottomColor: lightGray,
 	},
 	activityListItemText: {
 		paddingTop: 8,
 		paddingBottom: 2,
 		paddingLeft: 10,
 		fontSize: 20,
-		color: "#777777",
+		color: darkGray,
 	},
 	activityListItemSubtitle: {
 		paddingBottom: 10,
 		paddingLeft: 10,
 		fontSize: 15,
-		color: "#5DB3E2",
+		color: darkBlue,
+		fontWeight: "400",
 	},
 	activityListItemIcon: {
 		paddingTop: 10
@@ -62,41 +71,41 @@ const ActivityStyles = StyleSheet.create({
 	},
 	activityDetailsTitle: {
 		fontSize: 25,
-		color: "#696969"
+		color: darkGray,
 	},
 	activityDetailsStation: {
 		fontSize: 18,
 		paddingBottom: 10,
-		color: "#696969"
+		color: darkGray
 	},
 	activityDetailsGrade: {
 		fontSize: 20,
 		paddingBottom: 50,
-		color: "#696969"
+		color: darkGray
 	},
 	activityDetailsDescription: {
 		fontSize: 17,
 		paddingBottom: 25,
-		color: "#696969"
+		color: darkGray
 	},
 	activityDetailsDescriptionTitle:{
 		paddingTop: 25,
 		fontSize: 20,
-		color: "#696969"
+		color: darkGray
 	},
 	activityDetailsMapButton: {
 		paddingTop: 10,
 		paddingBottom: 10,
 		borderRadius : 30,
 		marginBottom: 20,
-		backgroundColor: "#0288D1",
+		backgroundColor: darkBlue,
 		overflow: 'hidden',
 		width: 235,
 	},
 	activityDetailsMapButtonText: {
 		fontSize: 20,
 		fontWeight: "300",
-		color: "#FFFFFF",
+		color: "white",
 		textAlign: "center",
 	},
 	activityDetailsButton: {
@@ -104,7 +113,7 @@ const ActivityStyles = StyleSheet.create({
 		paddingBottom: 10,
 		borderRadius : 30,
 		backgroundColor: "white",
-		borderColor: "#8DDC99",
+		borderColor: green,
 		borderWidth: 2,
 		overflow: 'hidden',
 		width: 200,
@@ -114,19 +123,19 @@ const ActivityStyles = StyleSheet.create({
 		paddingBottom: 10,
 		borderRadius : 30,
 		backgroundColor: "white",
-		borderColor: "#CD2A2A",
+		borderColor: deleteRed,
 		borderWidth: 2,
 		overflow: 'hidden',
 		width: 220,
 	},
 	activityDetailsButtonText: {
 		fontSize: 19,
-		color: "#8DDC99",
+		color: green,
 		textAlign: "center",
 	},
 	activityDetailsButtonRemoveText: {
 		fontSize: 19,
-		color: "#CD2A2A",
+		color: deleteRed,
 		textAlign: "center",
 	},
 	activityDetailsImage:{
@@ -134,15 +143,15 @@ const ActivityStyles = StyleSheet.create({
 		height: 180,
 	},
 	activitySearch: {
-		backgroundColor:'#FFFFFF',
-		borderTopColor: "#FFFFFF",
+		backgroundColor:'white',
+		borderTopColor: "white",
 		borderBottomColor: "white",
 		marginLeft: 20,
 		marginRight: 20,
 		marginBottom: 10,
 	},
 	activitySearchInput: {
-		backgroundColor:'#F2F6FF',
+		backgroundColor:grayBlue,
 		borderRadius: 10,
 		fontSize: 16,
 	},

@@ -1,8 +1,9 @@
 import { StyleSheet } from 'react-native';
+import { darkGray } from './Colours';
 
 const HeaderStyles = StyleSheet.create({
 	headerContainer: {
-		backgroundColor: '#FFFFFF',
+		backgroundColor: 'white',
 		height: 60,
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -10,7 +11,7 @@ const HeaderStyles = StyleSheet.create({
 	headerText: {
 		fontSize: 28,
 		fontWeight: 'bold',
-		color: '#696969',
+		color: darkGray,
 		textAlign: 'center'
 	},
 	leftContainer: {

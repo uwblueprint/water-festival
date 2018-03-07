@@ -8,13 +8,13 @@ import {
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomeStyles from '../../styles/HomeStyles';
-import Header from '../Header'
 import logo from '../../images/wwcgf_logo.png';
+import { darkGray } from '../../styles/Colours';
 
 class Home extends React.Component {
 
 	static navigationOptions = () => ({
-		header: <Header title="" hasBackButton={ false } />,
+		header: null,
 		title: 'Home'
 	});
 
@@ -28,14 +28,14 @@ class Home extends React.Component {
 				<View style={ HomeStyles.topBar }>
 					<Icon
 						name="notifications"
-						color="#696969"
+						color={ darkGray }
 						size={ 35 }
 						onPress={ () => this.props.navigation.navigate("AlertsScreen") }
 					/>
 					<Image resizeMode="contain" style={ HomeStyles.logo } source={ logo } />
 					<Icon
 						name="settings"
-						color="#696969"
+						color={ darkGray }
 						size={ 35 }
 						onPress={ () => this.props.navigation.navigate("SettingsScreen") }
 					/>
@@ -62,7 +62,7 @@ class Home extends React.Component {
 					My Schedule
 				</Button>
 				<Button
-					onPress={ () => this.props.navigation.navigate("GroundwaterDetectivecreen") }
+					onPress={ () => this.props.navigation.navigate("GroundwaterDetectiveScreen") }
 					activeOpacity={ 1 }
 					containerStyle={ HomeStyles.button }
 					style={ HomeStyles.buttonText }

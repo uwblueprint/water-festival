@@ -11,6 +11,7 @@ import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActivityStyles from '../../styles/ActivityStyles';
 import { activityLoaded, addActivity, removeActivity } from '../../actions';
+import { darkBlue } from '../../styles/Colours';
 
 const API_URL = "https://water-fest.herokuapp.com/activities";
 
@@ -101,7 +102,7 @@ class ActivityList extends React.Component {
 			<Icon
 				style={ ActivityStyles.activityListItemIcon }
 				name="ios-add-circle"
-				color="#0288D1"
+				color={ darkBlue }
 				size={ 35 }
 				onPress={ () => this.props.onAddActivity(item.id) }
 			/>
@@ -110,7 +111,7 @@ class ActivityList extends React.Component {
 			<Icon
 				style={ ActivityStyles.activityListItemIcon }
 				name="ios-remove-circle"
-				color="#0288D1"
+				color={ darkBlue }
 				size={ 35 }
 				onPress={ () => this.props.onRemoveActivity(item.id) }
 			/>

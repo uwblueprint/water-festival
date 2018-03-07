@@ -11,6 +11,7 @@ import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaqStyles from '../../styles/FaqStyles';
 import { faqLoaded } from '../../actions';
+import { darkBlue } from '../../styles/Colours';
 
 const API_URL = `https://water-fest.herokuapp.com/faq`;
 
@@ -76,7 +77,7 @@ class FaqList extends React.Component {
 			<Icon
 				name="arrow-forward"
 				size={ 30 }
-				color="#0288D1"
+				color={ darkBlue }
 				style={{ marginTop: 5 }}
 			/>
 		);

@@ -1,18 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StackNavigator, NavigationActions} from 'react-navigation'
+import { StackNavigator } from 'react-navigation'
 import Header from '../components/Header'
 import ActivityList from '../components/activity/ActivityList'
 import ActivityDetails from '../components/activity/ActivityDetails'
 
 class AllActivitiesScreen extends React.Component {
-	static navigationOptions = ({ navigation }) => ({
+	static navigationOptions = () => ({
 		header: (
 			<Header
 				title="All Activities"
-				hasBackButton
-				// Need NavigationActions to access prev page bc nested stack navigators
-				goBack={ () => navigation.dispatch(NavigationActions.back()) }
+				hasBackButton={ false }
 			/>
 		),
 		title: 'All Activities',

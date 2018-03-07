@@ -1,4 +1,8 @@
 import { StyleSheet } from 'react-native'
+import {
+	darkBlue,
+	darkGray,
+} from './Colours';
 
 const HomeStyles = StyleSheet.create({
 	container: {
@@ -21,7 +25,7 @@ const HomeStyles = StyleSheet.create({
 		paddingBottom: 40,
 		fontSize: 35,
 		fontWeight: "bold",
-		color: '#696969',
+		color: darkGray,
 		textAlign: "center",
 	},
 	button: {
@@ -29,7 +33,7 @@ const HomeStyles = StyleSheet.create({
 		paddingTop: 10,
 		paddingBottom: 10,
 		borderRadius : 20,
-		backgroundColor: "#0288D1",
+		backgroundColor: darkBlue,
 		overflow: 'hidden',
 		marginBottom: 15,
 	},
@@ -46,14 +50,14 @@ const HomeStyles = StyleSheet.create({
 		borderRadius : 20,
 		borderWidth: 1,
 		marginTop: 15,
-		borderColor: "#0288D1",
+		borderColor: darkBlue,
 		backgroundColor: "white",
 		overflow: 'hidden',
 		marginBottom: 15,
 	},
 	logoutButtonText: {
 		fontSize: 17,
-		color: "#0288D1",
+		color: darkBlue,
 		fontWeight: "300",
 	},
 });
