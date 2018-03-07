@@ -8,8 +8,10 @@ const HomeStyles = StyleSheet.create({
 	container: {
 		backgroundColor: "white",
 		flex: 1,
-    alignItems: 'center',
 		paddingTop: 30,
+	},
+	scrollContainer: {
+		alignItems: 'center',
 	},
 	topBar: {
 		flexDirection: 'row',

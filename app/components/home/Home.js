@@ -4,6 +4,7 @@ import {
 	View,
 	Image,
 	Text,
+	ScrollView
 } from 'react-native';
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -24,7 +25,10 @@ class Home extends React.Component {
 
 	render() {
 		return (
-			<View style={ HomeStyles.container }>
+			<ScrollView
+				style={ HomeStyles.container }
+				contentContainerStyle={ HomeStyles.scrollContainer }
+			>
 				<View style={ HomeStyles.topBar }>
 					<Icon
 						name="notifications"
@@ -86,7 +90,7 @@ class Home extends React.Component {
 					LOGOUT
 				</Button>
 
-			</View>
+			</ScrollView>
 		);
 	}
 }
