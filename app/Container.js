@@ -3,7 +3,7 @@ import { NavigationComponent } from 'react-native-material-bottom-navigation'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { TabNavigator } from 'react-navigation'
 import HomeScreenStack from './screens/HomeScreen'
-import MyActivitiesScreenStack from './screens/MyActivitiesScreen'
+import MyScheduleScreenStack from './screens/MyScheduleScreen'
 import AllActivitiesScreenStack from './screens/AllActivitiesScreen'
 import MapScreenStack from './screens/MapScreen'
 import {
@@ -15,7 +15,7 @@ import {
 const Container = TabNavigator({
 	HomeScreen: { screen: HomeScreenStack },
 	AllActivitiesScreen: { screen: AllActivitiesScreenStack },
-	MyActivitiesScreen: { screen: MyActivitiesScreenStack },
+	MyActivitiesScreen: { screen: MyScheduleScreenStack },
 	MapScreen: { screen: MapScreenStack },
 }, {
 		tabBarComponent: NavigationComponent,
