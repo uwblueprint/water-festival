@@ -9,10 +9,10 @@ const HomeStyles = StyleSheet.create({
 		backgroundColor: "white",
 		flex: 1,
 		paddingTop: 30,
-		paddingBottom: 30,
 	},
 	scrollContainer: {
 		alignItems: 'center',
+		paddingBottom: 30,
 	},
 	topBar: {
 		flexDirection: 'row',
