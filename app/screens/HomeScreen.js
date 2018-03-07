@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation'
-import FaqScreenstack from './FaqScreen'
+import FaqScreenstack from './FaqScreen';
+import AlertsScreen from './AlertsScreen';
 import Home from '../components/home/Home'
-
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -29,6 +29,9 @@ const HomeScreenStack = StackNavigator({
 	FaqScreen: {
 		screen: FaqScreenstack,
 	},
+	AlertsScreen: {
+		screen: AlertsScreen,
+	}
 },
 {
 	mode: 'modal',

@@ -5,7 +5,8 @@ import {
 	LOGOUT,
 	ACTIVITY_LOADED,
 	ADD_ACTIVITY,
-	REMOVE_ACTIVITY
+	REMOVE_ACTIVITY,
+	ALERTS_LOADED,
 } from './actions';
 
 // Retrieve FAQ List from server
@@ -81,6 +82,19 @@ const myActivities = (state = [], action) => {
 	}
 };
 
+// Retrieve Alerts List from server
+const currentAlerts = (state = [], action) => {
+	switch (action.type) {
+		case ALERTS_LOADED: {
+			const { alertsList } = action;
+			// eslint-disable-next-line no-console
+			if (!alertsList) console.log('ERROR: alertsList is undefined');
+			return alertsList || state;
+		}
+		default:
+			return state;
+	}
+};
 
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
@@ -88,7 +102,8 @@ const reducers = combineReducers({
 	isLoggedIn,
 	userLogin,
 	currentActivities,
-	myActivities
+	myActivities,
+	currentAlerts,
 });
 
 export default reducers;
