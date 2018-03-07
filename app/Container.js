@@ -8,37 +8,42 @@ import AllActivitiesScreenStack from './screens/AllActivitiesScreen'
 import MapScreenStack from './screens/MapScreen'
 
 const Container = TabNavigator({
+	HomeScreen: { screen: HomeScreenStack },
 	AllActivitiesScreen: { screen: AllActivitiesScreenStack },
 	MyActivitiesScreen: { screen: MyActivitiesScreenStack },
 	MapScreen: { screen: MapScreenStack },
-	HomeScreen: { screen: HomeScreenStack },
 }, {
 		tabBarComponent: NavigationComponent,
 		tabBarPosition: 'bottom',
 		tabBarOptions: {
 			bottomNavigationOptions: {
 				style: {
-					height: 60
+					height: 75,
+					borderTopWidth: 1,
+					borderTopColor: "#C0C0C0"
 				},
-				labelColor: 'black',
+				labelColor: '#707070',
 				shifting: false,
-				backgroundColor: '#C4C4C4',
+				backgroundColor: 'white',
 				rippleColor: 'white',
+				activeLabelColor: '#0288D1',
 				tabs: {
+					HomeScreen: {
+						icon: <Icon size={ 26 } color="#707070" name="home" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="home" />
+					},
 					AllActivitiesScreen: {
-						icon: <Icon size={ 24 } color="black" name="view-list" />
+						icon: <Icon size={ 26 } color="#707070" name="perm-contact-calendar" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="perm-contact-calendar" />
 					},
 					MyActivitiesScreen: {
-						icon: <Icon size={ 24 } color="black" name="account-circle" />
+						icon: <Icon size={ 26 } color="#707070" name="access-time" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="access-time" />
 					},
 					MapScreen: {
-						icon: <Icon size={ 24 } color="black" name="place" />
+						icon: <Icon size={ 26 } color="#707070" name="map" />,
+						activeIcon: <Icon size={ 26 } color='#0288D1' name="map" />
 					},
-					HomeScreen: {
-						icon: (
-							<Icon size={ 24 } color="black" name="home" />
-						)
-					}
 				}
 			}
 		}

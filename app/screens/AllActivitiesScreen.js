@@ -6,10 +6,15 @@ import ActivityList from '../components/activity/ActivityList'
 import ActivityDetails from '../components/activity/ActivityDetails'
 
 class AllActivitiesScreen extends React.Component {
-	static navigationOptions = {
-		header: <Header title="All Activities" hasBackButton={ false } />,
+	static navigationOptions = () => ({
+		header: (
+			<Header
+				title="All Activities"
+				hasBackButton={ false }
+			/>
+		),
 		title: 'All Activities',
-	};
+	});
 
 	constructor(props) {
 		super(props);

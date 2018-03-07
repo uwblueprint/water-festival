@@ -1,16 +1,23 @@
 import { StyleSheet } from 'react-native'
+import {
+	darkBlue,
+	lightGray,
+	darkGray,
+	grayBlue
+} from './Colours';
 
 const FaqStyles = StyleSheet.create({
 	faqPadding: {
 		paddingBottom: 40,
+		backgroundColor: 'white' ,
 	},
 	titleText: {
 		fontSize: 30,
 		fontWeight: 'bold',
-		color: '#FFFFFF',
+		color: 'white',
 	},
 	faqHeader: {
-		backgroundColor: '#293038',
+		backgroundColor: darkBlue,
 		height: 60,
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -19,30 +26,53 @@ const FaqStyles = StyleSheet.create({
 		height: 80,
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderBottomColor: lightGray,
+		borderTopColor: lightGray,
+		borderTopWidth: 1,
+		borderBottomWidth: 0,
 	},
-	// TODO: can we fix the hard coded stuff? 
+	// TODO: can we fix the hard coded stuff?
 	faqListItemText: {
 		paddingTop: 8,
 		paddingBottom: 10,
 		paddingLeft: 10,
 		fontSize: 20,
-	},
-	faqListItemOdd: {
-		backgroundColor: '#F1F1F1',
+		color: darkBlue,
 	},
 	faqDetailsContainer: {
 		backgroundColor: 'white',
 		flex: 1,
-		paddingLeft: 30,
-		paddingTop: 20
+		paddingLeft: 60,
+		paddingTop: 20,
+		paddingRight: 30,
 	},
 	faqDetailsQuestion: {
-		fontSize: 25,
-		paddingBottom: 25
+		fontSize: 30,
+		paddingBottom: 30,
+		fontWeight: "bold",
+		color: darkGray,
 	},
 	faqDetailsAnswer: {
 		fontSize: 17,
+		color: darkGray,
 	},
+	faqSearch: {
+		backgroundColor:'white',
+		borderTopColor: "white",
+		borderBottomColor: "white",
+		marginLeft: 20,
+		marginRight: 20,
+		marginBottom: 10,
+	},
+	faqSearchInput: {
+		backgroundColor: grayBlue,
+		borderRadius: 10,
+		fontSize: 16,
+	},
+	faqFooter: {
+		borderTopWidth:1,
+		borderTopColor: lightGray,
+	}
 });
 
 export default FaqStyles;

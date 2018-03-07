@@ -5,11 +5,13 @@ import {
 	ScrollView,
 	FlatList,
 	RefreshControl,
+	View,
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaqStyles from '../../styles/FaqStyles';
 import { faqLoaded } from '../../actions';
+import { darkBlue } from '../../styles/Colours';
 
 const API_URL = `https://water-fest.herokuapp.com/faq`;
 
@@ -64,25 +66,24 @@ class FaqList extends React.Component {
 		const { currentQuestions } = this.state;
 
 		const filteredQuestions = currentQuestions.filter(item => {
-      			return item.question.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
+						return item.question.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
-		
+
 		this.setState({ filteredQuestions })
 	}
 
 	renderListItem({ item, index }) {
-		let rowBg = index % 2 == 1 ? FaqStyles.faqListItemOdd : null;
 		const icon = (
 			<Icon
-				name="chevron-thin-right"
+				name="arrow-forward"
 				size={ 30 }
-				color="#787878"
+				color={ darkBlue }
 				style={{ marginTop: 5 }}
 			/>
 		);
 		return (
 			<ListItem
-				containerStyle={ FaqStyles.faqListItem, rowBg }
+				containerStyle={ FaqStyles.faqListItem }
 				titleStyle={ FaqStyles.faqListItemText }
 				key={ item.id }
 				title={ item.question }
@@ -91,16 +92,26 @@ class FaqList extends React.Component {
 			/>
 		);
 	}
-	
+
 	renderHeader = () => {
 		return (
-			<SearchBar 
-				placeholder="Search for questions here!"
+			<SearchBar
+				placeholder="Search"
 				cancelButtonTitle="Cancel"
-				onClearText={ this.handleSearchChange } 
-				onCancel={ this.handleSearchChange } 
-				onChangeText={ this.handleSearchChange } 
-				lightTheme 
+				containerStyle={ FaqStyles.faqSearch }
+				inputStyle={ FaqStyles.faqSearchInput }
+				onClearText={ this.handleSearchChange }
+				onCancel={ this.handleSearchChange }
+				onChangeText={ this.handleSearchChange }
+				lightTheme
+			/>
+		);
+	}
+
+	renderFooter = () => {
+		return (
+			<View
+				style={ FaqStyles.faqFooter }
 			/>
 		);
 	}
@@ -122,7 +133,7 @@ class FaqList extends React.Component {
 		);
 		return (
 			<ScrollView
-				style={ FaqStyles.faqPadding, { backgroundColor: 'white' } }
+				style={ FaqStyles.faqPadding }
 				refreshControl={ refreshControl }
 			>
 				<FlatList
@@ -131,6 +142,7 @@ class FaqList extends React.Component {
 					extraData={ this.state }
 					keyExtractor={ this.keyExtractor }
 					ListHeaderComponent={ this.renderHeader }
+					ListFooterComponent={ this.renderFooter }
 				/>
 			</ScrollView>
 		);

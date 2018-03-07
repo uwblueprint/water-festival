@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 class MyActivitiesScreen extends React.Component {
 	static navigationOptions = {
-		title: 'My Activities',
+		title: 'My Schedule',
 	};
 	render() {
 		return (
