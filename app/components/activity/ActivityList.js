@@ -169,7 +169,7 @@ class ActivityList extends React.Component {
 		);
 		return (
 			<ScrollView
-				style={ ActivityStyles.activityPadding, { backgroundColor: 'white' } }
+				style={ ActivityStyles.activityPadding }
 				refreshControl={ refreshControl }
 			>
 				<SectionList

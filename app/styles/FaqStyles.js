@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native'
 const FaqStyles = StyleSheet.create({
 	faqPadding: {
 		paddingBottom: 40,
+		backgroundColor: 'white' ,
 	},
 	titleText: {
 		fontSize: 30,

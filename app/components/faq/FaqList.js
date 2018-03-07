@@ -132,7 +132,7 @@ class FaqList extends React.Component {
 		);
 		return (
 			<ScrollView
-				style={ FaqStyles.faqPadding, { backgroundColor: 'white' } }
+				style={ FaqStyles.faqPadding }
 				refreshControl={ refreshControl }
 			>
 				<FlatList

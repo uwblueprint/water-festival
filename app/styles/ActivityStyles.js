@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native'
 const ActivityStyles = StyleSheet.create({
 	activityPadding: {
 		paddingBottom: 40,
+		backgroundColor: 'white' ,
 	},
 	titleText: {
 		fontSize: 30,
