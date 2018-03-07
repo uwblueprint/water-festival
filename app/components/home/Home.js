@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
 	View,
 	Image,
@@ -10,6 +11,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomeStyles from '../../styles/HomeStyles';
 import logo from '../../images/wwcgf_logo.png';
 import { darkGray } from '../../styles/Colours';
+import { logout } from '../../actions';
 
 class Home extends React.Component {
 
@@ -20,6 +22,12 @@ class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		const { onLogout } = props;
+
+		this.state = {
+			onLogout
+		};
 	}
 
 	render() {
@@ -78,7 +86,7 @@ class Home extends React.Component {
 					FAQ
 				</Button>
 				<Button
-					onPress={ () => this.props.navigation.navigate("Logout") }
+					onPress={ this.state.onLogout }
 					activeOpacity={ 1 }
 					containerStyle={ HomeStyles.logoutButton }
 					style={ HomeStyles.logoutButtonText }
@@ -91,6 +99,14 @@ class Home extends React.Component {
 	}
 }
 
+const mapDispatchToProps = dispatch => {
+	return {
+		onLogout: () => {
+			dispatch(logout());
+		}
+	};
+};
+
 Home.propTypes = {
 	navigation: PropTypes.object.isRequired,
 	navigate: PropTypes.func,
@@ -100,4 +116,4 @@ Home.defaultProps = {
 	navigate: () => {}
 };
 
-export default Home;
+export default connect(null, mapDispatchToProps)(Home);
