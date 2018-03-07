@@ -58,7 +58,7 @@ class Home extends React.Component {
 					Choose Your Activities
 				</Button>
 				<Button
-					onPress={ () => this.props.navigation.navigate("MyActivitiesScreen") }
+					onPress={ () => this.props.navigation.navigate("MyScheduleScreen") }
 					activeOpacity={ 1 }
 					containerStyle={ HomeStyles.button }
 					style={ HomeStyles.buttonText }
