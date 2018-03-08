@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
 	View,
 	Image,
 	Text,
+	ScrollView
 } from 'react-native';
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomeStyles from '../../styles/HomeStyles';
 import logo from '../../images/wwcgf_logo.png';
 import { darkGray } from '../../styles/Colours';
+import { logout } from '../../actions';
 
 class Home extends React.Component {
 
@@ -20,11 +23,20 @@ class Home extends React.Component {
 
 	constructor(props) {
 		super(props);
+
+		const { onLogout } = props;
+
+		this.state = {
+			onLogout
+		};
 	}
 
 	render() {
 		return (
-			<View style={ HomeStyles.container }>
+			<ScrollView
+				style={ HomeStyles.container }
+				contentContainerStyle={ HomeStyles.scrollContainer }
+			>
 				<View style={ HomeStyles.topBar }>
 					<Icon
 						name="notifications"
@@ -54,7 +66,7 @@ class Home extends React.Component {
 					Choose Your Activities
 				</Button>
 				<Button
-					onPress={ () => this.props.navigation.navigate("MyActivitiesScreen") }
+					onPress={ () => this.props.navigation.navigate("MyScheduleScreen") }
 					activeOpacity={ 1 }
 					containerStyle={ HomeStyles.button }
 					style={ HomeStyles.buttonText }
@@ -78,7 +90,7 @@ class Home extends React.Component {
 					FAQ
 				</Button>
 				<Button
-					onPress={ () => this.props.navigation.navigate("Logout") }
+					onPress={ this.state.onLogout }
 					activeOpacity={ 1 }
 					containerStyle={ HomeStyles.logoutButton }
 					style={ HomeStyles.logoutButtonText }
@@ -86,10 +98,18 @@ class Home extends React.Component {
 					LOGOUT
 				</Button>
 
-			</View>
+			</ScrollView>
 		);
 	}
 }
+
+const mapDispatchToProps = dispatch => {
+	return {
+		onLogout: () => {
+			dispatch(logout());
+		}
+	};
+};
 
 Home.propTypes = {
 	navigation: PropTypes.object.isRequired,
@@ -100,4 +120,4 @@ Home.defaultProps = {
 	navigate: () => {}
 };
 
-export default Home;
+export default connect(null, mapDispatchToProps)(Home);
