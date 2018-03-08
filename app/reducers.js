@@ -13,7 +13,8 @@ import {
 const currentQuestions = (state = [], action) => {
 	switch (action.type) {
 		case FAQ_LOADED: {
-			const { faqList } = action;
+			const faqList = action.payload;
+			console.log('faqList', faqList);
 			// eslint-disable-next-line no-console
 			if (!faqList) console.log('ERROR: faqList is undefined');
 			return faqList || state;

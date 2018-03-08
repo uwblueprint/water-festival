@@ -1,11 +1,18 @@
 import React from 'react';
-import { createStore, applyMiddleware } from 'redux';
+// Redux
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
+// Redux Persist
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import { PersistGate } from 'redux-persist/lib/integration/react';
+// Redux Offline
+import { offline } from '@redux-offline/redux-offline';
+import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
+// Redux Middleware
 import logger from 'redux-logger';
+// Misc
 import MainContainer from './app/MainContainer';
 import reducers from './app/reducers';
 import LoadingScreen from './app/screens/LoadingScreen';
@@ -21,7 +28,10 @@ const persistConfig = {
 const store = createStore(
 	persistReducer(persistConfig, reducers),
 	initalState,
-	applyMiddleware(logger)
+	compose(
+		applyMiddleware(logger),
+		offline(offlineConfig)
+	)
 );
 
 const persistor = persistStore(store);
