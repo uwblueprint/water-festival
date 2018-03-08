@@ -21,9 +21,9 @@ class ActivityList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentActivities: this.props.currentActivities,
-			filteredActivities: this.props.currentActivities,
-			myActivities: this.props.myActivities,
+			currentActivities: props.currentActivities,
+			filteredActivities: props.currentActivities,
+			myActivities: props.myActivities,
 			isRefreshing: false,
 		};
 	}
@@ -40,10 +40,11 @@ class ActivityList extends React.Component {
 		// Avoiding refresh if possible
 		if (nextProps.currentActivities !== this.state.currentActivities ||
 			nextProps.myActivities !== this.state.myActivities) {
-			this.setState({ currentActivities: nextProps.currentActivities,
-					myActivities: nextProps.myActivities,
-					filteredActivities: nextProps.currentActivities,
-				});
+			this.setState({
+				currentActivities: nextProps.currentActivities,
+				myActivities: nextProps.myActivities,
+				filteredActivities: nextProps.currentActivities,
+			});
 		}
 	}
 
@@ -63,8 +64,8 @@ class ActivityList extends React.Component {
 					matchingSection.data.push(activity);
 				} else {
 					sectionList.push({
-						data:[activity],
-						key:grade
+						data: [activity],
+						key: grade
 					})
 				}
 			}
@@ -91,7 +92,7 @@ class ActivityList extends React.Component {
 		const { currentActivities } = this.state;
 
 		const filteredActivities = currentActivities.filter(item => {
-						return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
+			return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
 
 		this.setState({ filteredActivities })
@@ -191,9 +192,10 @@ class ActivityList extends React.Component {
 	}
 }
 
-const mapStateToProps = ( state ) => {
-	return { currentActivities : state.currentActivities,
-		myActivities: state.myActivities
+const mapStateToProps = ({ currentActivities, myActivities }) => {
+	return {
+		currentActivities,
+		myActivities
 	};
 };
 
