@@ -62,7 +62,7 @@ class Home extends React.Component {
 					My Schedule
 				</Button>
 				<Button
-					onPress={ () => this.props.navigation.navigate("GroundwaterDetectiveScreen") }
+					onPress={ () => this.props.navigation.navigate("GameScreen") }
 					activeOpacity={ 1 }
 					containerStyle={ HomeStyles.button }
 					style={ HomeStyles.buttonText }

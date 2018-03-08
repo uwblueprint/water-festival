@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation'
 import FaqScreenstack from './FaqScreen'
+import GameScreen from './GameScreen'
 import Home from '../components/home/Home'
 
 
@@ -28,6 +29,9 @@ const HomeScreenStack = StackNavigator({
 	},
 	FaqScreen: {
 		screen: FaqScreenstack,
+	},
+	GameScreen: {
+		screen: GameScreen,
 	},
 },
 {
