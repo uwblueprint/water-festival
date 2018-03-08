@@ -40,8 +40,4 @@ const AlertsScreenStack = StackNavigator({
 	headerMode: "none",
 });
 
-AlertsScreen.propTypes = {
-	navigation: PropTypes.object.isRequired
-};
-
 export default AlertsScreenStack;
