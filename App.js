@@ -36,7 +36,6 @@ const store = createStore(
 
 const persistor = persistStore(store);
 
-
 // PersistGate uses loading screen until persisted state has been retrieved and saved to redux
 const WaterFestivalApp = () => (
 	<Provider store={ store }>

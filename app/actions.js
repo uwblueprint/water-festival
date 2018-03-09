@@ -3,6 +3,8 @@
  */
 export const FAQ_LOAD_REQUEST = 'FAQ_LOAD_REQUEST'; // not used
 export const FAQ_LOADED = 'FAQ_LOADED';
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_ROLLBACK = 'LOGIN_ROLLBACK';
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
@@ -27,7 +29,26 @@ export const getFaqList = () => ({
 	}
 });
 
-export const login = (user) => ({ type: LOGIN, user });
+export const login = ({ username, password }) => {
+	return ({
+		type: LOGIN_REQUEST,
+		meta: {
+			offline: {
+				effect: {
+					url: `${API_URL}/users/authenticate`,
+					method: 'POST',
+					body: JSON.stringify({
+						username,
+						password
+					})
+				},
+				commit: { type: LOGIN },
+				// action to dispatch if network action fails permanently:
+				rollback: { type: LOGIN_ROLLBACK }
+			}
+		}
+	});
+};
 
 export const logout = () => ({ type: LOGOUT });
 

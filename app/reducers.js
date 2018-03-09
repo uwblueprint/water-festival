@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 import {
 	FAQ_LOADED,
+	LOGIN_REQUEST,
+	LOGIN_ROLLBACK,
 	LOGIN,
 	LOGOUT,
 	ACTIVITY_LOADED,
@@ -9,12 +11,13 @@ import {
 	ALERTS_LOADED,
 } from './actions';
 
+const REHYDRATE = 'persist/REHYDRATE';
+
 // Retrieve FAQ List from server
 const currentQuestions = (state = [], action) => {
 	switch (action.type) {
 		case FAQ_LOADED: {
 			const faqList = action.payload;
-			console.log('faqList', faqList);
 			// eslint-disable-next-line no-console
 			if (!faqList) console.log('ERROR: faqList is undefined');
 			return faqList || state;
@@ -28,7 +31,7 @@ const currentQuestions = (state = [], action) => {
 const isLoggedIn = (state = false, action) => {
 	switch (action.type) {
 		case LOGIN:
-			return true;
+			return action.payload.success;
 		case LOGOUT:
 			return false;
 		default:
@@ -36,10 +39,26 @@ const isLoggedIn = (state = false, action) => {
 	}
 };
 
+const authStatus = (state = {}, action) => {
+	switch (action.type) {
+		case LOGIN_REQUEST:
+			return {};
+		case LOGIN:
+			return action.payload;
+		case LOGIN_ROLLBACK:
+			return state;
+		case REHYDRATE:
+			return {};
+		default:
+			return state;
+	}
+}
+
 const userLogin = (state = {}, action) => {
 	switch (action.type) {
 		case LOGIN: {
-			const { user } = action;
+			if (!action.payload.success) return state;
+			const { user } = action.payload;
 			return user;
 		}
 		case LOGOUT:
@@ -101,6 +120,7 @@ const currentAlerts = (state = [], action) => {
 const reducers = combineReducers({
 	currentQuestions,
 	isLoggedIn,
+	authStatus,
 	userLogin,
 	currentActivities,
 	myActivities,
