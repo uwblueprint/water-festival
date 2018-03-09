@@ -6,6 +6,7 @@ import {
 	LOGIN,
 	LOGOUT,
 	ACTIVITY_LOADED,
+	USER_ACTIVITY_LOADED,
 	ACTIVITY_ROLLBACK,
 	ADD_ACTIVITY,
 	REMOVE_ACTIVITY,
@@ -58,7 +59,7 @@ const authStatus = (state = {}, action) => {
 const userLogin = (state = {}, action) => {
 	switch (action.type) {
 		case LOGIN: {
-			if (!action.payload.success) return state;
+			if (!action.payload.success || !action.payload.user) return state;
 			const { user } = action.payload;
 			return user;
 		}
@@ -82,21 +83,17 @@ const currentActivities = (state = [], action) => {
 };
 
 const myActivities = (state = [], action) => {
-	var activityIndex = state.indexOf(action.activityId);
-
 	switch (action.type) {
-		case ADD_ACTIVITY: {
-			if (activityIndex < 0){
-				return [...state, action.activityId];
-			}
-			return state;
-		} case REMOVE_ACTIVITY: {
-			if (activityIndex >= 0) {
-				state.splice(activityIndex, 1);
-				return [...state];
-			}
-			return state;
+		case LOGIN: {
+			if (!action.payload.success || !action.payload.user) return state;
+			const { activities } = action;
+			return activities;
 		}
+		case USER_ACTIVITY_LOADED:
+			return action.payload.activities;
+		case ADD_ACTIVITY:
+		case REMOVE_ACTIVITY:
+			return action.activities;
 		default:
 			return state;
 	}

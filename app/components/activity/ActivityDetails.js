@@ -28,16 +28,20 @@ class ActivityDetails extends React.Component {
 		this.state = {
 			myActivities: this.props.navigation.state.params.myActivities,
 		};
+
+		this.addActivity = this.addActivity.bind(this);
+		this.removeActivity = this.removeActivity.bind(this);
+		this.renderButton = this.renderButton.bind(this);
 	}
 
-	addActivity(id){
+	addActivity(id) {
 		const { state } = this.props.navigation;
 		state.params.onAddActivity(id);
 
 		this.setState({ myActivities:[...this.state.myActivities, id] });
 	}
 
-	removeActivity(id){
+	removeActivity(id) {
 		const { state } = this.props.navigation;
 		state.params.onRemoveActivity(id);
 
@@ -47,7 +51,7 @@ class ActivityDetails extends React.Component {
 		this.setState({ myActivities:newActivities });
 	}
 
-	renderButton(id){
+	renderButton(id) {
 		const addButton = (
 			<Button
 				onPress={ () => this.addActivity(id) }
@@ -71,12 +75,12 @@ class ActivityDetails extends React.Component {
 		return this.state.myActivities.includes(id) ? removeButton : addButton;
 	}
 
-	renderImage(imageURI){
-		if(imageURI){
+	renderImage(imageURI) {
+		if (imageURI) {
 			return (
 				<Image
 					style={ ActivityStyles.activityDetailsImage }
-					source={{uri: imageURI}}
+					source={{ uri: imageURI }}
 				/>
 			);
 		}

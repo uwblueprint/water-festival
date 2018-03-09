@@ -8,7 +8,9 @@ export const LOGIN_ROLLBACK = 'LOGIN_ROLLBACK';
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const ACTIVITY_LOAD_REQUEST = 'ACTIVITY_LOAD_REQUEST'; // not used
+export const USER_ACTIVITY_REQUEST = 'USER_ACTIVITY_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
+export const USER_ACTIVITY_LOADED = 'USER_ACTIVITY_LOADED';
 export const ACTIVITY_ROLLBACK = 'ACTIVITY_ROLLBACK';
 export const ADD_ACTIVITY = 'ADD_ACTIVITY';
 export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
@@ -66,8 +68,51 @@ export const getActivityList = () => ({
 	}
 });
 
-export const addActivity = (activityId) => ({ type: ADD_ACTIVITY, activityId });
+export const getUserActivities = (userId) => ({
+	type: USER_ACTIVITY_REQUEST,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/id/${userId}`,
+				method: 'GET'
+			},
+			commit: { type: USER_ACTIVITY_LOADED }
+		}
+	}
+});
 
-export const removeActivity = (activityId) => ({ type: REMOVE_ACTIVITY, activityId });
+export const addActivity = (id, activities) => ({
+	type: ADD_ACTIVITY,
+	activities,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/edit`,
+				method: 'PUT',
+				body: JSON.stringify({
+					id,
+					activities
+				})
+			}
+		}
+	}
+});
+
+export const removeActivity = (id, activities) => ({
+	type: REMOVE_ACTIVITY,
+	activities,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/edit`,
+				method: 'PUT',
+				body: JSON.stringify({
+					id,
+					activities
+				})
+			}
+		}
+	}
+});
 
 export const alertsLoaded = (alertsList) => ({ type: ALERTS_LOADED, alertsList });
