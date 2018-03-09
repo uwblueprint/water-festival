@@ -102,9 +102,7 @@ const myActivities = (state = [], action) => {
 const currentAlerts = (state = [], action) => {
 	switch (action.type) {
 		case ALERTS_LOADED: {
-			const { alertsList } = action;
-			// eslint-disable-next-line no-console
-			if (!alertsList) console.log('ERROR: alertsList is undefined');
+			const alertsList = action.payload;
 			return alertsList || state;
 		}
 		default:

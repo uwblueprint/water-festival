@@ -13,6 +13,7 @@ export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
 export const USER_ACTIVITY_LOADED = 'USER_ACTIVITY_LOADED';
 export const ADD_ACTIVITY = 'ADD_ACTIVITY';
 export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
+export const ALERTS_REQUEST = 'ALERTS_REQUEST'; // not used
 export const ALERTS_LOADED = 'ALERTS_LOADED';
 
 const API_URL = 'https://water-fest.herokuapp.com';
@@ -113,4 +114,15 @@ export const removeActivity = (id, activities) => ({
 	}
 });
 
-export const alertsLoaded = (alertsList) => ({ type: ALERTS_LOADED, alertsList });
+export const getAlertsList = () => ({
+	type: ALERTS_REQUEST,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/alerts/list`,
+				method: 'GET'
+			},
+			commit: { type: ALERTS_LOADED }
+		}
+	}
+});
