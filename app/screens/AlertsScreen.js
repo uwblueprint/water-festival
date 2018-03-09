@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { StackNavigator, NavigationActions } from 'react-navigation';
 import Header from '../components/Header';
 import AlertsList from '../components/alerts/AlertsList';

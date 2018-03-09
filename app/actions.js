@@ -11,7 +11,6 @@ export const ACTIVITY_LOAD_REQUEST = 'ACTIVITY_LOAD_REQUEST'; // not used
 export const USER_ACTIVITY_REQUEST = 'USER_ACTIVITY_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
 export const USER_ACTIVITY_LOADED = 'USER_ACTIVITY_LOADED';
-export const ACTIVITY_ROLLBACK = 'ACTIVITY_ROLLBACK';
 export const ADD_ACTIVITY = 'ADD_ACTIVITY';
 export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
 export const ALERTS_LOADED = 'ALERTS_LOADED';
@@ -62,8 +61,7 @@ export const getActivityList = () => ({
 				url: `${API_URL}/activities/list`,
 				method: 'GET'
 			},
-			commit: { type: ACTIVITY_LOADED },
-			rollback: { type: ACTIVITY_ROLLBACK }
+			commit: { type: ACTIVITY_LOADED }
 		}
 	}
 });

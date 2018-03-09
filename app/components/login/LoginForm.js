@@ -6,8 +6,7 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	StatusBar,
-	AsyncStorage
+	StatusBar
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
@@ -21,8 +20,7 @@ class LoginForm extends Component {
 
 		const {
 			onLogin,
-			onRegisterPress,
-			authStatus
+			onRegisterPress
 		} = props;
 		this.state = {
 			username: '',
@@ -34,6 +32,12 @@ class LoginForm extends Component {
 		};
 
 		this.onLoginPress = this.onLoginPress.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.authStatus.hasOwnProperty('success') && !nextProps.authStatus.success) {
+			this.setState({ errorMsg: 'Username and/or password is incorrect'});
+		} else this.setState({ errorMsg: '' });
 	}
 
 	onLoginPress() {
@@ -51,12 +55,6 @@ class LoginForm extends Component {
 
 	forgotPassword() {
 
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.authStatus.hasOwnProperty('success') && !nextProps.authStatus.success) {
-			this.setState({ errorMsg: 'Username and/or password is incorrect'});
-		} else this.setState({ errorMsg: '' });
 	}
 
 	render() {

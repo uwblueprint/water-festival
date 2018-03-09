@@ -5,8 +5,7 @@ import {
 	ScrollView,
 	RefreshControl,
 	SectionList,
-	Text,
-	AsyncStorage
+	Text
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -18,8 +17,6 @@ import {
 	removeActivity
 } from '../../actions';
 import { darkBlue } from '../../styles/Colours';
-
-const API_URL = "https://water-fest.herokuapp.com/activities";
 
 
 class ActivityList extends React.Component {
@@ -49,7 +46,6 @@ class ActivityList extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
-		console.log('nextProps.myActivities', nextProps.myActivities);
 		if (nextProps.currentActivities !== this.state.currentActivities ||
 			nextProps.myActivities !== this.state.myActivities) {
 			this.setState({
@@ -68,13 +64,12 @@ class ActivityList extends React.Component {
 	onAddButtonPress(itemId) {
 		const { userId, myActivities } = this.state;
 		if (myActivities.indexOf(itemId) >= 0) return;
-		console.log('add itemId', itemId);
+
 		myActivities.push(itemId);
 		this.state.onAddActivity(userId, myActivities);
 	}
 
 	onRemoveButtonPress(itemId) {
-		console.log('remove itemId', itemId);
 		const { userId, myActivities } = this.state;
 		const index = myActivities.indexOf(itemId);
 		if (index < 0) return;

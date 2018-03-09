@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import ActivityStyles from '../../styles/ActivityStyles';
-import { activityLoaded, addActivity, removeActivity } from '../../actions';
+import { addActivity, removeActivity } from '../../actions';
 import { darkGray } from '../../styles/Colours';
 
 class MySchedule extends React.Component {
