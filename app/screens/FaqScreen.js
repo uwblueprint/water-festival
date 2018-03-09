@@ -17,7 +17,7 @@ class FaqScreen extends React.Component {
 				goBack={ () => navigation.dispatch(NavigationActions.back()) }
 			/>
 		),
-		title: "Information",
+		title: "Home", // to keep the title on the nav bar the same
 	});
 
 	constructor(props) {
