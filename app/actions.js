@@ -7,7 +7,9 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_ROLLBACK = 'LOGIN_ROLLBACK';
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const ACTIVITY_LOAD_REQUEST = 'ACTIVITY_LOAD_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
+export const ACTIVITY_ROLLBACK = 'ACTIVITY_ROLLBACK';
 export const ADD_ACTIVITY = 'ADD_ACTIVITY';
 export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
 export const ALERTS_LOADED = 'ALERTS_LOADED';
@@ -29,8 +31,7 @@ export const getFaqList = () => ({
 	}
 });
 
-export const login = ({ username, password }) => {
-	return ({
+export const login = ({ username, password }) => ({
 		type: LOGIN_REQUEST,
 		meta: {
 			offline: {
@@ -48,11 +49,22 @@ export const login = ({ username, password }) => {
 			}
 		}
 	});
-};
 
 export const logout = () => ({ type: LOGOUT });
 
-export const activityLoaded = (activityList) => ({ type: ACTIVITY_LOADED, activityList });
+export const getActivityList = () => ({
+	type: ACTIVITY_LOAD_REQUEST,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/activities/list`,
+				method: 'GET'
+			},
+			commit: { type: ACTIVITY_LOADED },
+			rollback: { type: ACTIVITY_ROLLBACK }
+		}
+	}
+});
 
 export const addActivity = (activityId) => ({ type: ADD_ACTIVITY, activityId });
 

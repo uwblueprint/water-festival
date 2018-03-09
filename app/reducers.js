@@ -6,6 +6,7 @@ import {
 	LOGIN,
 	LOGOUT,
 	ACTIVITY_LOADED,
+	ACTIVITY_ROLLBACK,
 	ADD_ACTIVITY,
 	REMOVE_ACTIVITY,
 	ALERTS_LOADED,
@@ -68,12 +69,11 @@ const userLogin = (state = {}, action) => {
 	}
 }
 
-
 // Retrieve Activities List from server
 const currentActivities = (state = [], action) => {
 	switch (action.type) {
 		case ACTIVITY_LOADED: {
-			const { activityList } = action;
+			const activityList = action.payload;
 			return activityList || state;
 		}
 		default:

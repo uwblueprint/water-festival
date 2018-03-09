@@ -10,7 +10,7 @@ import {
 import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActivityStyles from '../../styles/ActivityStyles';
-import { activityLoaded, addActivity, removeActivity } from '../../actions';
+import { getActivityList, removeActivity } from '../../actions';
 import { darkBlue } from '../../styles/Colours';
 
 const API_URL = "https://water-fest.herokuapp.com/activities";
@@ -24,16 +24,13 @@ class ActivityList extends React.Component {
 			currentActivities: props.currentActivities,
 			filteredActivities: props.currentActivities,
 			myActivities: props.myActivities,
+			getActivityList: props.getActivityList,
 			isRefreshing: false,
 		};
 	}
 
 	componentDidMount() {
-		this.fetchData()
-			// eslint-disable-next-line no-console
-			.then(() => console.log("Finished mounting!"))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
+		this.state.getActivityList();
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -46,13 +43,12 @@ class ActivityList extends React.Component {
 				filteredActivities: nextProps.currentActivities,
 			});
 		}
+		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
 	}
 
 	onRefresh = () => {
 		this.setState({ isRefreshing: true });
-		this.fetchData().then(() => {
-			this.setState({ isRefreshing: false });
-		});
+		this.state.getActivityList();
 	}
 
 	getSectionList = () => {
@@ -78,15 +74,6 @@ class ActivityList extends React.Component {
 
 	// linting error required that keyExtractor is placed after getSectionList
 	keyExtractor = (item) => item.id;
-
-	// linting error required that fetchData is placed after getSectionList
-	fetchData() {
-		return fetch(`${API_URL}/list`)
-			.then(response => response.json())
-			.then(activityList => this.props.onActivityLoaded(activityList))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
-	}
 
 	handleSearchChange = (term) => {
 		const { currentActivities } = this.state;
@@ -162,6 +149,7 @@ class ActivityList extends React.Component {
 	}
 
 	render() {
+		console.log('this.state.isRefreshing', this.state.isRefreshing);
 		const sectionList = this.getSectionList();
 		const refreshControl = (
 			<RefreshControl
@@ -201,8 +189,8 @@ const mapStateToProps = ({ currentActivities, myActivities }) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onActivityLoaded: activityList => {
-			dispatch(activityLoaded(activityList));
+		getActivityList: () => {
+			dispatch(getActivityList());
 		},
 		onAddActivity: activity => {
 			dispatch(addActivity(activity));
@@ -216,7 +204,7 @@ const mapDispatchToProps = dispatch => {
 ActivityList.propTypes = {
 	currentActivities: PropTypes.array.isRequired,
 	myActivities: PropTypes.array.isRequired,
-	onActivityLoaded: PropTypes.func.isRequired,
+	getActivityList: PropTypes.func.isRequired,
 	onAddActivity: PropTypes.func.isRequired,
 	onRemoveActivity: PropTypes.func.isRequired,
 	navigation: PropTypes.object.isRequired,
