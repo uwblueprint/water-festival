@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation'
 import FaqScreenstack from './FaqScreen';
 import AlertsScreen from './AlertsScreen';
 import SettingsScreen from './SettingsScreen';
+import GameScreen from './GameScreen'
 import Home from '../components/home/Home'
 
 class HomeScreen extends React.Component {
@@ -29,6 +30,9 @@ const HomeScreenStack = StackNavigator({
 	},
 	FaqScreen: {
 		screen: FaqScreenstack,
+	},
+	GameScreen: {
+		screen: GameScreen,
 	},
 	AlertsScreen: {
 		screen: AlertsScreen,
