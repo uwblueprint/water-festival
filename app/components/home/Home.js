@@ -113,7 +113,8 @@ const mapDispatchToProps = dispatch => {
 
 Home.propTypes = {
 	navigation: PropTypes.object.isRequired,
-	navigate: PropTypes.func,
+	onLogout: PropTypes.func.isRequired,
+	navigate: PropTypes.func
 };
 
 Home.defaultProps = {

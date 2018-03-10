@@ -10,20 +10,18 @@ import {
 import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import FaqStyles from '../../styles/FaqStyles';
-import { faqLoaded } from '../../actions';
+import { getFaqList } from '../../actions';
 import { darkBlue } from '../../styles/Colours';
-
-const API_URL = `https://water-fest.herokuapp.com/faq`;
-
 
 class FaqList extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentQuestions: this.props.currentQuestions,
-			filteredQuestions: this.props.currentQuestions,
+			currentQuestions: props.currentQuestions,
+			filteredQuestions: props.currentQuestions,
 			isRefreshing: false,
+			getFaqList: props.getFaqList
 		};
 
 		this.renderListItem = this.renderListItem.bind(this);
@@ -31,36 +29,27 @@ class FaqList extends React.Component {
 	}
 
 	componentDidMount() {
-		this.fetchData()
-			// eslint-disable-next-line no-console
-			.then(() => console.log("Finished mounting!"))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
+		this.state.getFaqList();
 	}
 
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (nextProps.currentQuestions !== this.state.currentQuestions) {
-			this.setState({ currentQuestions: nextProps.currentQuestions, filteredQuestions: this.props.currentQuestions });
+			this.setState({
+				currentQuestions: nextProps.currentQuestions,
+				filteredQuestions: this.props.currentQuestions
+			});
 		}
+		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
 	}
 
 	onRefresh() {
 		this.setState({ isRefreshing: true });
-		this.fetchData().then(() => {
-			this.setState({ isRefreshing: false });
-		});
+		this.state.getFaqList();
 	}
+
   // linting error required that keyExtractor is placed after onRefresh
 	keyExtractor = (item) => item.id;
-
-	fetchData() {
-		return fetch(`${API_URL}/list`)
-			.then(response => response.json())
-			.then(faqList => this.props.onFAQLoaded(faqList))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
-	}
 
 	handleSearchChange = (term) => {
 		const { currentQuestions } = this.state;
@@ -155,9 +144,7 @@ const mapStateToProps = ({ currentQuestions }) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onFAQLoaded: faqList => {
-			dispatch(faqLoaded(faqList));
-		},
+		getFaqList: () => dispatch(getFaqList()),
 	}
 };
 
@@ -165,7 +152,7 @@ FaqList.propTypes = {
 	navigation: PropTypes.object.isRequired,
 	navigate: PropTypes.func,
 	// Action
-	onFAQLoaded: PropTypes.func.isRequired,
+	getFaqList: PropTypes.func.isRequired,
 	// Reducer
 	currentQuestions: PropTypes.array.isRequired,
 };
