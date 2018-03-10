@@ -4,59 +4,45 @@ import { connect } from 'react-redux';
 import { RefreshControl, FlatList, ScrollView, Text } from 'react-native';
 import { Card } from 'react-native-elements';
 import AlertsStyles from '../../styles/AlertStyles';
-import { alertsLoaded } from '../../actions';
-
-const API_URL = `https://water-fest.herokuapp.com/alerts`;
+import { getAlertsList } from '../../actions';
 
 class AlertsList extends React.Component {
   static navigationOptions = {
 		title: 'Alerts',
   };
-  
+
   constructor(props) {
     super(props);
-    
+
     this.state = {
-			currentAlerts: this.props.currentAlerts,
+			getAlertsList: props.getAlertsList,
+			currentAlerts: props.currentAlerts,
 			isRefreshing: false,
     };
-    
+
     this.renderListItem = this.renderListItem.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
   }
 
   componentDidMount() {
-		this.fetchData()
-			// eslint-disable-next-line no-console
-			.then(() => console.log("Finished mounting!"))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
+		this.state.getAlertsList();
   }
-  
+
   componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (nextProps.currentAlerts !== this.state.currentAlerts) {
 			this.setState({ currentAlerts: nextProps.currentAlerts });
 		}
+		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
   }
-  
+
   onRefresh() {
 		this.setState({ isRefreshing: true });
-		this.fetchData().then(() => {
-			this.setState({ isRefreshing: false });
-		});
+		this.state.getAlertsList();
   }
 
 	keyExtractor = (item) => item.id;
-  
-  fetchData() {
-		return fetch(`${API_URL}/list`)
-			.then(response => response.json())
-			.then(faqList => this.props.onAlertsLoaded(faqList))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
-  }
-  
+
   renderListItem({ item }) {
 		if (item.name) {
 			return (
@@ -71,7 +57,7 @@ class AlertsList extends React.Component {
 			);
 		}
 	}
-  
+
   render() {
 		const refreshControl = (
 			<RefreshControl
@@ -79,7 +65,7 @@ class AlertsList extends React.Component {
 				onRefresh={ this.onRefresh }
 			/>
     );
-    
+
 		return (
 			<ScrollView
 				style={ AlertsStyles.alertsView }
@@ -93,7 +79,7 @@ class AlertsList extends React.Component {
 				/>
 			</ScrollView>
     );
-    
+
 	}
 }
 
@@ -103,15 +89,15 @@ const mapStateToProps = ({ currentAlerts }) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAlertsLoaded: alertsList => {
-			dispatch(alertsLoaded(alertsList));
+		getAlertsList: () => {
+			dispatch(getAlertsList());
 		},
 	}
 };
 
 AlertsList.propTypes = {
 	// Action
-	onAlertsLoaded: PropTypes.func.isRequired,
+	getAlertsList: PropTypes.func.isRequired,
 	// Reducer
 	currentAlerts: PropTypes.array.isRequired,
 };

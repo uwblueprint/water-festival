@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^6.2.2",
+    "@redux-offline/redux-offline": "^2.3.2",
     "auth0-js": "^9.3.2",
     "babel-preset-expo": "^4.0.0",
     "expo": "^22.0.0",
@@ -50,6 +51,7 @@
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^5.9.1",
     "validate.js": "^0.12.0"
   }
 }

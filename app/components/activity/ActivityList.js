@@ -5,15 +5,18 @@ import {
 	ScrollView,
 	RefreshControl,
 	SectionList,
-	Text,
+	Text
 } from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ActivityStyles from '../../styles/ActivityStyles';
-import { activityLoaded, addActivity, removeActivity } from '../../actions';
+import {
+	getActivityList,
+	getUserActivities,
+	addActivity,
+	removeActivity
+} from '../../actions';
 import { darkBlue } from '../../styles/Colours';
-
-const API_URL = "https://water-fest.herokuapp.com/activities";
 
 
 class ActivityList extends React.Component {
@@ -23,17 +26,22 @@ class ActivityList extends React.Component {
 		this.state = {
 			currentActivities: props.currentActivities,
 			filteredActivities: props.currentActivities,
+			userId: props.userId,
 			myActivities: props.myActivities,
+			refreshList: props.refreshList,
+			onAddActivity: props.onAddActivity,
+			onRemoveActivity: props.onRemoveActivity,
 			isRefreshing: false,
 		};
+
+		this.onAddButtonPress = this.onAddButtonPress.bind(this);
+		this.onRemoveButtonPress = this.onRemoveButtonPress.bind(this);
+		this.onRefresh = this.onRefresh.bind(this);
+		this.renderListItem = this.renderListItem.bind(this);
 	}
 
 	componentDidMount() {
-		this.fetchData()
-			// eslint-disable-next-line no-console
-			.then(() => console.log("Finished mounting!"))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
+		this.state.refreshList(this.state.userId);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -43,19 +51,34 @@ class ActivityList extends React.Component {
 			this.setState({
 				currentActivities: nextProps.currentActivities,
 				myActivities: nextProps.myActivities,
-				filteredActivities: nextProps.currentActivities,
 			});
 		}
+		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
 	}
 
-	onRefresh = () => {
+	onRefresh() {
 		this.setState({ isRefreshing: true });
-		this.fetchData().then(() => {
-			this.setState({ isRefreshing: false });
-		});
+		this.state.refreshList(this.state.userId);
 	}
 
-	getSectionList = () => {
+	onAddButtonPress(itemId) {
+		const { userId, myActivities } = this.state;
+		if (myActivities.indexOf(itemId) >= 0) return;
+
+		myActivities.push(itemId);
+		this.state.onAddActivity(userId, myActivities);
+	}
+
+	onRemoveButtonPress(itemId) {
+		const { userId, myActivities } = this.state;
+		const index = myActivities.indexOf(itemId);
+		if (index < 0) return;
+
+		myActivities.splice(index, 1);
+		this.state.onRemoveActivity(userId, myActivities);
+	}
+
+	getSectionList() {
 		const sectionList = [];
 		for (const activity of this.state.filteredActivities){
 			for (const grade of activity.grade){
@@ -79,16 +102,7 @@ class ActivityList extends React.Component {
 	// linting error required that keyExtractor is placed after getSectionList
 	keyExtractor = (item) => item.id;
 
-	// linting error required that fetchData is placed after getSectionList
-	fetchData() {
-		return fetch(`${API_URL}/list`)
-			.then(response => response.json())
-			.then(activityList => this.props.onActivityLoaded(activityList))
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
-	}
-
-	handleSearchChange = (term) => {
+	handleSearchChange(term) {
 		const { currentActivities } = this.state;
 
 		const filteredActivities = currentActivities.filter(item => {
@@ -98,14 +112,14 @@ class ActivityList extends React.Component {
 		this.setState({ filteredActivities })
 	}
 
-	renderListItem = ({ item, index }) => {
+	renderListItem({ item, index }) {
 		const addIcon = (
 			<Icon
 				style={ ActivityStyles.activityListItemIcon }
 				name="ios-add-circle"
 				color={ darkBlue }
 				size={ 35 }
-				onPress={ () => this.props.onAddActivity(item.id) }
+				onPress={ () => this.onAddButtonPress(item.id) }
 			/>
 		);
 		const removeIcon = (
@@ -114,10 +128,12 @@ class ActivityList extends React.Component {
 				name="ios-remove-circle"
 				color={ darkBlue }
 				size={ 35 }
-				onPress={ () => this.props.onRemoveActivity(item.id) }
+				onPress={ () => this.onRemoveButtonPress(item.id) }
 			/>
 		);
-		const icon = this.state.myActivities.includes(item.id)? removeIcon : addIcon;
+
+		const icon = this.state.myActivities.includes(item.id) ? removeIcon : addIcon;
+
 		return (
 			<ListItem
 				containerStyle={ ActivityStyles.activityListItem }
@@ -132,7 +148,7 @@ class ActivityList extends React.Component {
 		);
 	}
 
-	renderHeader = () => {
+	renderHeader() {
 		return (
 			<SearchBar
 				placeholder="Search"
@@ -154,8 +170,8 @@ class ActivityList extends React.Component {
 			index,
 			currentActivity: activity,
 			activitiesList: this.state.currentActivities,
-			onAddActivity: this.props.onAddActivity,
-			onRemoveActivity: this.props.onRemoveActivity,
+			onAddActivity: this.onAddButtonPress,
+			onRemoveActivity: this.onRemoveButtonPress,
 			myActivities: this.state.myActivities,
 			isMyActivity: this.state.myActivities.includes(activity.id),
 		});
@@ -192,23 +208,26 @@ class ActivityList extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ currentActivities, myActivities }) => {
+const mapStateToProps = ({ currentActivities, myActivities, userLogin }) => {
+	const userId = (userLogin.hasOwnProperty('_id')) ? userLogin._id : null;
 	return {
 		currentActivities,
-		myActivities
+		myActivities,
+		userId
 	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onActivityLoaded: activityList => {
-			dispatch(activityLoaded(activityList));
+		refreshList: (userId) => {
+			dispatch(getUserActivities(userId))
+			dispatch(getActivityList());
 		},
-		onAddActivity: activity => {
-			dispatch(addActivity(activity));
+		onAddActivity: (userId, userActivities) => {
+			dispatch(addActivity(userId, userActivities));
 		},
-		onRemoveActivity: activity => {
-			dispatch(removeActivity(activity));
+		onRemoveActivity: (userId, userActivities) => {
+			dispatch(removeActivity(userId, userActivities));
 		}
 	}
 };
@@ -216,7 +235,8 @@ const mapDispatchToProps = dispatch => {
 ActivityList.propTypes = {
 	currentActivities: PropTypes.array.isRequired,
 	myActivities: PropTypes.array.isRequired,
-	onActivityLoaded: PropTypes.func.isRequired,
+	userId: PropTypes.string.isRequired,
+	refreshList: PropTypes.func.isRequired,
 	onAddActivity: PropTypes.func.isRequired,
 	onRemoveActivity: PropTypes.func.isRequired,
 	navigation: PropTypes.object.isRequired,

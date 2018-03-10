@@ -1,19 +1,24 @@
 import { combineReducers } from 'redux'
 import {
 	FAQ_LOADED,
+	LOGIN_REQUEST,
+	LOGIN_ROLLBACK,
 	LOGIN,
 	LOGOUT,
 	ACTIVITY_LOADED,
+	USER_ACTIVITY_LOADED,
 	ADD_ACTIVITY,
 	REMOVE_ACTIVITY,
 	ALERTS_LOADED,
 } from './actions';
 
+const REHYDRATE = 'persist/REHYDRATE';
+
 // Retrieve FAQ List from server
 const currentQuestions = (state = [], action) => {
 	switch (action.type) {
 		case FAQ_LOADED: {
-			const { faqList } = action;
+			const faqList = action.payload;
 			// eslint-disable-next-line no-console
 			if (!faqList) console.log('ERROR: faqList is undefined');
 			return faqList || state;
@@ -27,7 +32,7 @@ const currentQuestions = (state = [], action) => {
 const isLoggedIn = (state = false, action) => {
 	switch (action.type) {
 		case LOGIN:
-			return true;
+			return action.payload.success;
 		case LOGOUT:
 			return false;
 		default:
@@ -35,10 +40,26 @@ const isLoggedIn = (state = false, action) => {
 	}
 };
 
+const authStatus = (state = {}, action) => {
+	switch (action.type) {
+		case LOGIN_REQUEST:
+			return {};
+		case LOGIN:
+			return action.payload;
+		case LOGIN_ROLLBACK:
+			return state;
+		case REHYDRATE:
+			return {};
+		default:
+			return state;
+	}
+}
+
 const currentUser = (state = {}, action) => {
 	switch (action.type) {
 		case LOGIN: {
-			const { user } = action;
+			if (!action.payload.success || !action.payload.user) return state;
+			const { user } = action.payload;
 			return user;
 		}
 		case LOGOUT:
@@ -48,12 +69,11 @@ const currentUser = (state = {}, action) => {
 	}
 }
 
-
 // Retrieve Activities List from server
 const currentActivities = (state = [], action) => {
 	switch (action.type) {
 		case ACTIVITY_LOADED: {
-			const { activityList } = action;
+			const activityList = action.payload;
 			return activityList || state;
 		}
 		default:
@@ -62,21 +82,17 @@ const currentActivities = (state = [], action) => {
 };
 
 const myActivities = (state = [], action) => {
-	var activityIndex = state.indexOf(action.activityId);
-
 	switch (action.type) {
-		case ADD_ACTIVITY: {
-			if (activityIndex < 0){
-				return [...state, action.activityId];
-			}
-			return state;
-		} case REMOVE_ACTIVITY: {
-			if (activityIndex >= 0) {
-				state.splice(activityIndex, 1);
-				return [...state];
-			}
-			return state;
+		case LOGIN: {
+			if (!action.payload.success || !action.payload.user) return state;
+			const { activities } = action;
+			return activities;
 		}
+		case USER_ACTIVITY_LOADED:
+			return action.payload.activities;
+		case ADD_ACTIVITY:
+		case REMOVE_ACTIVITY:
+			return action.activities;
 		default:
 			return state;
 	}
@@ -86,9 +102,7 @@ const myActivities = (state = [], action) => {
 const currentAlerts = (state = [], action) => {
 	switch (action.type) {
 		case ALERTS_LOADED: {
-			const { alertsList } = action;
-			// eslint-disable-next-line no-console
-			if (!alertsList) console.log('ERROR: alertsList is undefined');
+			const alertsList = action.payload;
 			return alertsList || state;
 		}
 		default:
@@ -100,6 +114,7 @@ const currentAlerts = (state = [], action) => {
 const reducers = combineReducers({
 	currentQuestions,
 	isLoggedIn,
+	authStatus,
 	currentUser,
 	currentActivities,
 	myActivities,

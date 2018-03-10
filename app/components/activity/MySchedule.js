@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import ActivityStyles from '../../styles/ActivityStyles';
-import { activityLoaded, addActivity, removeActivity } from '../../actions';
+import { addActivity, removeActivity } from '../../actions';
 import { darkGray } from '../../styles/Colours';
 
 class MySchedule extends React.Component {
@@ -19,10 +19,10 @@ class MySchedule extends React.Component {
 			myActivities: this.props.myActivities,
 			// isRefreshing: false,
     };
-    
+
     this.renderListItem = this.renderListItem.bind(this);
   }
-  
+
   keyExtractor = (item) => item.id;
 
 	renderListItem = ({ item, index }) => {
@@ -30,7 +30,7 @@ class MySchedule extends React.Component {
       return null;
     }
 
-    const icon = (
+		const icon = (
 			<Icon
 				name='arrow-forward'
 				size={ 30 }
@@ -52,7 +52,7 @@ class MySchedule extends React.Component {
 			/>
 		);
   }
-  
+
   renderActivityDetails(activity, index) {
 		// Due to SectionList, the passed-in index is for each section (incorrect)
 		index = this.state.currentActivities.indexOf(activity);
@@ -68,7 +68,7 @@ class MySchedule extends React.Component {
 	}
 
 	render() {
-    
+
 		return (
 			<ScrollView
 				style={ ActivityStyles.activityPadding }
