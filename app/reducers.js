@@ -35,7 +35,7 @@ const isLoggedIn = (state = false, action) => {
 	}
 };
 
-const userLogin = (state = {}, action) => {
+const currentUser = (state = {}, action) => {
 	switch (action.type) {
 		case LOGIN: {
 			const { user } = action;
@@ -100,7 +100,7 @@ const currentAlerts = (state = [], action) => {
 const reducers = combineReducers({
 	currentQuestions,
 	isLoggedIn,
-	userLogin,
+	currentUser,
 	currentActivities,
 	myActivities,
 	currentAlerts,
