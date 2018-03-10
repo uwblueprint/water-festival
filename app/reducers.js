@@ -5,6 +5,7 @@ import {
 	LOGIN_ROLLBACK,
 	LOGIN,
 	LOGOUT,
+	EDIT_USER,
 	ACTIVITY_LOADED,
 	USER_ACTIVITY_LOADED,
 	ADD_ACTIVITY,
@@ -64,6 +65,7 @@ const currentUser = (state = {}, action) => {
 		}
 		case LOGOUT:
 			return {};
+		case EDIT_USER:
 		default:
 			return state;
 	}
@@ -85,7 +87,7 @@ const myActivities = (state = [], action) => {
 	switch (action.type) {
 		case LOGIN: {
 			if (!action.payload.success || !action.payload.user) return state;
-			const { activities } = action;
+			const { activities } = action.payload.user;
 			return activities;
 		}
 		case USER_ACTIVITY_LOADED:

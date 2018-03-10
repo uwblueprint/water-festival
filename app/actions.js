@@ -7,6 +7,7 @@ export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_ROLLBACK = 'LOGIN_ROLLBACK';
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
+export const EDIT_USER = 'EDIT_USER';
 export const ACTIVITY_LOAD_REQUEST = 'ACTIVITY_LOAD_REQUEST'; // not used
 export const USER_ACTIVITY_REQUEST = 'USER_ACTIVITY_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
@@ -53,6 +54,19 @@ export const login = ({ username, password }) => ({
 	});
 
 export const logout = () => ({ type: LOGOUT });
+
+export const editUser = (user) => ({
+	type: EDIT_USER,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/edit`,
+				method: 'PUT',
+				body: JSON.stringify(user)
+			}
+		}
+	}
+});
 
 export const getActivityList = () => ({
 	type: ACTIVITY_LOAD_REQUEST,
