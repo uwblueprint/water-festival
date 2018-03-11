@@ -39,12 +39,27 @@ const ActivityStyles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: lightGray,
 	},
+	activityListBlueItem: {
+		height: 80,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderBottomWidth: 1,
+		borderBottomColor: lightGray,
+		backgroundColor: darkBlue,
+	},
 	activityListItemText: {
 		paddingTop: 8,
 		paddingBottom: 2,
 		paddingLeft: 10,
 		fontSize: 20,
 		color: darkGray,
+	},
+	activityListItemBlueText: {
+		paddingTop: 8,
+		paddingBottom: 2,
+		paddingLeft: 10,
+		fontSize: 20,
+		color: 'white',
 	},
 	activityListItemSubtitle: {
 		paddingBottom: 10,
