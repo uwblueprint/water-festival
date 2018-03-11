@@ -85,7 +85,7 @@ const myActivities = (state = [], action) => {
 	switch (action.type) {
 		case LOGIN: {
 			if (!action.payload.success || !action.payload.user) return state;
-			const { activities } = action;
+			const { activities } = action.payload.user;
 			return activities;
 		}
 		case USER_ACTIVITY_LOADED:
