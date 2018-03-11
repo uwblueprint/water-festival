@@ -62,10 +62,66 @@ const loginConstraints = {
   },
 };
 
+const passwordConstraints = {
+  password: {
+    presence: {
+      allowEmpty: false
+    },
+    format: {
+      pattern: '(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])[a-zA-Z0-9]+',
+      message: "must contain a capital letter, a lowercase letter, and a number"
+    },
+    length: {
+      minimum: 6,
+      message: "must be at least 6 characters"
+    }
+  },
+};
+
+const settingsConstraints = {
+  fullName: {
+    presence: {
+      allowEmpty: false
+    },
+  },
+  schoolName: {
+    presence: {
+      allowEmpty: false
+    },
+  },
+  mobileNumber: {
+    presence: {
+      allowEmpty: false
+    },
+    format: {
+      pattern: "[0-9]+",
+      message: "can only contain digits"
+    },
+		length: {
+			is: 10,
+			message: "must be 10 digits long"
+		}
+  },
+}
+
 const validate = (formObj, type, callback) => {
-  const constraint = (type === 'LOGIN')
-    ? loginConstraints
-    : registrationConstraints;
+  var constraint;
+  switch(type){
+    case 'LOGIN':
+      constraint = loginConstraints;
+      break;
+    case 'REGISTER':
+      constraint = registrationConstraints;
+      break;
+    case 'SETTINGS':
+      constraint = settingsConstraints;
+      break;
+    case 'PASSWORD':
+      constraint = passwordConstraints;
+      break;
+    default:
+      break;
+  }
   const res = validatejs(formObj, constraint);
   if (!res) return callback(null, null);
 

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StackNavigator } from 'react-navigation'
 import FaqScreenstack from './FaqScreen';
 import AlertsScreen from './AlertsScreen';
+import SettingsScreen from './SettingsScreen';
 import GameScreen from './GameScreen'
 import Home from '../components/home/Home'
 
@@ -35,6 +36,9 @@ const HomeScreenStack = StackNavigator({
 	},
 	AlertsScreen: {
 		screen: AlertsScreen,
+	},
+	SettingsScreen: {
+		screen: SettingsScreen,
 	}
 },
 {

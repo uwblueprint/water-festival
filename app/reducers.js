@@ -5,6 +5,7 @@ import {
 	LOGIN_ROLLBACK,
 	LOGIN,
 	LOGOUT,
+	EDIT_USER,
 	ACTIVITY_LOADED,
 	USER_ACTIVITY_LOADED,
 	ADD_ACTIVITY,
@@ -55,7 +56,7 @@ const authStatus = (state = {}, action) => {
 	}
 }
 
-const userLogin = (state = {}, action) => {
+const currentUser = (state = {}, action) => {
 	switch (action.type) {
 		case LOGIN: {
 			if (!action.payload.success || !action.payload.user) return state;
@@ -64,6 +65,11 @@ const userLogin = (state = {}, action) => {
 		}
 		case LOGOUT:
 			return {};
+		case EDIT_USER: {
+			if (!action.payload.user) return state;
+			const { user } = action.payload;
+			return user;
+		}
 		default:
 			return state;
 	}
@@ -115,7 +121,7 @@ const reducers = combineReducers({
 	currentQuestions,
 	isLoggedIn,
 	authStatus,
-	userLogin,
+	currentUser,
 	currentActivities,
 	myActivities,
 	currentAlerts,
