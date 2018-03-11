@@ -14,9 +14,17 @@ class MapScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const {x,y} = this.getStationCoord(this.props.navigation.state.params.stationNumber);
+		let x = 0;
+		let y = 0;
+		let zoomFactor = 1;
+
+		if (this.props.navigation.state.params) {
+			{x,y} = this.getStationCoord(this.props.navigation.state.params.stationNumber);
+			zoomFactor = 3;
+		}
+	
 		this.state = {
-			zoomFactor: 3,
+			zoomFactor,
 			x,
 			y
 		};
