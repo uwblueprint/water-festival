@@ -65,7 +65,11 @@ const currentUser = (state = {}, action) => {
 		}
 		case LOGOUT:
 			return {};
-		case EDIT_USER:
+		case EDIT_USER: {
+			if (!action.payload.user) return state;
+			const { user } = action.payload;
+			return user;
+		}
 		default:
 			return state;
 	}

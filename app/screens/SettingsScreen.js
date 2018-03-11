@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import Header from '../components/Header'
 import Settings from '../components/settings/Settings'
