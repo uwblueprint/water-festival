@@ -31,6 +31,7 @@ class ActivityDetails extends React.Component {
 
 		this.addActivity = this.addActivity.bind(this);
 		this.removeActivity = this.removeActivity.bind(this);
+		this.navigateToMap = this.navigateToMap.bind(this);
 		this.renderButton = this.renderButton.bind(this);
 	}
 
@@ -87,6 +88,11 @@ class ActivityDetails extends React.Component {
 		return (null);
 	}
 
+	navigateToMap(stationNumber){
+		this.props.navigation.navigate('MapScreen', { stationNumber });
+	}
+
+
 	render() {
 		const { state } = this.props.navigation;
 		const activity = state.params.currentActivity;
@@ -117,6 +123,7 @@ class ActivityDetails extends React.Component {
 						activeOpacity={ 1 }
 						containerStyle={ ActivityStyles.activityDetailsMapButton }
 						style={ ActivityStyles.activityDetailsMapButtonText }
+						onPress={()=> this.navigateToMap(activity.station)}
 					>
 						SHOW ON MAP
 					</Button>
