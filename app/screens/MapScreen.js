@@ -19,18 +19,17 @@ class MapScreen extends React.Component {
 		let zoomFactor = 1;
 
 		if (this.props.navigation.state.params) {
-			{x,y} = this.getStationCoord(this.props.navigation.state.params.stationNumber);
+			const coord= this.getStationCoord(this.props.navigation.state.params.stationNumber);
+			x = coord.x;
+			y = coord.y;
 			zoomFactor = 3;
 		}
-	
+
 		this.state = {
 			zoomFactor,
 			x,
 			y
 		};
-		
-
-		console.log(x,y);
 
 		this.onClick = this.onClick.bind(this);
 	}
@@ -40,8 +39,8 @@ class MapScreen extends React.Component {
 		let y = 0;
 
 		if (stationNumber === 1) {
-			x = 388;
-			y = 480;
+			x = 16;
+			y = -64;
 		}
 
 		else if (stationNumber === 2) {

@@ -5,7 +5,7 @@ import LoginScreen from './screens/LoginScreen';
 import Container from './Container'
 
 const MainContainer = ({ isLoggedIn }) => {
-	const view = (isLoggedIn) ? <Container /> : <LoginScreen />;
+	const view = true ? <Container /> : <LoginScreen />;
 	return view;
 }
 
