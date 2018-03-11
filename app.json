@@ -1,5 +1,15 @@
 {
   "expo": {
-    "sdkVersion": "22.0.0"
+    "sdkVersion": "22.0.0",
+		"name": "Water Festival",
+    "icon": "./app/images/wwcgf_logo.png",
+    "version": "1.0.0",
+    "slug": "water-festival",
+    "ios": {
+      "bundleIdentifier": "com.uwblueprint.waterfestival"
+    },
+    "android": {
+      "package": "com.uwblueprint.waterfestival"
+    }
   }
 }
