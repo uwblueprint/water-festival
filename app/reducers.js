@@ -120,10 +120,17 @@ const currentAlerts = (state = [], action) => {
 const offline = (state = {}, action) => {
 	switch (action.type) {
 		case REHYDRATE: {
+			const { payload } = action;
 			// Empty API call queue on rehydration
-			action.payload.offline.outbox = []
-
-			return { ...state, ...action.payload.offline, busy: false };
+			if (payload.hasOwnProperty('offline')) payload.offline.outbox = [];
+			if (!payload.currentUser.hasOwnProperty('_id')) {
+				payload.authStatus = {};
+				payload.currentUser = {};
+				payload.isLoggedIn = false;
+				payload.myActivities = [];
+			}
+			
+			return { ...state, ...payload, busy: false };
 		}
 		default:
 			return state;
@@ -139,6 +146,7 @@ const reducers = combineReducers({
 	currentActivities,
 	myActivities,
 	currentAlerts,
+	offline,
 });
 
 export default reducers;

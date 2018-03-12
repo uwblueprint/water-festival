@@ -45,7 +45,7 @@ class MySchedule extends React.Component {
 		this.onRefresh = this.onRefresh.bind(this);
 		this.renderListItem = this.renderListItem.bind(this);
 	}
-	
+
 	componentDidMount() {
 		this.state.refreshList(this.state.userId);
 	}
@@ -80,7 +80,7 @@ class MySchedule extends React.Component {
 		this.state.onRemoveActivity(userId, myActivities);
 	}
 
-	renderListItem({ item, index }) {	
+	renderListItem({ item, index }) {
 		if (item.id === 'BEGIN' || item.id === 'END') {
 			return (
 				<ListItem
@@ -160,8 +160,8 @@ class MySchedule extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ currentActivities, myActivities, userLogin }) => {
-	const userId = (userLogin.hasOwnProperty('_id')) ? userLogin._id : null;
+const mapStateToProps = ({ currentActivities, myActivities, currentUser }) => {
+	const userId = (currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
 	return {
 		currentActivities,
 		myActivities,
