@@ -116,6 +116,28 @@ const currentAlerts = (state = [], action) => {
 	}
 };
 
+// Check for offline
+const offline = (state = {}, action) => {
+	case REHYDRATE: {
+		// Remove duplicate API calls to prevent overloaded queues
+		action.payload.offline.outbox = action.payload.offline.outbox.reduce((acc, call) => {
+			const { arr, map } = acc;
+			if (map.hasOwnProperty(call)) return acc;
+			arr.push(call);
+			map[call] = 0;
+
+			return { arr, map }
+		}, {
+			arr: [],
+			map: {}
+		}).arr;
+
+		return { ...state, ...action.payload.offline, busy: false };
+	}
+	case default:
+		return state;
+}
+
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
 	currentQuestions,
