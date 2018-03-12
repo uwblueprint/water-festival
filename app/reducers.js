@@ -118,14 +118,16 @@ const currentAlerts = (state = [], action) => {
 
 // Check for offline
 const offline = (state = {}, action) => {
-	case REHYDRATE: {
-		// Empty API call queue on rehydration
-		action.payload.offline.outbox = []
+	switch (action.type) {
+		case REHYDRATE: {
+			// Empty API call queue on rehydration
+			action.payload.offline.outbox = []
 
-		return { ...state, ...action.payload.offline, busy: false };
-	}
-	case default:
-		return state;
+			return { ...state, ...action.payload.offline, busy: false };
+		}
+		default:
+			return state;
+		}
 }
 
 // Turns different reducing functions into a single reducing function
