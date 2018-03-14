@@ -209,7 +209,7 @@ class ActivityList extends React.Component {
 }
 
 const mapStateToProps = ({ currentActivities, myActivities, currentUser }) => {
-	const userId = (currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
+	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
 	return {
 		currentActivities,
 		myActivities,

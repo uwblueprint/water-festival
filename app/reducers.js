@@ -121,15 +121,17 @@ const offline = (state = {}, action) => {
 	switch (action.type) {
 		case REHYDRATE: {
 			const { payload } = action;
+			if (!payload) return state;
+
 			// Empty API call queue on rehydration
 			if (payload.hasOwnProperty('offline')) payload.offline.outbox = [];
-			if (!payload.currentUser.hasOwnProperty('_id')) {
+			if (!payload.currentUser || !payload.currentUser.hasOwnProperty('_id')) {
 				payload.authStatus = {};
 				payload.currentUser = {};
 				payload.isLoggedIn = false;
 				payload.myActivities = [];
 			}
-			
+
 			return { ...state, ...payload, busy: false };
 		}
 		default:

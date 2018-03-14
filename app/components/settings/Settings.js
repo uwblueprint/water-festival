@@ -19,7 +19,7 @@ class Settings extends React.Component {
 
 	static navigationOptions = () => ({
 		header: null,
-		title: 'Settings'
+		title: 'Home'
 	});
 
 	constructor(props) {
