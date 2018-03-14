@@ -24,10 +24,11 @@ class Home extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const { onLogout } = props;
+		const { onLogout, name } = props;
 
 		this.state = {
-			onLogout
+			onLogout,
+			name
 		};
 	}
 
@@ -55,7 +56,7 @@ class Home extends React.Component {
 				<Text
 					style={ HomeStyles.welcomeMessage }
 				>
-					Welcome to the Water Festival app!
+					{ (this.state.name.length === 0) ? "Welcome!" : `Welcome, ${this.state.name}!` }
 				</Text>
 				<Button
 					onPress={ () => this.props.navigation.navigate("AllActivitiesScreen") }
@@ -103,6 +104,11 @@ class Home extends React.Component {
 	}
 }
 
+const mapStateToProps = ({ currentUser }) => {
+	const name = (currentUser && currentUser.hasOwnProperty('name')) ? currentUser.name : '';
+	return { name };
+};
+
 const mapDispatchToProps = dispatch => {
 	return {
 		onLogout: () => {
@@ -112,6 +118,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 Home.propTypes = {
+	name: PropTypes.string.isRequired,
 	navigation: PropTypes.object.isRequired,
 	onLogout: PropTypes.func.isRequired,
 	navigate: PropTypes.func
@@ -121,4 +128,4 @@ Home.defaultProps = {
 	navigate: () => {}
 };
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

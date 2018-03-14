@@ -26,7 +26,7 @@ const HomeStyles = StyleSheet.create({
 	welcomeMessage: {
 		padding: 15,
 		paddingBottom: 40,
-		fontSize: 35,
+		fontSize: 26,
 		fontWeight: "bold",
 		color: darkGray,
 		textAlign: "center",
