@@ -16,6 +16,7 @@ import {
 	addActivity,
 	removeActivity
 } from '../../actions';
+import { arrayEquals, arrayOfObjectEquals } from '../../utils/arrays';
 import { darkBlue } from '../../styles/Colours';
 
 
@@ -46,8 +47,8 @@ class ActivityList extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
-		if (nextProps.currentActivities !== this.state.currentActivities ||
-			nextProps.myActivities !== this.state.myActivities) {
+		if (!arrayOfObjectEquals(nextProps.currentActivities, this.state.currentActivities) ||
+			!arrayEquals(nextProps.myActivities, this.state.myActivities)) {
 			this.setState({
 				currentActivities: nextProps.currentActivities,
 				myActivities: nextProps.myActivities,
@@ -79,6 +80,7 @@ class ActivityList extends React.Component {
 	}
 
 	getSectionList() {
+		console.log('hi');
 		const sectionList = [];
 		for (const activity of this.state.filteredActivities){
 			for (const grade of activity.grade){
@@ -132,7 +134,9 @@ class ActivityList extends React.Component {
 			/>
 		);
 
-		const icon = this.state.myActivities.includes(item.id) ? removeIcon : addIcon;
+		const icon = this.state.myActivities.includes(item.id) ? removeIcon : addIcon
+
+		console.log('item.name', item.name);
 
 		return (
 			<ListItem
@@ -195,6 +199,7 @@ class ActivityList extends React.Component {
 					renderItem={ this.renderListItem }
 					keyExtractor={ this.keyExtractor }
 					ListHeaderComponent={ this.renderHeader }
+					initialNumToRender={9}
 					renderSectionHeader={ ({ section }) => (
 						<Text
 							style={ ActivityStyles.sectionHeader }
