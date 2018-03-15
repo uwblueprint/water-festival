@@ -147,7 +147,7 @@ class RegisterForm extends Component {
 						Create An Account
 					</Text>
 					<Text style={ styles.disclaimer }>
-						Disclaimer: This information will only be used during the event and will be discarded once the event is over.
+						DISCLAIMER: This information will only be used on the day you are attending the event and will be discarded afterwards.
 					</Text>
 				</View>
 				<ErrorMessage msg={ this.state.errorMsg } />
@@ -241,13 +241,15 @@ class RegisterForm extends Component {
 							</Picker>
 						</View>
 					</HideWithKeyboard>
-					<TouchableOpacity
-						activeOpacity={ 0.8 }
-						style={ styles.buttonContainer }
-						onPress={ this.onRegisterPress }
-					>
-						<Text style={ styles.buttonText }>REGISTER</Text>
-					</TouchableOpacity>
+					<View style={ styles.buttonCenter }>
+						<TouchableOpacity
+							activeOpacity={ 0.8 }
+							style={ styles.buttonContainer }
+							onPress={ this.onRegisterPress }
+						>
+							<Text style={ styles.buttonText }>REGISTER</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
 
 				<HideWithKeyboard>
@@ -257,12 +259,13 @@ class RegisterForm extends Component {
 						>
 							Already have an account?
 						</Text>
-						<Text
-							style={ styles.login }
+						<TouchableOpacity
+							activeOpacity={ 0.8 }
+							style={ styles.loginButton }
 							onPress={ this.state.onHaveAccountPress }
 						>
-							LOGIN
-						</Text>
+							<Text style={ styles.loginText }>REGISTER</Text>
+						</TouchableOpacity>
 					</View>
 				</HideWithKeyboard>
 			</View>

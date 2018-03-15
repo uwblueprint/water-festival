@@ -41,7 +41,7 @@ Login.propTypes = {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#f2f6ff'
+		backgroundColor: 'white'
 	},
 	logo: {
 		justifyContent: 'center',

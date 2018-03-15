@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { darkBlue, errorRed, lightBlue } from './Colours';
+import { darkBlue, errorRed, lightBlue, darkGray } from './Colours';
 
 const RegisterFormStyles = StyleSheet.create({
 	container: {
@@ -8,16 +8,19 @@ const RegisterFormStyles = StyleSheet.create({
 		marginTop: 30
 	},
 	title: {
-		fontSize: 25,
+		fontSize: 30,
 		textAlign: 'center',
 		fontWeight: 'bold',
-		marginBottom: 10
+		marginBottom: 10,
+		color: darkGray
 	},
 	disclaimer: {
 		textAlign: 'center',
-		fontStyle: 'italic',
-		fontSize: 13,
-		marginBottom: 5
+		fontSize: 11,
+		marginBottom: 5,
+		paddingLeft: 10,
+		paddingRight: 10,
+		color: darkGray
 	},
 	contentContainer: {
 		flex: 1,
@@ -25,8 +28,9 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	footer: {
 		alignItems: 'center',
-		height: 50,
-		marginTop: 10
+		height: 90,
+		marginTop: 10,
+		//paddingBottom: 20
 	},
 	input: {
 		height: 40,
@@ -48,18 +52,22 @@ const RegisterFormStyles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderBottomColor: errorRed
 	},
+	buttonCenter: {
+		paddingTop: 10,
+		alignItems: 'center',
+	},
 	buttonContainer: {
 		backgroundColor: darkBlue,
-		paddingVertical: 15,
+		paddingVertical: 13,
 		borderRadius: 30,
 		borderWidth: 1,
 		borderColor: lightBlue,
-		marginTop: 10
+		width: 240,
 	},
 	buttonText: {
 		color: '#fff',
 		textAlign: 'center',
-		fontWeight: '700'
+		fontSize: 18,
 	},
 	dayContainer: {
 		flex: 1,
@@ -75,20 +83,28 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	dayPicker: {
 		flex: 0.3,
-		height: 50
+		height: 50,
 	},
 	noAccount: {
-		color: 'black',
-		textAlign: 'center'
-	},
-	login: {
 		color: darkBlue,
-		width: 100,
 		textAlign: 'center',
-		fontSize: 15,
-		fontWeight: 'bold',
-		marginTop: 5
-	}
+		paddingLeft: 70,
+		paddingBottom: 8,
+		fontSize: 12
+	},
+	loginButton: {
+		backgroundColor: "white",
+		paddingVertical: 13,
+		borderRadius: 30,
+		borderWidth: 1,
+		borderColor: darkBlue,
+		width: 200,
+	},
+	loginText: {
+		color: darkBlue,
+		textAlign: 'center',
+		fontSize: 16,
+	},
 });
 
 export default RegisterFormStyles;

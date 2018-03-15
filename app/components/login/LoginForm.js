@@ -93,13 +93,15 @@ class LoginForm extends Component {
 						>
 							Forgot your password?
 						</Text>
-						<TouchableOpacity
-							activeOpacity={ 0.8 }
-							style={ styles.buttonContainer }
-							onPress={ this.onLoginPress }
-						>
-							<Text style={ styles.buttonText }>LOGIN</Text>
-						</TouchableOpacity>
+						<View style={ styles.buttonCenter }>
+							<TouchableOpacity
+								activeOpacity={ 0.8 }
+								style={ styles.buttonContainer }
+								onPress={ this.onLoginPress }
+							>
+								<Text style={ styles.buttonText }>LOGIN</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 					<HideWithKeyboard>
 						<View style={ styles.footer }>
@@ -108,12 +110,13 @@ class LoginForm extends Component {
 							>
 								{"Don't have an account?"}
 							</Text>
-							<Text
-								style={ styles.register }
+							<TouchableOpacity
+								activeOpacity={ 0.8 }
+								style={ styles.registerButton }
 								onPress={ this.state.onRegisterPress }
 							>
-								REGISTER
-							</Text>
+								<Text style={ styles.registerText }>REGISTER</Text>
+							</TouchableOpacity>
 						</View>
 					</HideWithKeyboard>
 				</View>

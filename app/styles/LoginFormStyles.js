@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { darkBlue, lightBlue } from './Colours';
+import { darkBlue, lightBlue, darkGray } from './Colours';
 
 const LoginFormStyles = StyleSheet.create({
 		container: {
@@ -11,8 +11,9 @@ const LoginFormStyles = StyleSheet.create({
 		},
 		footer: {
 			alignItems: 'center',
-			height: 50,
-			marginTop: 80
+			height: 70,
+			marginTop: 90,
+			paddingBottom: 20
 		},
 		input: {
 			height: 40,
@@ -22,30 +23,38 @@ const LoginFormStyles = StyleSheet.create({
 			paddingHorizontal: 5,
 			color: '#000',
 			borderBottomWidth: 1,
-			borderBottomColor: darkBlue
+			borderBottomColor: darkGray
+		},
+		buttonCenter: {
+			alignItems: 'center',
 		},
 		buttonContainer: {
 			backgroundColor: darkBlue,
-			paddingVertical: 15,
+			paddingVertical: 13,
 			borderRadius: 30,
 			borderWidth: 1,
-			borderColor: lightBlue
+			borderColor: lightBlue,
+			width: 240,
 		},
 		buttonText: {
 			color: '#fff',
 			textAlign: 'center',
-			fontWeight: '700'
+			fontSize: 18,
 		},
 		forgotPassText: {
-			color: lightBlue,
+			color: darkBlue,
 			textAlign: 'right',
-			fontSize: 13,
+			fontSize: 15,
 			marginBottom: 25,
-			marginRight: 20
+			marginRight: 20,
+			marginTop: 10,
 		},
 		noAccount: {
-			color: 'black',
-			textAlign: 'center'
+			color: darkBlue,
+			textAlign: 'center',
+			paddingLeft: 70,
+			paddingBottom: 8,
+			fontSize: 12
 		},
 		register: {
 			color: darkBlue,
@@ -54,7 +63,20 @@ const LoginFormStyles = StyleSheet.create({
 			fontSize: 15,
 			fontWeight: 'bold',
 			marginTop: 5
-		}
+		},
+		registerButton: {
+			backgroundColor: "white",
+			paddingVertical: 13,
+			borderRadius: 30,
+			borderWidth: 1,
+			borderColor: darkBlue,
+			width: 200,
+		},
+		registerText: {
+			color: darkBlue,
+			textAlign: 'center',
+			fontSize: 16,
+		},
 });
 
 export default LoginFormStyles;
