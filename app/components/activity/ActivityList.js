@@ -50,8 +50,7 @@ class ActivityList extends React.Component {
 	}
 
 	shouldComponentUpdate(nextProps) {
-		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities))
-			return !arrayOfObjectEquals(nextProps.activities, this.state.activities);
+		return !arrayOfObjectEquals(nextProps.activities, this.state.activities);
 	}
 
 	onRefresh() {

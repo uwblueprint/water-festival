@@ -89,7 +89,6 @@ class ActivityTile extends Component {
 
 	render() {
 		const { item, isAdded } = this.state;
-
 		const icon = isAdded
 			? (
 				<Icon
