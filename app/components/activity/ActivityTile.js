@@ -18,9 +18,9 @@ class ActivityTile extends Component {
 			onRemoveActivity,
 			myActivities,
 			item,
-			index,
 			realIndex,
-			userId
+			userId,
+			navigate
 		} = props;
 
 		this.state = {
@@ -28,21 +28,30 @@ class ActivityTile extends Component {
 			onRemoveActivity,
 			myActivities,
 			item,
-			index,
 			realIndex,
 			isAdded: myActivities.includes(item.id),
-			userId
+			userId,
+			navigate
 		};
 
 		this.onAddButtonPress = this.onAddButtonPress.bind(this);
 		this.onRemoveButtonPress = this.onRemoveButtonPress.bind(this);
+		this.renderActivityDetails = this.renderActivityDetails.bind(this);
+	}
+
+	shouldComponentUpdate(nextProps) {
+		const hasItem = nextProps.myActivities.includes(this.state.item.id);
+	  return (!this.state.isAdded && hasItem) || (this.state.isAdded && !hasItem);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		// only update if isAdded needs to be changed
 		const hasItem = nextProps.myActivities.includes(this.state.item.id);
-	  if (!this.state.isAdded && hasItem) this.setState({ isAdded: true });
-		else if (this.state.isAdded && !hasItem) this.setState({ isAdded: false });
+	  if (!this.state.isAdded && hasItem) {
+			this.setState({ isAdded: true });
+		} else if (this.state.isAdded && !hasItem) {
+			this.setState({ isAdded: false });
+		}
 		if (!arrayEquals(this.state.myActivities, nextProps.myActivities)) {
 			this.setState({ myActivities: nextProps.myActivities });
 		}
@@ -50,7 +59,7 @@ class ActivityTile extends Component {
 
 	renderActivityDetails(activity, index) {
 		// Due to SectionList, the passed-in index is incorrect for each section (must use "realIndex")
-		this.props.navigation.navigate('ActivityDetails', {
+		this.state.navigate('ActivityDetails', {
 			index: this.state.realIndex,
 			currentActivity: activity,
 			activitiesList: this.state.currentActivities,
@@ -65,8 +74,8 @@ class ActivityTile extends Component {
 		const { userId, myActivities } = this.state;
 		if (myActivities.indexOf(itemId) >= 0) return;
 
-		myActivities.push(itemId);
-		this.state.onAddActivity(userId, myActivities);
+		const newActivities = [...myActivities, itemId];
+		this.state.onAddActivity(userId, myActivities, newActivities);
 	}
 
 	onRemoveButtonPress(itemId) {
@@ -74,8 +83,8 @@ class ActivityTile extends Component {
 		const index = myActivities.indexOf(itemId);
 		if (index < 0) return;
 
-		myActivities.splice(index, 1);
-		this.state.onRemoveActivity(userId, myActivities);
+		const newActivities = myActivities.filter(a => a !== itemId);
+		this.state.onRemoveActivity(userId, myActivities, newActivities);
 	}
 
 	render() {
@@ -87,7 +96,8 @@ class ActivityTile extends Component {
 			isAdded
 		} = this.state;
 
-		console.log('hullo');
+		console.log('render');
+
 		const icon = isAdded
 			? (
 					<Icon
@@ -116,7 +126,7 @@ class ActivityTile extends Component {
 					key={ item.id }
 					title={ item.title }
 					subtitle={ "Station " + item.station }
-					onPress={ () => renderActivityDetails(item, index) }
+					onPress={ () => this.renderActivityDetails(item, index) }
 					rightIcon={ icon }
 				/>
 			);
@@ -124,24 +134,26 @@ class ActivityTile extends Component {
 }
 
 ActivityTile.propTypes = {
-	onAddActivity: PropTypes.func.isRequired,
-	onRemoveActivity: PropTypes.func.isRequired,
-	myActivities: PropTypes.array.isRequired,
 	item: PropTypes.object.isRequired,
 	userId: PropTypes.string.isRequired,
-	index: PropTypes.number.isRequired,
 	realIndex: PropTypes.number.isRequired,
+	navigate: PropTypes.func.isRequired,
+	// Reducers
+	myActivities: PropTypes.array.isRequired,
+	// Action creators
+	onAddActivity: PropTypes.func.isRequired,
+	onRemoveActivity: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({ myActivities }) => ({ myActivities });
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onAddActivity: (userId, userActivities) => {
-			dispatch(addActivity(userId, userActivities));
+		onAddActivity: (userId, oldActivities, newActivities) => {
+			dispatch(addActivity(userId, oldActivities, newActivities));
 		},
-		onRemoveActivity: (userId, userActivities) => {
-			dispatch(removeActivity(userId, userActivities));
+		onRemoveActivity: (userId, oldActivities, newActivities) => {
+			dispatch(removeActivity(userId, oldActivities, newActivities));
 		}
 	}
 };

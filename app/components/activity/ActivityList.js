@@ -21,17 +21,18 @@ class ActivityList extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentActivities: props.currentActivities,
-			filteredActivities: props.currentActivities,
+			activities: props.activities,
 			userId: props.userId,
 			refreshList: props.refreshList,
 			onAddActivity: props.onAddActivity,
 			onRemoveActivity: props.onRemoveActivity,
 			isRefreshing: false,
-			sectionList: this.getSectionList(props.currentActivities),
+			sectionList: this.getSectionList(props.activities),
 		};
 
 		this.onRefresh = this.onRefresh.bind(this);
+		this.handleSearchChange = this.handleSearchChange.bind(this);
+		this.renderHeader = this.renderHeader.bind(this);
 		this.renderListItem = this.renderListItem.bind(this);
 	}
 
@@ -39,12 +40,18 @@ class ActivityList extends React.Component {
 		this.state.refreshList(this.state.userId);
 	}
 
+	shouldComponentUpdate(nextProps) {
+		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities)) console.log('component is updating');
+	  return !arrayOfObjectEquals(nextProps.activities, this.state.activities);
+	}
+
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
-		if (!arrayOfObjectEquals(nextProps.currentActivities, this.state.currentActivities)) {
+		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities)) {
+			console.log('comonent is receiving');
 			this.setState({
-				currentActivities: nextProps.currentActivities,
-				sectionList: this.getSectionList(nextProps.currentActivities)
+				activities: nextProps.activities,
+				sectionList: this.getSectionList(nextProps.activities)
 			});
 		}
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
@@ -76,7 +83,6 @@ class ActivityList extends React.Component {
 		];
 		activities.forEach(a => a.grade.forEach(grade => list[grade - 2].data.push(a)));
 
-		console.log('list', list);
 		return list;
 	}
 
@@ -84,13 +90,14 @@ class ActivityList extends React.Component {
 	keyExtractor = (item) => item.id;
 
 	handleSearchChange(term) {
-		const { currentActivities } = this.state;
+		const { activities } = this.state;
 
-		const filteredActivities = currentActivities.filter(item => {
+		const filteredActivities = activities.filter(item => {
 			return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
 
-		this.setState({ filteredActivities })
+		const sectionList = this.getSectionList(filteredActivities);
+		this.setState({ sectionList });
 	}
 
 	renderListItem({ item, index }) {
@@ -99,8 +106,8 @@ class ActivityList extends React.Component {
 				renderActivityDetails={ this.renderActivityDetails }
 				item={ item }
 				userId={ this.state.userId }
-				index={ index }
-				realIndex={ this.state.currentActivities.indexOf(item) }
+				realIndex={ this.state.activities.indexOf(item) }
+				navigate={ this.props.navigation.navigate }
 			/>
 		);
 	}
@@ -118,6 +125,18 @@ class ActivityList extends React.Component {
 				lightTheme
 			/>
 		);
+	}
+
+	renderSectionHeader({ section }) {
+		return (section.data.length > 0)
+		 	? (
+					<Text
+						style={ ActivityStyles.sectionHeader }
+					>
+						Grade { section.key }
+					</Text>
+				)
+			: null;
 	}
 
 	render() {
@@ -138,13 +157,7 @@ class ActivityList extends React.Component {
 					keyExtractor={ this.keyExtractor }
 					ListHeaderComponent={ this.renderHeader }
 					initialNumToRender={9}
-					renderSectionHeader={ ({ section }) => (
-						<Text
-							style={ ActivityStyles.sectionHeader }
-						>
-							Grade { section.key }
-						</Text>
-					) }
+					renderSectionHeader={ this.renderSectionHeader }
 				/>
 			</ScrollView>
 		);
@@ -154,7 +167,7 @@ class ActivityList extends React.Component {
 const mapStateToProps = ({ currentActivities, currentUser }) => {
 	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
 	return {
-		currentActivities,
+		activities: currentActivities,
 		userId
 	};
 };
@@ -169,15 +182,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 ActivityList.propTypes = {
-	currentActivities: PropTypes.array.isRequired,
+	activities: PropTypes.array.isRequired,
 	userId: PropTypes.string.isRequired,
 	refreshList: PropTypes.func.isRequired,
-	navigation: PropTypes.object.isRequired,
-	navigate: PropTypes.func
-};
-
-ActivityList.defaultProps = {
-	navigate:() => {}
+	navigation: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityList);

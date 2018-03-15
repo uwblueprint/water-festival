@@ -9,7 +9,9 @@ import {
 	ACTIVITY_LOADED,
 	USER_ACTIVITY_LOADED,
 	ADD_ACTIVITY,
+	ADD_ACTIVITY_ROLLBACK,
 	REMOVE_ACTIVITY,
+	REMOVE_ACTIVITY_ROLLBACK,
 	ALERTS_LOADED,
 } from './actions';
 
@@ -99,6 +101,9 @@ const myActivities = (state = [], action) => {
 		case ADD_ACTIVITY:
 		case REMOVE_ACTIVITY:
 			return action.activities;
+		case ADD_ACTIVITY_ROLLBACK:
+		case REMOVE_ACTIVITY_ROLLBACK:
+			return action.meta.activities;
 		default:
 			return state;
 	}
