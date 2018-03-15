@@ -30,7 +30,6 @@ const RegisterFormStyles = StyleSheet.create({
 		alignItems: 'center',
 		height: 90,
 		marginTop: 10,
-		//paddingBottom: 20
 	},
 	input: {
 		height: 40,
