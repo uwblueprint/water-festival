@@ -24,8 +24,6 @@ class ActivityList extends React.Component {
 			activities: props.activities,
 			userId: props.userId,
 			refreshList: props.refreshList,
-			onAddActivity: props.onAddActivity,
-			onRemoveActivity: props.onRemoveActivity,
 			isRefreshing: false,
 			sectionList: this.getSectionList(props.activities),
 		};
@@ -40,21 +38,20 @@ class ActivityList extends React.Component {
 		this.state.refreshList(this.state.userId);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities)) console.log('component is updating');
-	  return !arrayOfObjectEquals(nextProps.activities, this.state.activities);
-	}
-
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities)) {
-			console.log('comonent is receiving');
 			this.setState({
 				activities: nextProps.activities,
 				sectionList: this.getSectionList(nextProps.activities)
 			});
 		}
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
+	}
+
+	shouldComponentUpdate(nextProps) {
+		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities))
+			return !arrayOfObjectEquals(nextProps.activities, this.state.activities);
 	}
 
 	onRefresh() {
@@ -100,7 +97,7 @@ class ActivityList extends React.Component {
 		this.setState({ sectionList });
 	}
 
-	renderListItem({ item, index }) {
+	renderListItem({ item }) {
 		return (
 			<ActivityTile
 				renderActivityDetails={ this.renderActivityDetails }
@@ -129,12 +126,12 @@ class ActivityList extends React.Component {
 
 	renderSectionHeader({ section }) {
 		return (section.data.length > 0)
-		 	? (
-					<Text
-						style={ ActivityStyles.sectionHeader }
-					>
-						Grade { section.key }
-					</Text>
+			? (
+				<Text
+					style={ ActivityStyles.sectionHeader }
+				>
+					Grade { section.key }
+				</Text>
 				)
 			: null;
 	}
@@ -156,7 +153,7 @@ class ActivityList extends React.Component {
 					renderItem={ this.renderListItem }
 					keyExtractor={ this.keyExtractor }
 					ListHeaderComponent={ this.renderHeader }
-					initialNumToRender={9}
+					initialNumToRender={ 9 }
 					renderSectionHeader={ this.renderSectionHeader }
 				/>
 			</ScrollView>

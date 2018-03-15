@@ -141,7 +141,7 @@ const offline = (state = {}, action) => {
 		}
 		default:
 			return state;
-		}
+	}
 }
 
 // Turns different reducing functions into a single reducing function

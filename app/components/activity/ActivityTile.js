@@ -39,15 +39,10 @@ class ActivityTile extends Component {
 		this.renderActivityDetails = this.renderActivityDetails.bind(this);
 	}
 
-	shouldComponentUpdate(nextProps) {
-		const hasItem = nextProps.myActivities.includes(this.state.item.id);
-	  return (!this.state.isAdded && hasItem) || (this.state.isAdded && !hasItem);
-	}
-
 	componentWillReceiveProps(nextProps) {
 		// only update if isAdded needs to be changed
 		const hasItem = nextProps.myActivities.includes(this.state.item.id);
-	  if (!this.state.isAdded && hasItem) {
+		if (!this.state.isAdded && hasItem) {
 			this.setState({ isAdded: true });
 		} else if (this.state.isAdded && !hasItem) {
 			this.setState({ isAdded: false });
@@ -57,17 +52,9 @@ class ActivityTile extends Component {
 		}
 	}
 
-	renderActivityDetails(activity, index) {
-		// Due to SectionList, the passed-in index is incorrect for each section (must use "realIndex")
-		this.state.navigate('ActivityDetails', {
-			index: this.state.realIndex,
-			currentActivity: activity,
-			activitiesList: this.state.currentActivities,
-			onAddActivity: this.onAddButtonPress,
-			onRemoveActivity: this.onRemoveButtonPress,
-			myActivities: this.state.myActivities,
-			isMyActivity: this.state.myActivities.includes(activity.id),
-		});
+	shouldComponentUpdate(nextProps) {
+		const hasItem = nextProps.myActivities.includes(this.state.item.id);
+		return (!this.state.isAdded && hasItem) || (this.state.isAdded && !hasItem);
 	}
 
 	onAddButtonPress(itemId) {
@@ -87,35 +74,40 @@ class ActivityTile extends Component {
 		this.state.onRemoveActivity(userId, myActivities, newActivities);
 	}
 
-	render() {
-		const {
-			onAddActivity,
-			onRemoveActivity,
-			item,
-			index,
-			isAdded
-		} = this.state;
+	renderActivityDetails(activity) {
+		// Due to SectionList, the passed-in index is incorrect for each section (must use "realIndex")
+		this.state.navigate('ActivityDetails', {
+			index: this.state.realIndex,
+			currentActivity: activity,
+			activitiesList: this.state.currentActivities,
+			onAddActivity: this.onAddButtonPress,
+			onRemoveActivity: this.onRemoveButtonPress,
+			myActivities: this.state.myActivities,
+			isMyActivity: this.state.myActivities.includes(activity.id),
+		});
+	}
 
-		console.log('render');
+	render() {
+		const { item, isAdded } = this.state;
 
 		const icon = isAdded
 			? (
-					<Icon
-						style={ ActivityStyles.activityListItemIcon }
-						name="ios-remove-circle"
-						color={ darkBlue }
-						size={ 35 }
-						onPress={ () => this.onRemoveButtonPress(item.id) }
-					/>
+				<Icon
+					style={ ActivityStyles.activityListItemIcon }
+					name="ios-remove-circle"
+					color={ darkBlue }
+					size={ 35 }
+					onPress={ () => this.onRemoveButtonPress(item.id) }
+				/>
 				)
 			: (
-					<Icon
-						style={ ActivityStyles.activityListItemIcon }
-						name="ios-add-circle"
-						color={ darkBlue }
-						size={ 35 }
-						onPress={ () => this.onAddButtonPress(item.id) }
-					/>
+				<Icon
+					style={ ActivityStyles.activityListItemIcon }
+					name="ios-add-circle"
+					color={ darkBlue }
+					size={ 35 }
+					onPress={ () => this.onAddButtonPress(item.id) }
+				/>
 				);
 
 			return (
@@ -126,7 +118,7 @@ class ActivityTile extends Component {
 					key={ item.id }
 					title={ item.title }
 					subtitle={ "Station " + item.station }
-					onPress={ () => this.renderActivityDetails(item, index) }
+					onPress={ () => this.renderActivityDetails(item) }
 					rightIcon={ icon }
 				/>
 			);
