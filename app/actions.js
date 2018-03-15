@@ -14,7 +14,9 @@ export const USER_ACTIVITY_REQUEST = 'USER_ACTIVITY_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
 export const USER_ACTIVITY_LOADED = 'USER_ACTIVITY_LOADED';
 export const ADD_ACTIVITY = 'ADD_ACTIVITY';
+export const ADD_ACTIVITY_ROLLBACK = 'ADD_ACTIVITY_ROLLBACK';
 export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
+export const REMOVE_ACTIVITY_ROLLBACK = 'REMOVE_ACTIVITY_ROLLBACK';
 export const ALERTS_REQUEST = 'ALERTS_REQUEST'; // not used
 export const ALERTS_LOADED = 'ALERTS_LOADED';
 
@@ -96,9 +98,9 @@ export const getUserActivities = (userId) => ({
 	}
 });
 
-export const addActivity = (id, activities) => ({
+export const addActivity = (id, oldActivities, newActivities) => ({
 	type: ADD_ACTIVITY,
-	activities,
+	activities: newActivities,
 	meta: {
 		offline: {
 			effect: {
@@ -106,16 +108,20 @@ export const addActivity = (id, activities) => ({
 				method: 'PUT',
 				body: JSON.stringify({
 					id,
-					activities
+					activities: newActivities
 				})
+			},
+			rollback: {
+				type: ADD_ACTIVITY_ROLLBACK,
+				meta: { activities: oldActivities }
 			}
 		}
 	}
 });
 
-export const removeActivity = (id, activities) => ({
+export const removeActivity = (id, oldActivities, newActivities) => ({
 	type: REMOVE_ACTIVITY,
-	activities,
+	activities: newActivities,
 	meta: {
 		offline: {
 			effect: {
@@ -123,8 +129,12 @@ export const removeActivity = (id, activities) => ({
 				method: 'PUT',
 				body: JSON.stringify({
 					id,
-					activities
+					activities: newActivities,
 				})
+			},
+			rollback: {
+				type: REMOVE_ACTIVITY_ROLLBACK,
+				meta: { activities: oldActivities }
 			}
 		}
 	}

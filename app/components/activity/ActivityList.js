@@ -7,36 +7,30 @@ import {
 	SectionList,
 	Text
 } from 'react-native';
-import { ListItem, SearchBar } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { SearchBar } from 'react-native-elements';
+import ActivityTile from './ActivityTile';
 import ActivityStyles from '../../styles/ActivityStyles';
 import {
 	getActivityList,
-	getUserActivities,
-	addActivity,
-	removeActivity
+	getUserActivities
 } from '../../actions';
-import { darkBlue } from '../../styles/Colours';
-
+import { arrayOfObjectEquals } from '../../utils/arrays';
 
 class ActivityList extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentActivities: props.currentActivities,
-			filteredActivities: props.currentActivities,
+			activities: props.activities,
 			userId: props.userId,
-			myActivities: props.myActivities,
 			refreshList: props.refreshList,
-			onAddActivity: props.onAddActivity,
-			onRemoveActivity: props.onRemoveActivity,
 			isRefreshing: false,
+			sectionList: this.getSectionList(props.activities),
 		};
 
-		this.onAddButtonPress = this.onAddButtonPress.bind(this);
-		this.onRemoveButtonPress = this.onRemoveButtonPress.bind(this);
 		this.onRefresh = this.onRefresh.bind(this);
+		this.handleSearchChange = this.handleSearchChange.bind(this);
+		this.renderHeader = this.renderHeader.bind(this);
 		this.renderListItem = this.renderListItem.bind(this);
 	}
 
@@ -46,14 +40,18 @@ class ActivityList extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
-		if (nextProps.currentActivities !== this.state.currentActivities ||
-			nextProps.myActivities !== this.state.myActivities) {
+		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities)) {
 			this.setState({
-				currentActivities: nextProps.currentActivities,
-				myActivities: nextProps.myActivities,
+				activities: nextProps.activities,
+				sectionList: this.getSectionList(nextProps.activities)
 			});
 		}
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
+	}
+
+	shouldComponentUpdate(nextProps) {
+		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities))
+			return !arrayOfObjectEquals(nextProps.activities, this.state.activities);
 	}
 
 	onRefresh() {
@@ -61,89 +59,52 @@ class ActivityList extends React.Component {
 		this.state.refreshList(this.state.userId);
 	}
 
-	onAddButtonPress(itemId) {
-		const { userId, myActivities } = this.state;
-		if (myActivities.indexOf(itemId) >= 0) return;
+	getSectionList(activities) {
+		const list = [
+			{
+				key: 2,
+				data: []
+			},
+			{
+				key: 3,
+				data: []
+			},
+			{
+				key: 4,
+				data: []
+			},
+			{
+				key: 5,
+				data: []
+			},
+		];
+		activities.forEach(a => a.grade.forEach(grade => list[grade - 2].data.push(a)));
 
-		myActivities.push(itemId);
-		this.state.onAddActivity(userId, myActivities);
-	}
-
-	onRemoveButtonPress(itemId) {
-		const { userId, myActivities } = this.state;
-		const index = myActivities.indexOf(itemId);
-		if (index < 0) return;
-
-		myActivities.splice(index, 1);
-		this.state.onRemoveActivity(userId, myActivities);
-	}
-
-	getSectionList() {
-		const sectionList = [];
-		for (const activity of this.state.filteredActivities){
-			for (const grade of activity.grade){
-				var matchingSection = sectionList.find(section => section.key === grade)
-				if (matchingSection){
-					matchingSection.data.push(activity);
-				} else {
-					sectionList.push({
-						data: [activity],
-						key: grade
-					})
-				}
-			}
-		}
-		sectionList.sort(function(a, b) {
-			return a.key - b.key;
-		});
-		return sectionList;
+		return list;
 	}
 
 	// linting error required that keyExtractor is placed after getSectionList
 	keyExtractor = (item) => item.id;
 
 	handleSearchChange(term) {
-		const { currentActivities } = this.state;
+		const { activities } = this.state;
 
-		const filteredActivities = currentActivities.filter(item => {
+		const filteredActivities = activities.filter(item => {
 			return item.title.toLowerCase().trim().indexOf(term.toLowerCase().trim()) > -1;
 		});
 
-		this.setState({ filteredActivities })
+		const sectionList = this.getSectionList(filteredActivities);
+		this.setState({ sectionList });
 	}
 
-	renderListItem({ item, index }) {
-		const addIcon = (
-			<Icon
-				style={ ActivityStyles.activityListItemIcon }
-				name="ios-add-circle"
-				color={ darkBlue }
-				size={ 35 }
-				onPress={ () => this.onAddButtonPress(item.id) }
-			/>
-		);
-		const removeIcon = (
-			<Icon
-				style={ ActivityStyles.activityListItemIcon }
-				name="ios-remove-circle"
-				color={ darkBlue }
-				size={ 35 }
-				onPress={ () => this.onRemoveButtonPress(item.id) }
-			/>
-		);
-
-		const icon = this.state.myActivities.includes(item.id) ? removeIcon : addIcon;
-
+	renderListItem({ item }) {
 		return (
-			<ListItem
-				containerStyle={ ActivityStyles.activityListItem }
-				titleStyle={ ActivityStyles.activityListItemText }
-				subtitleStyle={ ActivityStyles.activityListItemSubtitle }
-				key={ item.id }
-				title={ item.title }
-				subtitle={ "Station " + item.station }
-				onPress={ () => this.renderActivityDetails(item, index) }
-				rightIcon={ icon }
+			<ActivityTile
+				renderActivityDetails={ this.renderActivityDetails }
+				item={ item }
+				userId={ this.state.userId }
+				realIndex={ this.state.activities.indexOf(item) }
+				navigate={ this.props.navigation.navigate }
 			/>
 		);
 	}
@@ -163,22 +124,19 @@ class ActivityList extends React.Component {
 		);
 	}
 
-	renderActivityDetails(activity, index) {
-		// Due to SectionList, the passed-in index is for each section (incorrect)
-		index = this.state.currentActivities.indexOf(activity);
-		this.props.navigation.navigate('ActivityDetails', {
-			index,
-			currentActivity: activity,
-			activitiesList: this.state.currentActivities,
-			onAddActivity: this.onAddButtonPress,
-			onRemoveActivity: this.onRemoveButtonPress,
-			myActivities: this.state.myActivities,
-			isMyActivity: this.state.myActivities.includes(activity.id),
-		});
+	renderSectionHeader({ section }) {
+		return (section.data.length > 0)
+			? (
+				<Text
+					style={ ActivityStyles.sectionHeader }
+				>
+					Grade { section.key }
+				</Text>
+				)
+			: null;
 	}
 
 	render() {
-		const sectionList = this.getSectionList();
 		const refreshControl = (
 			<RefreshControl
 				refreshing={ this.state.isRefreshing }
@@ -191,28 +149,22 @@ class ActivityList extends React.Component {
 				refreshControl={ refreshControl }
 			>
 				<SectionList
-					sections={ sectionList }
+					sections={ this.state.sectionList }
 					renderItem={ this.renderListItem }
 					keyExtractor={ this.keyExtractor }
 					ListHeaderComponent={ this.renderHeader }
-					renderSectionHeader={ ({ section }) => (
-						<Text
-							style={ ActivityStyles.sectionHeader }
-						>
-							Grade { section.key }
-						</Text>
-					) }
+					initialNumToRender={ 9 }
+					renderSectionHeader={ this.renderSectionHeader }
 				/>
 			</ScrollView>
 		);
 	}
 }
 
-const mapStateToProps = ({ currentActivities, myActivities, currentUser }) => {
+const mapStateToProps = ({ currentActivities, currentUser }) => {
 	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
 	return {
-		currentActivities,
-		myActivities,
+		activities: currentActivities,
 		userId
 	};
 };
@@ -222,29 +174,15 @@ const mapDispatchToProps = dispatch => {
 		refreshList: (userId) => {
 			dispatch(getUserActivities(userId))
 			dispatch(getActivityList());
-		},
-		onAddActivity: (userId, userActivities) => {
-			dispatch(addActivity(userId, userActivities));
-		},
-		onRemoveActivity: (userId, userActivities) => {
-			dispatch(removeActivity(userId, userActivities));
 		}
 	}
 };
 
 ActivityList.propTypes = {
-	currentActivities: PropTypes.array.isRequired,
-	myActivities: PropTypes.array.isRequired,
+	activities: PropTypes.array.isRequired,
 	userId: PropTypes.string.isRequired,
 	refreshList: PropTypes.func.isRequired,
-	onAddActivity: PropTypes.func.isRequired,
-	onRemoveActivity: PropTypes.func.isRequired,
-	navigation: PropTypes.object.isRequired,
-	navigate: PropTypes.func
-};
-
-ActivityList.defaultProps = {
-	navigate:() => {}
+	navigation: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ActivityList);
