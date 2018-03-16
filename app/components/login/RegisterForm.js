@@ -264,7 +264,7 @@ class RegisterForm extends Component {
 							style={ styles.loginButton }
 							onPress={ this.state.onHaveAccountPress }
 						>
-							<Text style={ styles.loginText }>REGISTER</Text>
+							<Text style={ styles.loginText }>LOGIN</Text>
 						</TouchableOpacity>
 					</View>
 				</HideWithKeyboard>

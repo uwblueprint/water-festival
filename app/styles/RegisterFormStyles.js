@@ -93,7 +93,7 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	loginButton: {
 		backgroundColor: "white",
-		paddingVertical: 13,
+		paddingVertical: 10,
 		borderRadius: 30,
 		borderWidth: 1,
 		borderColor: darkBlue,
