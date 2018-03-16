@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 import {
-	darkBlue, 
+	darkBlue,
 	lightGray,
 	darkGray,
 	green,
@@ -169,6 +169,34 @@ const ActivityStyles = StyleSheet.create({
 		backgroundColor:grayBlue,
 		borderRadius: 10,
 		fontSize: 16,
+	},
+	activityBadge: {
+		width: 70,
+		height: 20,
+		marginTop: 10,
+		marginRight:75,
+		paddingVertical: 2,
+		borderRadius : 20,
+		borderWidth: 1,
+		backgroundColor: "white",
+		overflow: 'hidden',
+	},
+	badgeText: {
+		fontSize: 10,
+		fontWeight: "300",
+		textAlign: "center",
+	},
+	activityBadgeNew: {
+		borderColor: green,
+	},
+	badgeTextNew: {
+		color: green,
+	},
+	activityBadgeClosed: {
+		borderColor: deleteRed,
+	},
+	badgeTextClosed: {
+		color: deleteRed,
 	},
 });
 
