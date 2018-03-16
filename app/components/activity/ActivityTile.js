@@ -97,7 +97,7 @@ class ActivityTile extends Component {
 				<View
 					style={ [ActivityStyles.activityBadge, ActivityStyles.activityBadgeClosed] }
 				>
-					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextClosed] }>CLOSED!</Text>
+					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextClosed] }>CLOSED</Text>
 				</View>
 			);
 		} else if (item.isNewActivity){
@@ -105,7 +105,7 @@ class ActivityTile extends Component {
 				<View
 					style={ [ActivityStyles.activityBadge, ActivityStyles.activityBadgeNew] }
 				>
-					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextNew] }>NEW!</Text>
+					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextNew] }>NEW</Text>
 				</View>
 			);
 		} else{
@@ -146,7 +146,7 @@ class ActivityTile extends Component {
 					subtitle={ "Station " + item.station }
 					onPress={ () => this.renderActivityDetails(item) }
 					rightIcon={ icon }
-					badge={{element: badge}}
+					badge={{ element: badge }}
 				/>
 			);
 	}
