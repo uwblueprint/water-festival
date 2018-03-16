@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import {
+	View,
+	Text,
+} from 'react-native';
 import { ListItem } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { addActivity, removeActivity } from '../../actions';
@@ -87,8 +91,31 @@ class ActivityTile extends Component {
 		});
 	}
 
+	renderActivityBadge(item){
+		if (!item.isOpen){
+			return (
+				<View
+					style={ [ActivityStyles.activityBadge, ActivityStyles.activityBadgeClosed] }
+				>
+					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextClosed] }>CLOSED!</Text>
+				</View>
+			);
+		} else if (item.isNewActivity){
+			return (
+				<View
+					style={ [ActivityStyles.activityBadge, ActivityStyles.activityBadgeNew] }
+				>
+					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextNew] }>NEW!</Text>
+				</View>
+			);
+		} else{
+			return (<View />);
+		}
+	}
+
 	render() {
 		const { item, isAdded } = this.state;
+		const badge = this.renderActivityBadge(item);
 		const icon = isAdded
 			? (
 				<Icon
@@ -119,6 +146,7 @@ class ActivityTile extends Component {
 					subtitle={ "Station " + item.station }
 					onPress={ () => this.renderActivityDetails(item) }
 					rightIcon={ icon }
+					badge={{element: badge}}
 				/>
 			);
 	}
