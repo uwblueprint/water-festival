@@ -40,16 +40,16 @@ class Home extends React.Component {
 			>
 				<View style={ HomeStyles.topBar }>
 					<Icon
-						name="notifications"
+						name="notifications-none"
 						color={ darkGray }
-						size={ 35 }
+						size={ 30 }
 						onPress={ () => this.props.navigation.navigate("AlertsScreen") }
 					/>
 					<Image resizeMode="contain" style={ HomeStyles.logo } source={ logo } />
 					<Icon
 						name="settings"
 						color={ darkGray }
-						size={ 35 }
+						size={ 30 }
 						onPress={ () => this.props.navigation.navigate("SettingsScreen") }
 					/>
 				</View>

@@ -15,13 +15,15 @@ const HomeStyles = StyleSheet.create({
 		paddingBottom: 30,
 	},
 	topBar: {
+		alignItems: 'center',
 		flexDirection: 'row',
 	},
 	logo: {
 		justifyContent: 'center',
 		marginTop: 10,
 		alignItems: 'center',
-		height: 110
+		height: 110,
+		width: 230
 	},
 	welcomeMessage: {
 		padding: 15,
