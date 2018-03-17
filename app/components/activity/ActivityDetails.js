@@ -11,14 +11,29 @@ import Header from '../Header'
 
 class ActivityDetails extends React.Component {
 	static navigationOptions = ({ navigation }) => ({
-		header: (
-			<Header
-				title="Activity Details"
-				hasBackButton
-				navigation={ navigation }
-				goBack={ () => navigation.goBack() }
-			/>
-		),
+		header:  () => {
+			const activity = navigation.state.params.currentActivity;
+			const defaultHeader = (
+				<Header
+					title="Activity Details"
+					hasBackButton
+					navigation={ navigation }
+					goBack={ () => navigation.goBack() }
+				/>
+			);
+			const errorMessage = "CLOSED: " + (activity.state ? activity.state : "This event is currently closed due to unforeseen circumstances, thanks for your understanding!");
+			const selectedHeader = activity.isOpen ? defaultHeader : (
+				<View>
+					<View style={ ActivityStyles.errorMessage }>
+						<Text style={ ActivityStyles.errorMessageText }>
+							{ errorMessage }
+						</Text>
+					</View>
+					{ defaultHeader }
+				</View>
+			);
+			return selectedHeader;
+		},
 		title: "All Activities",
 		swipeEnabled: false,
 	});
