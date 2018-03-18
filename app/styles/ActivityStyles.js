@@ -198,6 +198,18 @@ const ActivityStyles = StyleSheet.create({
 	badgeTextClosed: {
 		color: deleteRed,
 	},
+	errorMessage: {
+		backgroundColor: deleteRed,
+		paddingHorizontal: 10,
+		paddingVertical: 15,
+		alignItems: 'center',
+		justifyContent: 'center',
+	},
+	errorMessageText: {
+		color: "white",
+		textAlign: "center",
+		fontSize: 12,
+	},
 });
 
 export default ActivityStyles;
