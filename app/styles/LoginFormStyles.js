@@ -12,7 +12,7 @@ const LoginFormStyles = StyleSheet.create({
 		footer: {
 			alignItems: 'center',
 			height: 70,
-			marginTop: 90,
+			marginTop: 40,
 			paddingBottom: 20
 		},
 		input: {
@@ -44,7 +44,7 @@ const LoginFormStyles = StyleSheet.create({
 		forgotPassText: {
 			color: darkBlue,
 			textAlign: 'right',
-			fontSize: 15,
+			fontSize: 12,
 			marginBottom: 25,
 			marginRight: 20,
 			marginTop: 10,
@@ -66,7 +66,7 @@ const LoginFormStyles = StyleSheet.create({
 		},
 		registerButton: {
 			backgroundColor: "white",
-			paddingVertical: 13,
+			paddingVertical: 10,
 			borderRadius: 30,
 			borderWidth: 1,
 			borderColor: darkBlue,

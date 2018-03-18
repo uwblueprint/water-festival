@@ -64,7 +64,6 @@ class LoginForm extends Component {
 				<View style={ styles.container }>
 					<StatusBar barStyle="light-content" />
 					<ErrorMessage msg={ this.state.errorMsg } />
-					{ body }
 					<View style={ styles.contentContainer }>
 						<TextInput
 							style={ styles.input }
