@@ -63,10 +63,6 @@ const passwordConstraints = {
     presence: {
       allowEmpty: false
     },
-    format: {
-      pattern: '(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z])[a-zA-Z0-9]+',
-      message: "must contain a capital letter, a lowercase letter, and a number"
-    },
     length: {
       minimum: 6,
       message: "must be at least 6 characters"
