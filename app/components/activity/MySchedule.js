@@ -6,15 +6,15 @@ import {
 	ScrollView,
 	FlatList,
 } from 'react-native';
-import { ListItem, Icon } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
+import MyScheduleTile from './MyScheduleTile';
 import ActivityStyles from '../../styles/ActivityStyles';
 import {
 	getActivityList,
 	getUserActivities,
-	addActivity,
-	removeActivity
 } from '../../actions';
-import { darkGray,darkBlue } from '../../styles/Colours';
+import { arrayOfObjectEquals } from '../../utils/arrays';
+import { darkBlue } from '../../styles/Colours';
 
 const BEGIN = {
 	id: 'BEGIN',
@@ -31,17 +31,12 @@ class MySchedule extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			currentActivities: props.currentActivities,
 			userId: props.userId,
-			myActivities: props.myActivities,
 			refreshList: props.refreshList,
-			onAddActivity: props.onAddActivity,
-			onRemoveActivity: props.onRemoveActivity,
 			isRefreshing: false,
+			myActivities: props.currentActivities.filter(item => props.myActivities.includes(item.id)),
 		};
 
-    this.onAddButtonPress = this.onAddButtonPress.bind(this);
-		this.onRemoveButtonPress = this.onRemoveButtonPress.bind(this);
 		this.onRefresh = this.onRefresh.bind(this);
 		this.renderListItem = this.renderListItem.bind(this);
 	}
@@ -51,8 +46,11 @@ class MySchedule extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.myActivities !== this.state.myActivities) {
-			this.setState({ myActivities: nextProps.myActivities });
+		// Avoiding refresh if possible
+		if (!arrayOfObjectEquals(nextProps.myActivities, this.state.myActivities)) {
+			this.setState({
+				myActivities: nextProps.currentActivities.filter(item => nextProps.myActivities.includes(item.id)),
+			});
 		}
 
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
@@ -63,80 +61,18 @@ class MySchedule extends React.Component {
 		this.state.refreshList(this.state.userId);
 	}
 
-	onAddButtonPress(itemId) {
-		const { userId, myActivities } = this.state;
-		if (myActivities.indexOf(itemId) >= 0) return;
-
-		myActivities.push(itemId);
-		this.state.onAddActivity(userId, myActivities);
-	}
-
-	onRemoveButtonPress(itemId) {
-		const { userId, myActivities } = this.state;
-		const index = myActivities.indexOf(itemId);
-		if (index < 0) return;
-
-		myActivities.splice(index, 1);
-		this.state.onRemoveActivity(userId, myActivities);
-	}
-
-	renderListItem({ item, index }) {
-		if (item.id === 'BEGIN' || item.id === 'END') {
-			return (
-				<ListItem
-					containerStyle={ ActivityStyles.activityListBlueItem }
-					titleStyle={ ActivityStyles.activityListItemBlueText }
-					key={ item.id }
-					title={ item.title }
-					chevronColor={ darkBlue }
-				/>
-			)
-		}
-
-		if (!this.state.myActivities.includes(item.id)) {
-      return null;
-		}
-
-		const icon = (
-			<Icon
-				name='arrow-forward'
-				size={ 30 }
-				color={ darkGray }
-				style={{ marginTop: 5 }}
-			/>
-		);
-
+	renderListItem({ item }) {
 		return (
-			<ListItem
-				containerStyle={ ActivityStyles.activityListItem }
-				titleStyle={ ActivityStyles.activityListItemText }
-				subtitleStyle={ ActivityStyles.activityListItemSubtitle }
-				key={ item.id }
-				title={ item.title }
-				subtitle={ "Station " + item.station }
-				onPress={ () => this.renderActivityDetails(item, index) }
-				rightIcon={ icon }
+			<MyScheduleTile
+				item={ item }
+				userId={ this.state.userId }
+				realIndex={ this.state.myActivities.indexOf(item) }
+				navigate={ this.props.navigation.navigate }
 			/>
 		);
   }
 
-  renderActivityDetails(activity, index) {
-		// Due to SectionList, the passed-in index is for each section (incorrect)
-		index = this.state.currentActivities.indexOf(activity);
-		this.props.navigation.navigate('ActivityDetails', {
-			index,
-			currentActivity: activity,
-			activitiesList: this.state.currentActivities,
-			onAddActivity: this.onAddButtonPress,
-			onRemoveActivity: this.onRemoveButtonPress,
-			myActivities: this.state.myActivities,
-			isMyActivity: this.state.myActivities.includes(activity.id),
-		});
-	}
-
 	render() {
-		const activities = [BEGIN, ...this.state.currentActivities, END];
-
 		const refreshControl = (
 			<RefreshControl
 				refreshing={ this.state.isRefreshing }
@@ -149,18 +85,33 @@ class MySchedule extends React.Component {
 				style={ ActivityStyles.activityPadding }
 				refreshControl={ refreshControl }
 			>
+				<ListItem
+					containerStyle={ ActivityStyles.activityListBlueItem }
+					titleStyle={ ActivityStyles.activityListItemBlueText }
+					key={ BEGIN.id }
+					title={ BEGIN.title }
+					chevronColor={ darkBlue }
+				/>
 				<FlatList
-					data={ activities }
+					data={ this.state.myActivities }
 					renderItem={ this.renderListItem }
 					extraData={ this.state }
+					initialNumToRender={ 7 }
 					keyExtractor={ item => item.id }
+				/>
+				<ListItem
+					containerStyle={ ActivityStyles.activityListBlueItem }
+					titleStyle={ ActivityStyles.activityListItemBlueText }
+					key={ END.id }
+					title={ END.title }
+					chevronColor={ darkBlue }
 				/>
 			</ScrollView>
 		);
 	}
 }
 
-const mapStateToProps = ({ currentActivities, myActivities, currentUser }) => {
+const mapStateToProps = ({ currentActivities, currentUser, myActivities }) => {
 	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
 	return {
 		currentActivities,
@@ -172,14 +123,8 @@ const mapStateToProps = ({ currentActivities, myActivities, currentUser }) => {
 const mapDispatchToProps = dispatch => {
 	return {
 		refreshList: (userId) => {
-			dispatch(getUserActivities(userId));
+			dispatch(getUserActivities(userId))
 			dispatch(getActivityList());
-		},
-		onAddActivity: (userId, userActivities) => {
-			dispatch(addActivity(userId, userActivities));
-		},
-		onRemoveActivity: (userId, userActivities) => {
-			dispatch(removeActivity(userId, userActivities));
 		}
 	}
 };
@@ -189,14 +134,7 @@ MySchedule.propTypes = {
 	myActivities: PropTypes.array.isRequired,
 	userId: PropTypes.string.isRequired,
 	refreshList: PropTypes.func.isRequired,
-	onAddActivity: PropTypes.func.isRequired,
-	onRemoveActivity: PropTypes.func.isRequired,
-	navigation: PropTypes.object.isRequired,
-	navigate: PropTypes.func
-};
-
-MySchedule.defaultProps = {
-	navigate:() => {}
+	navigation: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MySchedule);

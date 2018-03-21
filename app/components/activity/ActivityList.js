@@ -46,6 +46,7 @@ class ActivityList extends React.Component {
 				sectionList: this.getSectionList(nextProps.activities)
 			});
 		}
+		
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
 	}
 
@@ -99,7 +100,6 @@ class ActivityList extends React.Component {
 	renderListItem({ item }) {
 		return (
 			<ActivityTile
-				renderActivityDetails={ this.renderActivityDetails }
 				item={ item }
 				userId={ this.state.userId }
 				realIndex={ this.state.activities.indexOf(item) }
