@@ -77,12 +77,13 @@ const ActivityStyles = StyleSheet.create({
 	},
 	activityDetailsContainerText: {
 		paddingLeft: 50,
-		paddingTop: 30,
+		paddingTop: 20,
 		paddingRight: 50,
 	},
 	activityDetailsContainerButtons: {
 		alignItems: 'center',
 		justifyContent: 'center',
+		paddingBottom: 30
 	},
 	activityDetailsTitle: {
 		fontSize: 25,
@@ -95,7 +96,7 @@ const ActivityStyles = StyleSheet.create({
 	},
 	activityDetailsGrade: {
 		fontSize: 20,
-		paddingBottom: 50,
+		paddingBottom: 25,
 		color: darkGray
 	},
 	activityDetailsDescription: {
