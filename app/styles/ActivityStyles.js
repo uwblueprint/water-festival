@@ -76,9 +76,9 @@ const ActivityStyles = StyleSheet.create({
 		flex: 1,
 	},
 	activityDetailsContainerText: {
-		paddingLeft: 60,
+		paddingLeft: 50,
 		paddingTop: 30,
-		paddingRight: 20,
+		paddingRight: 50,
 	},
 	activityDetailsContainerButtons: {
 		alignItems: 'center',
@@ -154,7 +154,7 @@ const ActivityStyles = StyleSheet.create({
 		textAlign: "center",
 	},
 	activityDetailsImage:{
-		width: 300,
+		width: '100%',
 		height: 180,
 	},
 	activitySearch: {
