@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { darkGray } from './Colours';
+import { darkGray, darkBlue } from './Colours';
 
 const HeaderStyles = StyleSheet.create({
 	headerContainer: {
@@ -26,6 +26,16 @@ const HeaderStyles = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 	},
+	editButton: {
+		paddingRight: 20,
+	},
+	editButtonText: {
+		color: darkBlue,
+		fontSize: 18,
+	},
+	backButton: {
+		paddingTop: 20,
+	}
 });
 
 export default HeaderStyles;

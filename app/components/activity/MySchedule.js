@@ -68,6 +68,7 @@ class MySchedule extends React.Component {
 				userId={ this.state.userId }
 				realIndex={ this.state.myActivities.indexOf(item) }
 				navigate={ this.props.navigation.navigate }
+				isEditing={ this.props.isEditing }
 			/>
 		);
   }
@@ -134,7 +135,8 @@ MySchedule.propTypes = {
 	myActivities: PropTypes.array.isRequired,
 	userId: PropTypes.string.isRequired,
 	refreshList: PropTypes.func.isRequired,
-	navigation: PropTypes.object.isRequired
+	navigation: PropTypes.object.isRequired,
+	isEditing: PropTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MySchedule);
