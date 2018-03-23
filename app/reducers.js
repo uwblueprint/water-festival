@@ -13,6 +13,7 @@ import {
 	REMOVE_ACTIVITY,
 	REMOVE_ACTIVITY_ROLLBACK,
 	ALERTS_LOADED,
+	TOKEN_LOADED,
 } from './actions';
 
 const REHYDRATE = 'persist/REHYDRATE';
@@ -121,6 +122,20 @@ const currentAlerts = (state = [], action) => {
 	}
 };
 
+// Retrieve token List from server
+const currentTokens = (state = [], action) => {
+	switch (action.type) {
+		case TOKEN_LOADED: {
+			const tokenList = action.payload;
+			// eslint-disable-next-line no-console
+			if (!tokenList) console.log('ERROR: tokenList is undefined');
+			return tokenList || state;
+		}
+		default:
+			return state;
+	}
+};
+
 // Check for offline
 const offline = (state = {}, action) => {
 	switch (action.type) {
@@ -147,6 +162,7 @@ const offline = (state = {}, action) => {
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
 	currentQuestions,
+	currentTokens,
 	isLoggedIn,
 	authStatus,
 	currentUser,
