@@ -45,6 +45,7 @@
     "react-native-image-pan-zoom": "^2.0.16",
     "react-native-material-bottom-navigation": "^0.5.2",
     "react-native-modal": "^5.0.1",
+    "react-native-push-notification": "^3.0.2",
     "react-native-swiper": "^1.5.13",
     "react-native-vector-icons": "^4.4.2",
     "react-navigation": "^1.0.0-beta.15",

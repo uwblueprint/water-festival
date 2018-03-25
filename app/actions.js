@@ -19,6 +19,8 @@ export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
 export const REMOVE_ACTIVITY_ROLLBACK = 'REMOVE_ACTIVITY_ROLLBACK';
 export const ALERTS_REQUEST = 'ALERTS_REQUEST'; // not used
 export const ALERTS_LOADED = 'ALERTS_LOADED';
+export const TOKEN_LOAD_REQUEST = 'TOKEN_LOAD_REQUEST';
+export const TOKEN_LOADED = 'TOKEN_LOADED';
 
 const API_URL = 'https://water-fest.herokuapp.com';
 
@@ -149,6 +151,18 @@ export const getAlertsList = () => ({
 				method: 'GET'
 			},
 			commit: { type: ALERTS_LOADED }
+		}
+	}
+});
+
+export const getTokenList = () => ({
+	type: TOKEN_LOAD_REQUEST,
+	meta: {
+		offline: {
+			// the network action to execute:
+			effect: { url: `${API_URL}/tokens/list`, method: 'GET' },
+			// action to dispatch when effect succeeds:
+			commit: { type: TOKEN_LOADED }
 		}
 	}
 });

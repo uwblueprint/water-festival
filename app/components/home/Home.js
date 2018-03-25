@@ -7,12 +7,14 @@ import {
 	Text,
 	ScrollView
 } from 'react-native';
+import { Permissions, Notifications } from 'expo';
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomeStyles from '../../styles/HomeStyles';
 import logo from '../../images/wwcgf_logo.png';
 import { darkGray } from '../../styles/Colours';
-import { logout } from '../../actions';
+import { logout, getTokenList } from '../../actions';
+
 
 class Home extends React.Component {
 
@@ -24,12 +26,74 @@ class Home extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const { onLogout, name } = props;
-
 		this.state = {
-			onLogout,
-			name
+			onLogout: props.onLogout,
+			name: props.name,
+			userId: props.userId,
+			getTokenList: props.getTokenList,
+			currentTokens: props.currentTokens
 		};
+	}
+
+	componentWillMount() {
+		this.registerForPushNotifications();
+	}
+
+	componentDidMount() {
+		this.state.getTokenList();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.currentTokens !== this.state.currentTokens) {
+			this.setState({
+				currentTokens: nextProps.currentTokens
+			});
+		}
+	}
+
+	componentWillUnmount(){
+			this._notificationSubscription && this._notificationSubscription.remove();
+	}
+
+	handleNotification = () => {
+		this.props.navigation.navigate("AlertsScreen")
+	};
+
+	async registerForPushNotifications() {
+		const API_URL = 'https://water-fest.herokuapp.com/tokens/insert';
+
+		const { status: existingStatus } = await Permissions.getAsync(
+			Permissions.NOTIFICATIONS
+		);
+		var finalStatus = existingStatus;
+
+		if (existingStatus !== 'granted') {
+			const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+			finalStatus = status;
+		}
+		if (finalStatus !== 'granted') return;
+
+		var token = await Notifications.getExpoPushTokenAsync();
+		this.subscription = Notifications.addListener(this.handleNotification);
+
+		// We don't want to post tokens that have already been sent
+		if (this.state.currentTokens.filter(t => t.token == token).length > 0) {
+			return;
+		}
+
+		const tokenObject = {
+			userId: this.state.userId,
+			token: token
+		};
+
+		return fetch(API_URL, {
+			method: 'POST',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(tokenObject),
+		});
 	}
 
 	render() {
@@ -104,21 +168,30 @@ class Home extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ currentUser }) => {
+const mapStateToProps = ({ currentTokens, currentUser }) => {
 	const name = (currentUser && currentUser.hasOwnProperty('name')) ? currentUser.name : '';
-	return { name };
+	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : '';
+	return {
+		currentTokens,
+		userId,
+		name
+	};
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		onLogout: () => {
 			dispatch(logout());
-		}
+		},
+		getTokenList: () => dispatch(getTokenList()),
 	};
 };
 
 Home.propTypes = {
 	name: PropTypes.string.isRequired,
+	userId: PropTypes.string.isRequired,
+	currentTokens: PropTypes.array.isRequired,
+	getTokenList: PropTypes.func.isRequired,
 	navigation: PropTypes.object.isRequired,
 	onLogout: PropTypes.func.isRequired,
 	navigate: PropTypes.func
