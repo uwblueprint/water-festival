@@ -2,14 +2,22 @@
   "expo": {
     "sdkVersion": "22.0.0",
 		"name": "Water Festival",
-    "icon": "./app/images/wwcgf_logo.png",
+    "icon": "./app/images/app_logo.png",
     "version": "1.0.0",
     "slug": "water-festival",
+    "orientation": "portrait",
+    "primaryColor": "#0288D1",
+    "splash": {
+      "image": "",
+      "backgroundColor": "#F2F6FF"
+    },
     "ios": {
-      "bundleIdentifier": "com.uwblueprint.waterfestival"
+      "bundleIdentifier": "com.uwblueprint.waterfestival",
+      "buildNumber": "1.0"
     },
     "android": {
-      "package": "com.uwblueprint.waterfestival"
+      "package": "com.uwblueprint.waterfestival",
+      "versionCode": 1
     }
   }
 }

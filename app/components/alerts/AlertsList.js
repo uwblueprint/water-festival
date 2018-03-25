@@ -7,10 +7,6 @@ import AlertsStyles from '../../styles/AlertStyles';
 import { getAlertsList } from '../../actions';
 
 class AlertsList extends React.Component {
-  static navigationOptions = {
-		title: 'Alerts',
-  };
-
   constructor(props) {
     super(props);
 

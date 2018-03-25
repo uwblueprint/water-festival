@@ -15,7 +15,7 @@ class AlertsScreen extends React.Component {
 				goBack={ () => navigation.dispatch(NavigationActions.back()) }
 			/>
 		),
-		title: "Alerts",
+		title: "Home",
 	});
 
 	constructor(props) {
