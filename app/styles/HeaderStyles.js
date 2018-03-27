@@ -4,6 +4,7 @@ import { darkGray } from './Colours';
 const HeaderStyles = StyleSheet.create({
 	headerContainer: {
 		backgroundColor: 'white',
+		marginTop: Expo.Constants.statusBarHeight,
 		height: 60,
 		flexDirection: 'row',
 		alignItems: 'center',
