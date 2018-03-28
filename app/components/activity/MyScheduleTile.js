@@ -5,7 +5,7 @@ import { ListItem, Icon } from 'react-native-elements';
 import { addActivity, removeActivity } from '../../actions';
 import { arrayEquals } from '../../utils/arrays';
 import ActivityStyles from '../../styles/ActivityStyles';
-import { darkGray } from '../../styles/Colours';
+import { darkGray, deleteRed } from '../../styles/Colours';
 
 class ActivityTile extends Component {
 
@@ -28,7 +28,6 @@ class ActivityTile extends Component {
 			myActivities,
 			item,
 			realIndex,
-			isAdded: myActivities.includes(item.id),
 			userId,
 			navigate
 		};
@@ -40,20 +39,9 @@ class ActivityTile extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		// only update if isAdded needs to be changed
-		const hasItem = nextProps.myActivities.includes(this.state.item.id);
-		if (!this.state.isAdded && hasItem) {
-			this.setState({ isAdded: true });
-		} else if (this.state.isAdded && !hasItem) {
-			this.setState({ isAdded: false });
-		}
 		if (!arrayEquals(this.state.myActivities, nextProps.myActivities)) {
 			this.setState({ myActivities: nextProps.myActivities });
 		}
-	}
-
-	shouldComponentUpdate(nextProps) {
-		const hasItem = nextProps.myActivities.includes(this.state.item.id);
-		return (!this.state.isAdded && hasItem) || (this.state.isAdded && !hasItem);
 	}
 
 	onAddButtonPress(itemId) {
@@ -88,32 +76,58 @@ class ActivityTile extends Component {
 
 	render() {
 		const { item } = this.state;
-		const icon = (
-			<Icon
-				name='arrow-forward'
-				size={ 30 }
-				color={ darkGray }
-				style={{ marginTop: 5 }}
-			/>
-		);
 
-		return (
-			<ListItem
-				containerStyle={ ActivityStyles.activityListItem }
-				titleStyle={ ActivityStyles.activityListItemText }
-				subtitleStyle={ ActivityStyles.activityListItemSubtitle }
-				key={ item.id }
-				title={ item.title }
-				subtitle={ "Station " + item.station }
-				onPress={ () => this.renderActivityDetails(item) }
-				rightIcon={ icon }
-			/>
-		);
+		if (this.props.isEditing) {
+			const icon = (
+				<Icon
+					name='delete'
+					size={ 30 }
+					color={ deleteRed }
+					style={{ marginTop: 5 }}
+					onPress={ () => this.onRemoveButtonPress(item.id) }
+				/>
+			);
+			return (
+				<ListItem
+					containerStyle={ ActivityStyles.activityListItem }
+					titleStyle={ ActivityStyles.activityListItemText }
+					subtitleStyle={ ActivityStyles.activityListItemSubtitle }
+					key={ item.id }
+					title={ item.title }
+					subtitle={ "Station " + item.station }
+					// onPressRightIcon={  }
+					rightIcon={ icon }
+				/>
+			);
+		} else {
+			const icon = (
+				<Icon
+					name='arrow-forward'
+					size={ 30 }
+					color={ darkGray }
+					style={{ marginTop: 5 }}
+				/>
+			);
+
+			return (
+				<ListItem
+					containerStyle={ ActivityStyles.activityListItem }
+					titleStyle={ ActivityStyles.activityListItemText }
+					subtitleStyle={ ActivityStyles.activityListItemSubtitle }
+					key={ item.id }
+					title={ item.title }
+					subtitle={ "Station " + item.station }
+					onPress={ () => this.renderActivityDetails(item) }
+					rightIcon={ icon }
+				/>
+			);
+		}
 	}
 }
 
 ActivityTile.propTypes = {
 	item: PropTypes.object.isRequired,
+	isEditing: PropTypes.bool.isRequired,
 	userId: PropTypes.string.isRequired,
 	realIndex: PropTypes.number.isRequired,
 	navigate: PropTypes.func.isRequired,
