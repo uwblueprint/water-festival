@@ -5,6 +5,7 @@ import FaqScreenstack from './FaqScreen';
 import AlertsScreen from './AlertsScreen';
 import SettingsScreen from './SettingsScreen';
 import GameScreen from './GameScreen'
+import VisitScreen from './VisitScreen'
 import Home from '../components/home/Home'
 
 class HomeScreen extends React.Component {
@@ -33,6 +34,9 @@ const HomeScreenStack = StackNavigator({
 	},
 	GameScreen: {
 		screen: GameScreen,
+	},
+	VisitScreen: {
+		screen: VisitScreen,
 	},
 	AlertsScreen: {
 		screen: AlertsScreen,

@@ -83,6 +83,14 @@ class Home extends React.Component {
 					Groundwater Detective
 				</Button>
 				<Button
+					onPress={ () => this.props.navigation.navigate("VisitScreen") }
+					activeOpacity={ 1 }
+					containerStyle={ HomeStyles.button }
+					style={ HomeStyles.buttonText }
+				>
+					Preparing for your visit
+				</Button>
+				<Button
 					onPress={ () => this.props.navigation.navigate("FaqScreen") }
 					activeOpacity={ 1 }
 					containerStyle={ HomeStyles.button }
