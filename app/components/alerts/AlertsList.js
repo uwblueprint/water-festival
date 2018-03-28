@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { RefreshControl, FlatList, ScrollView, Text } from 'react-native';
-import { Card } from 'react-native-elements';
+import { RefreshControl, FlatList, ScrollView, View, Image, Text } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import AlertsStyles from '../../styles/AlertStyles';
+import emptyImage from '../../images/alerts.png';
 import { getAlertsList } from '../../actions';
 
 class AlertsList extends React.Component {
@@ -42,16 +43,24 @@ class AlertsList extends React.Component {
   renderListItem({ item }) {
 		if (item.name) {
 			return (
-				<Card
+				<ListItem
 					containerStyle={ AlertsStyles.listItem }
 					titleStyle={ AlertsStyles.listItemText }
 					key={ item.name }
-				>
-					<Text style={ AlertsStyles.name }>{ item.name }</Text>
-					<Text style={ AlertsStyles.description }>{ item.description }</Text>
-				</Card>
+					title={ item.name }
+					subtitle={ item.description }
+					hideChevron
+				/>
 			);
 		}
+	}
+
+	renderFooter = () => {
+		return (
+			<View
+				style={ AlertsStyles.footer }
+			/>
+		);
 	}
 
   render() {
@@ -60,7 +69,19 @@ class AlertsList extends React.Component {
 				refreshing={ this.state.isRefreshing }
 				onRefresh={ this.onRefresh }
 			/>
-    );
+		);
+		
+		if (this.state.currentAlerts.length === 0) {
+			return (
+				<ScrollView style={ AlertsStyles.alertsView }>
+					<View style={ AlertsStyles.emptyImage }>
+						<Image source={ emptyImage } />
+					</View>
+					<Text style={ AlertsStyles.emptyTopText }>Nothing Here!</Text>
+					<Text style={ AlertsStyles.emptyBottomText }>Tap the back arrow to go back to the home screen.</Text>
+				</ScrollView>
+			);
+		}
 
 		return (
 			<ScrollView
@@ -72,6 +93,7 @@ class AlertsList extends React.Component {
 					renderItem={ this.renderListItem }
 					extraData={ this.state }
 					keyExtractor={ this.keyExtractor }
+					ListFooterComponent={ this.renderFooter }
 				/>
 			</ScrollView>
     );

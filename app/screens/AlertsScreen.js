@@ -3,13 +3,12 @@ import { StackNavigator, NavigationActions } from 'react-navigation';
 import Header from '../components/Header';
 import AlertsList from '../components/alerts/AlertsList';
 
-
 class AlertsScreen extends React.Component {
 
 	static navigationOptions = ({ navigation }) => ({
 		header: (
 			<Header
-				title="Alerts"
+				title="Notifications"
 				hasBackButton
 				// Need NavigationActions to access prev page bc nested stack navigators
 				goBack={ () => navigation.dispatch(NavigationActions.back()) }

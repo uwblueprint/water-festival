@@ -1,7 +1,5 @@
-import { StyleSheet } from 'react-native'
-import {
-	darkGray,
-} from './Colours';
+import { StyleSheet } from 'react-native';
+import { lightGray } from './Colours';
 
 const AlertsStyles = StyleSheet.create({
   alertsView: {
@@ -12,24 +10,35 @@ const AlertsStyles = StyleSheet.create({
 		height: 80,
 		justifyContent: 'center',
 		alignItems: 'center',
+		borderBottomColor: lightGray,
+		borderTopColor: lightGray,
+		borderColor: lightGray,
+		borderWidth: 1,
+		borderBottomWidth: 0,
 	},
 	listItemText: {
-		paddingTop: 8,
-		paddingBottom: 10,
-		paddingLeft: 10,
 		fontSize: 20,
 	},
-	name: {
-		fontSize: 30,
-		fontWeight: "bold",
-		color: darkGray,
+	footer: {
+		borderTopWidth:1,
+		borderTopColor: lightGray,
+	},
+	emptyImage: {
+		paddingTop: 80,
+		alignSelf: 'center',
+	},
+	emptyTopText: {
+		paddingTop: 30,
+		paddingBottom: 10,
+		fontSize: 20,
 		textAlign: 'center',
 	},
-	description: {
-		fontSize: 17,
-		color: darkGray,
+	emptyBottomText: {
+		width: 270,
+		alignSelf: 'center',
+		fontSize: 15,
 		textAlign: 'center',
-	}
+	},
 });
 
 export default AlertsStyles;
