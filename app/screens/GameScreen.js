@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import Button from 'react-native-button';
 import { NavigationActions } from 'react-navigation'
 import GameStyles from '../styles/GameStyles';
@@ -23,7 +23,7 @@ class GameScreen extends React.Component {
 	}
 	render() {
 		return (
-			<View style={ GameStyles.gameDetailsContainer }>
+			<ScrollView style={ GameStyles.gameDetailsContainer }>
 				<Text style={ GameStyles.titleText } > Groundwater Detective Game </Text>
 				<View style={ GameStyles.gameDetailsContainerText }>
 					<Text style={ GameStyles.gameDetailsDescriptionTitle }>
@@ -51,7 +51,7 @@ class GameScreen extends React.Component {
 						SHOW ON MAP
 					</Button>
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 }
