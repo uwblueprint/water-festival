@@ -5,26 +5,20 @@ import {
 } from './Colours';
 
 const GameStyles = StyleSheet.create({
-	gamePadding: {
-		paddingBottom: 40,
-		backgroundColor: 'white' ,
+	gamePaddingContainer: {
+		width: '70%'
 	},
 	titleText: {
 		fontSize: 30,
 		fontWeight: 'bold',
-		color: darkGray,
-    paddingLeft: 70,
-    paddingRight: 70
+		color: darkGray
 	},
 	gameDetailsContainer: {
 		backgroundColor: 'white',
-		flex: 1,
-	},
-	gameDetailsContainerText: {
-		paddingLeft: 70,
-		paddingRight: 20,
+		flex: 1
 	},
 	gameDetailsContainerButtons: {
+		marginTop: 15,
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
@@ -32,8 +26,6 @@ const GameStyles = StyleSheet.create({
 		fontSize: 14,
     paddingTop: 15,
 		paddingBottom: 20,
-    paddingLeft: 70,
-    paddingRight: 70,
 		color: darkGray
 	},
 	gameDetailsDescriptionTitle:{

@@ -136,8 +136,6 @@ class ActivityTile extends Component {
 				/>
 				);
 
-				console.log('rendering tile');
-
 			return (
 				<ListItem
 					containerStyle={ ActivityStyles.activityListItem }

@@ -33,24 +33,9 @@ class MainContainer extends Component {
 		this.getData = this.getData.bind(this);
 	}
 
-	getData() {
-		const { loaded, loadAlerts, loadActivities, loadFaq } = this.state;
-
-		if (!loaded.alertsLoaded) {
-			this.setState({ count: 0 });
-			loadAlerts();
-		} else if (!loaded.faqLoaded) {
-			this.setState({ count: 1 });
-			loadFaq();
-		} else if (!loaded.allActivitiesLoaded) {
-			this.setState({ count: 2 });
-			loadActivities();
-		}
-	}
-
 	componentDidMount() {
 		// Checks if user is connected to the internet
-	  NetInfo.getConnectionInfo().then(isConnected => {
+		NetInfo.getConnectionInfo().then(isConnected => {
 			this.setState({ isConnected });
 
 			// Load app data if connected
@@ -65,6 +50,21 @@ class MainContainer extends Component {
 
 		if (nextProps.isLoggedIn !== this.state.isLoggedIn) {
 			this.setState({ isLoggedIn: nextProps.isLoggedIn });
+		}
+	}
+
+	getData() {
+		const { loaded, loadAlerts, loadActivities, loadFaq } = this.state;
+
+		if (!loaded.alertsLoaded) {
+			this.setState({ count: 0 });
+			loadAlerts();
+		} else if (!loaded.faqLoaded) {
+			this.setState({ count: 1 });
+			loadFaq();
+		} else if (!loaded.allActivitiesLoaded) {
+			this.setState({ count: 2 });
+			loadActivities();
 		}
 	}
 
