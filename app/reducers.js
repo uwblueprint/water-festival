@@ -13,6 +13,10 @@ import {
 	REMOVE_ACTIVITY,
 	REMOVE_ACTIVITY_ROLLBACK,
 	ALERTS_LOADED,
+	PREPCHECK_LOADED,
+  PREPCHECK_ROLLBACK,
+  PREPCHECKED,
+	PREPUNCHECKED
 } from './actions';
 
 const REHYDRATE = 'persist/REHYDRATE';
@@ -115,6 +119,18 @@ const currentAlerts = (state = [], action) => {
 		case ALERTS_LOADED: {
 			const alertsList = action.payload;
 			return alertsList || state;
+		}
+		default:
+			return state;
+	}
+};
+
+// Retrieve PrepCheck List from server
+const currentPrepCheck = (state = [], action) => {
+	switch (action.type) {
+		case PREPCHECK_LOADED: {
+			const prepCheckList = action.payload;
+			return prepCheckList || state;
 		}
 		default:
 			return state;
