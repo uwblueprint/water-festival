@@ -73,11 +73,12 @@ class LoggedIn extends Component {
 		} = this.state;
 
     // If not connected to internet or data fully loaded
-		if (!isConnected ||
-			(loaded.alertsLoaded && loaded.allActivitiesLoaded && loaded.faqLoaded))
-			return <Container />;
-		// If connected but data is not fully loaded
-		else return <LoadingScreen progress={ progress } />;
+		// if (!isConnected ||
+		// 	(loaded.alertsLoaded && loaded.allActivitiesLoaded && loaded.faqLoaded))
+		// 	return <Container />;
+		// // If connected but data is not fully loaded
+		// else
+    return <LoadingScreen progress={ progress } />;
 	}
 }
 
