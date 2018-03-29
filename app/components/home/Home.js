@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import HomeStyles from '../../styles/HomeStyles';
 import logo from '../../images/wwcgf_logo.png';
 import { darkGray } from '../../styles/Colours';
-import { logout, getTokenList } from '../../actions';
+import { logout, getTokenList, sendToken } from '../../actions';
 
 
 class Home extends React.Component {
@@ -31,6 +31,7 @@ class Home extends React.Component {
 			name: props.name,
 			userId: props.userId,
 			getTokenList: props.getTokenList,
+			sendToken: props.sendToken,
 			currentTokens: props.currentTokens
 		};
 	}
@@ -60,8 +61,6 @@ class Home extends React.Component {
 	};
 
 	async registerForPushNotifications() {
-		const API_URL = 'https://water-fest.herokuapp.com/tokens/insert';
-
 		const { status: existingStatus } = await Permissions.getAsync(
 			Permissions.NOTIFICATIONS
 		);
@@ -86,14 +85,7 @@ class Home extends React.Component {
 			token: token
 		};
 
-		return fetch(API_URL, {
-			method: 'POST',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(tokenObject),
-		});
+		return this.state.sendToken(tokenObject);
 	}
 
 	render() {
@@ -183,7 +175,12 @@ const mapDispatchToProps = dispatch => {
 		onLogout: () => {
 			dispatch(logout());
 		},
-		getTokenList: () => dispatch(getTokenList()),
+		getTokenList: () => {
+			dispatch(getTokenList())
+		},
+		sendToken: (token) => {
+			dispatch(sendToken(token))
+		},
 	};
 };
 
@@ -194,6 +191,7 @@ Home.propTypes = {
 	getTokenList: PropTypes.func.isRequired,
 	navigation: PropTypes.object.isRequired,
 	onLogout: PropTypes.func.isRequired,
+	sendToken: PropTypes.func.isRequired,
 	navigate: PropTypes.func
 };
 
