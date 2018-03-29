@@ -1,37 +1,62 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
 	View,
 	Image,
-	StyleSheet
+	StyleSheet,
+	ProgressBarAndroid,
+	ProgressViewIOS,
+	Platform
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import { darkBlue } from '../styles/Colours';
 import drop from '../images/drop.png';
 import dropBase from '../images/dropbase.png';
 
-const LoadingScreen = () => (
-	<View style={ styles.container }>
-		<Animatable.Image
-			animation="fadeInDown"
-			iterationCount='infinite'
-			style={ styles.horizontal }
-			source={ drop }
-		/>
-		<Image style={ styles.horizontal } source={ dropBase } />
-		<Animatable.Text
-			animation="pulse"
-			easing="ease-out"
-			iterationCount="infinite"
-			style={ styles.text }
-		>
-			collecting water...
-		</Animatable.Text>
-	</View>
-);
+
+const LoadingScreen = ({ progress }) => {
+	const progressBar = (Platform.OS === 'ios')
+		? <ProgressViewIOS progress={ progress } />
+		: (
+			<ProgressBarAndroid
+				progress={ progress }
+				styleAttr="Horizontal"
+				indeterminate={ false }
+			/>
+		);
+
+	return (
+		<View style={ styles.container }>
+			<Animatable.Image
+				animation="fadeInDown"
+				iterationCount='infinite'
+				style={ styles.horizontal }
+				source={ drop }
+				useNativeDriver
+			/>
+			<Image style={ styles.horizontal } source={ dropBase } />
+			<Animatable.Text
+				animation="pulse"
+				easing="ease-out"
+				iterationCount="infinite"
+				style={ styles.text }
+				useNativeDriver
+			>
+				collecting water...
+			</Animatable.Text>
+			{ progressBar }
+		</View>
+	)
+};
+
+LoadingScreen.propTypes = {
+	progress: PropTypes.number.isRequired
+}
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		paddingTop: Expo.Constants.statusBarHeight + 50,
 		justifyContent: 'center',
 		alignItems: 'center'
 	},
@@ -41,6 +66,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		marginTop: 100,
+		marginBottom: 100,
 		fontSize: 20,
 		color: darkBlue
 	}

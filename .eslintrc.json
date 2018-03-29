@@ -11,6 +11,9 @@
 		"airbnb",
 		"eslint:recommended"
 	],
+	"globals": {
+		"Expo": false
+	},
 	"parser": "babel-eslint",
 	"rules": {
 		"react/jsx-filename-extension": 0,
