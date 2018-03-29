@@ -44,7 +44,9 @@ const LoadingScreen = ({ progress }) => {
 			>
 				collecting water...
 			</Animatable.Text>
-			{ progressBar }
+			<View style={ styles.progressContainer }>
+				{ progressBar }
+			</View>
 		</View>
 	)
 };
@@ -69,6 +71,10 @@ const styles = StyleSheet.create({
 		marginBottom: 100,
 		fontSize: 20,
 		color: darkBlue
+	},
+	progressContainer: {
+		width: '70%',
+		margin: 'auto'
 	}
 });
 
