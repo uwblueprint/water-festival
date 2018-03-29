@@ -117,7 +117,7 @@ class RegisterForm extends Component {
 			}
 		};
 
-		NetInfo.getConnectionInfo().then(isConnected => {
+		NetInfo.isConnected.fetch().then(isConnected => {
 			if (!isConnected) this.setState({ errorMsg: 'No Internet Connection' });
 			else {
 				fetch(API_URL, data)

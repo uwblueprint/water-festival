@@ -35,26 +35,30 @@ class MainContainer extends Component {
 
 	componentDidMount() {
 		// Checks if user is connected to the internet
-		NetInfo.getConnectionInfo().then(isConnected => {
+		NetInfo.isConnected.fetch().then(isConnected => {
 			this.setState({ isConnected });
 
 			// Load app data if connected
-			if (this.state.isLoggedIn && isConnected) this.getData();
+			if (this.state.isLoggedIn && isConnected) this.getData(this.state.loaded);
 		});
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (!arrayOfObjectEquals(nextProps.loaded, this.state.loaded)) {
 			this.setState({ loaded: nextProps.loaded });
-		} else if (this.state.count < 3) this.getData();
+		}
+
+		if (this.state.count < 3) {
+			this.getData(nextProps.loaded);
+		}
 
 		if (nextProps.isLoggedIn !== this.state.isLoggedIn) {
 			this.setState({ isLoggedIn: nextProps.isLoggedIn });
 		}
 	}
 
-	getData() {
-		const { loaded, loadAlerts, loadActivities, loadFaq } = this.state;
+	getData(loaded) {
+		const { loadAlerts, loadActivities, loadFaq } = this.state;
 
 		if (!loaded.alertsLoaded) {
 			this.setState({ count: 0 });

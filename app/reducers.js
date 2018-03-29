@@ -164,7 +164,11 @@ const offline = (state = {}, action) => {
 }
 
 // Handles boolean that tells app what data has been loaded into store
-const loaded = (state = {}, action) => {
+const loaded = (state = {
+	faqLoaded: false,
+	allActivitiesLoaded: false,
+	alertsLoaded: false
+}, action) => {
 	switch (action.type) {
 		case REHYDRATE:
 		case LOGOUT:

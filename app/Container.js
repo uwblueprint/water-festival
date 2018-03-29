@@ -15,7 +15,7 @@ import {
 const Container = TabNavigator({
 	HomeScreen: { screen: HomeScreenStack },
 	AllActivitiesScreen: { screen: AllActivitiesScreenStack },
-	MyActivitiesScreen: { screen: MyScheduleScreenStack },
+	MyScheduleScreen: { screen: MyScheduleScreenStack },
 	MapScreen: { screen: MapScreenStack },
 }, {
 		tabBarComponent: NavigationComponent,
@@ -41,7 +41,7 @@ const Container = TabNavigator({
 						icon: <Icon size={ 26 } color={ darkGray } name="perm-contact-calendar" />,
 						activeIcon: <Icon size={ 26 } color={ darkBlue } name="perm-contact-calendar" />
 					},
-					MyActivitiesScreen: {
+					MyScheduleScreen: {
 						icon: <Icon size={ 26 } color={ darkGray } name="access-time" />,
 						activeIcon: <Icon size={ 26 } color={ darkBlue } name="access-time" />
 					},

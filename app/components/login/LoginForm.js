@@ -44,7 +44,7 @@ class LoginForm extends Component {
 	onLoginPress() {
 		const { username, password } = this.state;
 
-		NetInfo.getConnectionInfo().then(isConnected => {
+		NetInfo.isConnected.fetch().then(isConnected => {
 			if (!isConnected) this.setState({ errorMsg: 'No Internet Connection' });
 			else {
 				validate({ username, password }, 'LOGIN', (error) => {

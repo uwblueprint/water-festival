@@ -19,6 +19,8 @@ class MyScheduleScreen extends React.Component {
 				),
 				title: 'My Schedule',
 			};
+		} else return {
+			title: 'My Schedule'
 		}
 	};
 
