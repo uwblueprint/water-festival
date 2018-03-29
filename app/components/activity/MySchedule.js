@@ -5,6 +5,10 @@ import {
 	RefreshControl,
 	ScrollView,
 	FlatList,
+	TouchableOpacity,
+	Text,
+	View,
+	Image,
 } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import MyScheduleTile from './MyScheduleTile';
@@ -13,6 +17,7 @@ import {
 	getActivityList,
 	getUserActivities,
 } from '../../actions';
+import emptyImage from '../../images/emptyMySchedule.png';
 import { arrayOfObjectEquals } from '../../utils/arrays';
 import { darkBlue } from '../../styles/Colours';
 
@@ -39,6 +44,7 @@ class MySchedule extends React.Component {
 
 		this.onRefresh = this.onRefresh.bind(this);
 		this.renderListItem = this.renderListItem.bind(this);
+		this.navigateToAllActivities = this.navigateToAllActivities.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,6 +67,10 @@ class MySchedule extends React.Component {
 		this.state.refreshList(this.state.userId);
 	}
 
+	navigateToAllActivities() {
+		this.props.navigation.navigate('ActivityList');
+	}
+
 	renderListItem({ item }) {
 		return (
 			<MyScheduleTile
@@ -74,6 +84,20 @@ class MySchedule extends React.Component {
   }
 
 	render() {
+		if (this.state.myActivities.length === 0) {
+			return (
+				<ScrollView style={ ActivityStyles.emptyScreen }>
+					<View style={ ActivityStyles.emptyImage }><Image source={ emptyImage } /></View>
+					<Text style={ ActivityStyles.emptyTopText }>Nothing Here!</Text>
+					<Text style={ ActivityStyles.emptyBottomText }>Please go to the</Text>
+					<TouchableOpacity onPress={ this.navigateToAllActivities }>
+						<Text style={ ActivityStyles.emptyLinkText } >All Activities Tab</Text>
+					</TouchableOpacity>
+					<Text style={ ActivityStyles.emptyBottomText }>to add to your schedule</Text> 
+				</ScrollView>
+			);
+		}
+
 		const refreshControl = (
 			<RefreshControl
 				refreshing={ this.state.isRefreshing }
