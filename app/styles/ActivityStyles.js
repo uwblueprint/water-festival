@@ -211,6 +211,29 @@ const ActivityStyles = StyleSheet.create({
 		textAlign: "center",
 		fontSize: 12,
 	},
+	emptyScreen: {
+		paddingBottom: 40,
+		backgroundColor: 'white',
+	},
+	emptyImage: {
+		paddingTop: 80,
+		alignSelf: 'center',
+	},
+	emptyTopText: {
+		paddingTop: 30,
+		paddingBottom: 10,
+		fontSize: 20,
+		textAlign: 'center',
+	},
+	emptyBottomText: {
+		fontSize: 15,
+		textAlign: 'center',
+	},
+	emptyLinkText: {
+		fontSize: 15,
+		textAlign: 'center',
+		color: darkBlue,
+	},
 });
 
 export default ActivityStyles;
