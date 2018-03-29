@@ -187,11 +187,11 @@ class Settings extends React.Component {
 							selectedValue={ this.state.day }
 							onValueChange={ day => this.setState({ day }) }
 						>
-							<Picker.Item label='1' value={ 1 } />
-							<Picker.Item label='2' value={ 2 } />
-							<Picker.Item label='3' value={ 3 } />
-							<Picker.Item label='4' value={ 4 } />
-							<Picker.Item label='5' value={ 5 } />
+							<Picker.Item label='Mon' value={ 1 } />
+							<Picker.Item label='Tue' value={ 2 } />
+							<Picker.Item label='Wed' value={ 3 } />
+							<Picker.Item label='Thu' value={ 4 } />
+							<Picker.Item label='Fri' value={ 5 } />
 						</Picker>
 					</View>
 				</HideWithKeyboard>
