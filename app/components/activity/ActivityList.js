@@ -34,10 +34,6 @@ class ActivityList extends React.Component {
 		this.renderListItem = this.renderListItem.bind(this);
 	}
 
-	componentDidMount() {
-		this.state.refreshList(this.state.userId);
-	}
-
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities)) {
@@ -46,7 +42,7 @@ class ActivityList extends React.Component {
 				sectionList: this.getSectionList(nextProps.activities)
 			});
 		}
-		
+
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
 	}
 

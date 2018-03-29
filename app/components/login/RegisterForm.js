@@ -6,7 +6,8 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	StatusBar
+	StatusBar,
+	NetInfo
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
@@ -116,22 +117,27 @@ class RegisterForm extends Component {
 			}
 		};
 
-		fetch(API_URL, data)
-			.then(response => response.json())
-			.then(json => {
-				const { user, message, code } = json;
-				if (!user) {
-					if (code === 11000) callback('Username has already been taken!');
-					else if (message) callback(message);
-					else {
-						// eslint-disable-next-line no-console
-						console.log('Something went wrong', json);
-						callback('Oops, something went wrong!');
-					}
-				} else callback(null);
-			})
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
+		NetInfo.getConnectionInfo().then(isConnected => {
+			if (!isConnected) this.setState({ errorMsg: 'No Internet Connection' });
+			else {
+				fetch(API_URL, data)
+					.then(response => response.json())
+					.then(json => {
+						const { user, message, code } = json;
+						if (!user) {
+							if (code === 11000) callback('Username has already been taken!');
+							else if (message) callback(message);
+							else {
+								// eslint-disable-next-line no-console
+								console.log('Something went wrong', json);
+								callback('Oops, something went wrong!');
+							}
+						} else callback(null);
+					})
+					// eslint-disable-next-line no-console
+					.catch(err => console.error(err));
+			}
+		});
 	}
 
 	render() {

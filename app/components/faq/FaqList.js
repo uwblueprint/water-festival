@@ -28,10 +28,6 @@ class FaqList extends React.Component {
 		this.onRefresh = this.onRefresh.bind(this);
 	}
 
-	componentDidMount() {
-		this.state.getFaqList();
-	}
-
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (nextProps.currentQuestions !== this.state.currentQuestions) {
