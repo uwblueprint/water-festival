@@ -14,7 +14,7 @@ class SettingsScreen extends React.Component {
 				goBack={ () => navigation.dispatch(NavigationActions.back()) }
 			/>
 		),
-		title: "Settings",
+		title: "Home",
 	});
 
 	constructor(props) {

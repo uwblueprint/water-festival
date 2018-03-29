@@ -19,11 +19,11 @@ class LoggedIn extends Component {
 		} = props;
 
 		this.state = {
-			loaded,
+			loaded: loaded || {},
 			loadFaq,
 			loadActivities,
 			loadAlerts,
-			isConnected: false,
+			isConnected: true,
 			progress: 0.1
 		};
 
@@ -42,7 +42,7 @@ class LoggedIn extends Component {
 
 	componentWillReceiveProps(nextProps) {
 		if (!arrayOfObjectEquals(nextProps.loaded, this.state.loaded)) {
-			this.setState({ loaded: nextProps.loaded });
+			this.setState({ loaded: nextProps.loaded || {} });
 		}
 
 		if (this.state.progress < 1) {
@@ -63,6 +63,8 @@ class LoggedIn extends Component {
 			this.setState({ progress: 0.8 });
 			loadActivities();
 		} else this.setState({ progress: 1.0 });
+
+		setTimeout(() => this.setState({ progress: 1.0 }), 2000);
 	}
 
 	render() {
@@ -71,10 +73,9 @@ class LoggedIn extends Component {
 			isConnected,
 			progress
 		} = this.state;
-
+		
 		// If not connected to internet or data fully loaded
-		if (!isConnected ||
-			(loaded.alertsLoaded && loaded.allActivitiesLoaded && loaded.faqLoaded))
+		if (isConnected === false || progress === 1)
 			return <Container />;
 		// If connected but data is not fully loaded
 		else return <LoadingScreen progress={ progress } />;

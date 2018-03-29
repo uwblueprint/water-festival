@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 	},
 	text: {
 		marginTop: 100,
-		marginBottom: 100,
+		marginBottom: 70,
 		fontSize: 20,
 		color: darkBlue
 	},
