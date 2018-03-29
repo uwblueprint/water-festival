@@ -14,9 +14,10 @@ import {
 	REMOVE_ACTIVITY_ROLLBACK,
 	ALERTS_LOADED,
 	PREPCHECK_LOADED,
-  PREPCHECK_ROLLBACK,
   PREPCHECKED,
-	PREPUNCHECKED
+	PREPCHECKED_ROLLBACK,
+	PREPUNCHECKED,
+	PREPUNCHECKED_ROLLBACK
 } from './actions';
 
 const REHYDRATE = 'persist/REHYDRATE';
@@ -125,13 +126,21 @@ const currentAlerts = (state = [], action) => {
 	}
 };
 
-// Retrieve PrepCheck List from server
-const currentPrepCheck = (state = [], action) => {
+const myPrepCheck = (state = [], action) => {
 	switch (action.type) {
-		case PREPCHECK_LOADED: {
-			const prepCheckList = action.payload;
-			return prepCheckList || state;
+		case LOGIN: {
+			if (!action.payload.success || !action.payload.user) return state;
+			const { prepCheck } = action.payload.user;
+			return prepCheck;
 		}
+		case PREPCHECK_LOADED:
+			return action.payload.prepCheck;
+		case PREPCHECKED:
+		case PREPUNCHECKED:
+			return action.prepCheck;
+		case PREPCHECKED_ROLLBACK:
+		case PREPUNCHECKED_ROLLBACK:
+			return action.meta.prepCheck;
 		default:
 			return state;
 	}
@@ -169,6 +178,7 @@ const reducers = combineReducers({
 	currentActivities,
 	myActivities,
 	currentAlerts,
+	myPrepCheck,
 	offline,
 });
 

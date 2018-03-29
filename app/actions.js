@@ -21,11 +21,10 @@ export const ALERTS_REQUEST = 'ALERTS_REQUEST'; // not used
 export const ALERTS_LOADED = 'ALERTS_LOADED';
 export const PREPCHECK_REQUEST = 'PREPCHECK_REQUEST'
 export const PREPCHECK_LOADED = 'PREPCHECK_LOADED'
-export const PREPCHECK_ROLLBACK = 'PREPCHECK_ROLLBACK'
 export const PREPCHECKED = 'PREPCHECKED'
 export const PREPUNCHECKED = 'PREPUNCHECKED'
 export const PREPCHECKED_ROLLBACK = 'PREPCHECKED_ROLLBACK'
-export const PREPUNCHECK_ROLLBACK = 'PREPUNCHECK_ROLLBACK'
+export const PREPUNCHECKED_ROLLBACK = 'PREPUNCHECKED_ROLLBACK'
 
 const API_URL = 'https://water-fest.herokuapp.com';
 
@@ -208,7 +207,7 @@ export const prepUnchecked = (id, oldprepCheck, newprepCheck) => ({
 				})
 			},
 			rollback: {
-				type: PREPUNCHECK_ROLLBACK,
+				type: PREPUNCHECKED_ROLLBACK,
 				meta: { prepCheck: oldprepCheck }
 			}
 		}
