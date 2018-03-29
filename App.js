@@ -15,7 +15,6 @@ import logger from 'redux-logger';
 // Misc
 import MainContainer from './app/MainContainer';
 import reducers from './app/reducers';
-import LoadingScreen from './app/screens/LoadingScreen';
 
 const initalState = {};
 
@@ -39,7 +38,7 @@ const persistor = persistStore(store);
 // PersistGate uses loading screen until persisted state has been retrieved and saved to redux
 const WaterFestivalApp = () => (
 	<Provider store={ store }>
-		<PersistGate loading={ <LoadingScreen /> } persistor={ persistor }>
+		<PersistGate persistor={ persistor }>
 			<MainContainer />
 		</PersistGate>
 	</Provider>

@@ -92,6 +92,9 @@ const currentActivities = (state = [], action) => {
 
 const myActivities = (state = [], action) => {
 	switch (action.type) {
+		case REHYDRATE:
+			if (!state.isLoggedIn) return [];
+			else return state;
 		case LOGIN: {
 			if (!action.payload.success || !action.payload.user) return state;
 			const { activities } = action.payload.user;
@@ -141,6 +144,7 @@ const offline = (state = {}, action) => {
 	switch (action.type) {
 		case REHYDRATE: {
 			const { payload } = action;
+
 			if (!payload) return state;
 
 			// Empty API call queue on rehydration
@@ -159,6 +163,29 @@ const offline = (state = {}, action) => {
 	}
 }
 
+// Handles boolean that tells app what data has been loaded into store
+const loaded = (state = {}, action) => {
+	switch (action.type) {
+		case REHYDRATE:
+		case LOGOUT:
+			state.faqLoaded = false;
+			state.allActivitiesLoaded = false;
+			state.alertsLoaded = false;
+			return state;
+		case FAQ_LOADED:
+			state.faqLoaded = true;
+			return state;
+		case ACTIVITY_LOADED:
+			state.allActivitiesLoaded = true;
+			return state;
+		case ALERTS_LOADED:
+			state.alertsLoaded = true;
+			return state;
+		default:
+			return state;
+	}
+}
+
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
 	currentQuestions,
@@ -170,6 +197,7 @@ const reducers = combineReducers({
 	myActivities,
 	currentAlerts,
 	offline,
+	loaded
 });
 
 export default reducers;

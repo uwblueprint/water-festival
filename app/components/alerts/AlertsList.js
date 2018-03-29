@@ -21,10 +21,6 @@ class AlertsList extends React.Component {
     this.onRefresh = this.onRefresh.bind(this);
   }
 
-  componentDidMount() {
-		this.state.getAlertsList();
-  }
-
   componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (nextProps.currentAlerts !== this.state.currentAlerts) {
