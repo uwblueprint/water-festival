@@ -176,8 +176,7 @@ export const sendToken = (tokenObject) => ({
 				url: `${API_URL}/tokens/insert`,
 				method: 'POST',
 				body: JSON.stringify(tokenObject)
-			},
-//			commit: { type: LOGIN },
+			}
 		}
 	}
 });
