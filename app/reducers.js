@@ -126,6 +126,18 @@ const currentAlerts = (state = [], action) => {
 	}
 };
 
+// Retrieve prepCheck List from server
+const currentPrepCheck = (state = [], action) => {
+	switch (action.type) {
+		case PREPCHECK_LOADED: {
+			const prepCheckList = action.payload;
+			return prepCheckList || state;
+		}
+		default:
+			return state;
+	}
+};
+
 const myPrepCheck = (state = [], action) => {
 	switch (action.type) {
 		case LOGIN: {
