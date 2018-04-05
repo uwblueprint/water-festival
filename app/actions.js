@@ -22,6 +22,11 @@ export const ALERTS_LOADED = 'ALERTS_LOADED';
 export const TOKEN_LOAD_REQUEST = 'TOKEN_LOAD_REQUEST';
 export const TOKEN_LOADED = 'TOKEN_LOADED';
 export const SEND_TOKEN = 'SEND_TOKEN';
+export const USER_ALERT_REQUEST = 'USER_ALERT_REQUEST'; // not used
+export const USER_ALERT_LOADED = 'USER_ALERT_LOADED';
+export const UPDATE_USER_ALERT = 'UPDATE_USER_ALERT';
+export const UPDATE_USER_ALERT_ROLLBACK = 'UPDATE_USER_ALERT_ROLLBACK';
+
 
 const API_URL = 'https://water-fest.herokuapp.com';
 
@@ -97,6 +102,40 @@ export const getUserActivities = (userId) => ({
 				method: 'GET'
 			},
 			commit: { type: USER_ACTIVITY_LOADED }
+		}
+	}
+});
+
+export const getUserLastAlertSeen = (userId) => ({
+	type: USER_ALERT_REQUEST,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/id/${userId}`,
+				method: 'GET'
+			},
+			commit: { type: USER_ALERT_LOADED }
+		}
+	}
+});
+
+export const updateUserLastAlertSeen = (id, oldLastAlertSeen, newLastAlertSeen) => ({
+	type: UPDATE_USER_ALERT,
+	lastAlertSeen: newLastAlertSeen,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/edit`,
+				method: 'PUT',
+				body: JSON.stringify({
+					id,
+					lastAlertSeen: newLastAlertSeen
+				})
+			},
+			rollback: {
+				type: UPDATE_USER_ALERT_ROLLBACK,
+				meta: { lastAlertSeen: oldLastAlertSeen }
+			}
 		}
 	}
 });

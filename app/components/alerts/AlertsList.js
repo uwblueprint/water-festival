@@ -5,46 +5,82 @@ import { RefreshControl, FlatList, ScrollView, View, Image, Text } from 'react-n
 import { ListItem } from 'react-native-elements';
 import AlertsStyles from '../../styles/AlertStyles';
 import emptyImage from '../../images/alerts.png';
-import { getAlertsList } from '../../actions';
+import { getAlertsList, updateUserLastAlertSeen } from '../../actions';
 
 class AlertsList extends React.Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
+		props.currentAlerts.sort(function(a,b){
+			return (b.sentDate == null)-(a.sentDate == null) || b.sentDate - a.sentDate;
+		}).reverse();
+
+		this.state = {
+			userId: props.userId,
+			lastAlertSeen: props.lastAlertSeen,
 			getAlertsList: props.getAlertsList,
+			updateUserLastAlertSeen: props.updateUserLastAlertSeen,
 			currentAlerts: props.currentAlerts,
 			isRefreshing: false,
-    };
+		};
 
-    this.renderListItem = this.renderListItem.bind(this);
-    this.onRefresh = this.onRefresh.bind(this);
-  }
+    this.state.getAlertsList(); //ensure newest alerts shown w/o refreshing
 
-  componentWillReceiveProps(nextProps) {
+		this.renderListItem = this.renderListItem.bind(this);
+		this.onRefresh = this.onRefresh.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (nextProps.currentAlerts !== this.state.currentAlerts) {
 			this.setState({ currentAlerts: nextProps.currentAlerts });
 		}
+		if (nextProps.lastAlertSeen !== this.state.lastAlertSeen) {
+			this.setState({ lastAlertSeen: nextProps.lastAlertSeen });
+		}
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
   }
 
-  onRefresh() {
+		componentWillUnmount() {
+			const { userId, lastAlertSeen, currentAlerts } = this.state;
+			if(currentAlerts.length > 0){
+				this.state.updateUserLastAlertSeen(userId, lastAlertSeen, new Date(currentAlerts[0].sentDate));
+			}
+		}
+
+	onRefresh() {
 		this.setState({ isRefreshing: true });
 		this.state.getAlertsList();
   }
 
 	keyExtractor = (item) => item.id;
 
-  renderListItem({ item }) {
+	renderAlertBadge(item){
+		if (!this.state.lastAlertSeen || new Date(item.sentDate).getTime() > this.state.lastAlertSeen.getTime()){
+			return (
+				<View
+					style={ AlertsStyles.badge }
+				>
+					<Text style={ AlertsStyles.badgeText }>NEW</Text>
+				</View>
+			);
+		} else {
+			return (<View />);
+		}
+	}
+
+	renderListItem({ item }) {
 		if (item.name) {
+			const badge = this.renderAlertBadge(item);
 			return (
 				<ListItem
 					containerStyle={ AlertsStyles.listItem }
 					titleStyle={ AlertsStyles.listItemText }
+					subtitleStyle={ AlertsStyles.listItemSubtitle }
 					key={ item.name }
 					title={ item.name }
 					subtitle={ item.description }
+					badge={{ element: badge }}
 					hideChevron
 				/>
 			);
@@ -59,14 +95,14 @@ class AlertsList extends React.Component {
 		);
 	}
 
-  render() {
+	render() {
 		const refreshControl = (
 			<RefreshControl
 				refreshing={ this.state.isRefreshing }
 				onRefresh={ this.onRefresh }
 			/>
 		);
-		
+
 		if (this.state.currentAlerts.length === 0) {
 			return (
 				<ScrollView style={ AlertsStyles.alertsView }>
@@ -92,13 +128,21 @@ class AlertsList extends React.Component {
 					ListFooterComponent={ this.renderFooter }
 				/>
 			</ScrollView>
-    );
+		);
 
 	}
 }
 
-const mapStateToProps = ({ currentAlerts }) => {
-	return { currentAlerts };
+const mapStateToProps = ({ currentAlerts, currentUser, lastAlertSeen }) => {
+	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
+	currentAlerts.sort(function(a,b){
+		return (b.sentDate == null)-(a.sentDate == null) || b.sentDate - a.sentDate;
+	}).reverse();
+	return {
+		currentAlerts,
+		lastAlertSeen: new Date(lastAlertSeen),
+		userId
+	};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -106,14 +150,20 @@ const mapDispatchToProps = dispatch => {
 		getAlertsList: () => {
 			dispatch(getAlertsList());
 		},
+		updateUserLastAlertSeen: (userId, oldLastAlertSeen, newLastAlertSeen) => {
+			dispatch(updateUserLastAlertSeen(userId, oldLastAlertSeen, newLastAlertSeen))
+		},
 	}
 };
 
 AlertsList.propTypes = {
+	userId: PropTypes.string.isRequired,
 	// Action
 	getAlertsList: PropTypes.func.isRequired,
+	updateUserLastAlertSeen: PropTypes.func.isRequired,
 	// Reducer
 	currentAlerts: PropTypes.array.isRequired,
+	lastAlertSeen: PropTypes.object.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlertsList);
