@@ -25,12 +25,12 @@ class ActivityDetails extends React.Component {
 			const errorMessage = "CLOSED: " + (activity.state ? activity.state : "This event is currently closed due to unforeseen circumstances, thanks for your understanding!");
 			const selectedHeader = activity.isOpen ? defaultHeader : (
 				<View>
+					{ defaultHeader }
 					<View style={ ActivityStyles.errorMessage }>
 						<Text style={ ActivityStyles.errorMessageText }>
 							{ errorMessage }
 						</Text>
 					</View>
-					{ defaultHeader }
 				</View>
 			);
 			return selectedHeader;

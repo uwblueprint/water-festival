@@ -174,7 +174,7 @@ const ActivityStyles = StyleSheet.create({
 	activityBadge: {
 		width: 70,
 		height: 20,
-		marginTop: 10,
+		marginTop: 20,
 		marginRight:75,
 		paddingVertical: 2,
 		borderRadius : 20,
