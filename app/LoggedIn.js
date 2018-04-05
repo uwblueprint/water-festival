@@ -18,6 +18,7 @@ class LoggedIn extends Component {
 			loadAlerts
 		} = props;
 
+
 		this.state = {
 			loaded: loaded || {},
 			loadFaq,
@@ -27,17 +28,15 @@ class LoggedIn extends Component {
 			progress: 0.1
 		};
 
-		this.getData = this.getData.bind(this);
-	}
-
-	componentDidMount() {
 		// Checks if user is connected to the internet
 		NetInfo.isConnected.fetch().then(isConnected => {
 			this.setState({ isConnected });
 
 			// Load app data if connected
-			if (isConnected) this.getData(this.state.loaded);
+			if (isConnected && loaded) this.getData(loaded);
 		});
+
+		this.getData = this.getData.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -68,12 +67,8 @@ class LoggedIn extends Component {
 	}
 
 	render() {
-		const {
-			loaded,
-			isConnected,
-			progress
-		} = this.state;
-		
+		const { isConnected, progress } = this.state;
+
 		// If not connected to internet or data fully loaded
 		if (isConnected === false || progress === 1)
 			return <Container />;
