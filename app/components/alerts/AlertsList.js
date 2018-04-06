@@ -6,14 +6,11 @@ import { ListItem } from 'react-native-elements';
 import AlertsStyles from '../../styles/AlertStyles';
 import emptyImage from '../../images/alerts.png';
 import { getAlertsList, updateUserLastAlertSeen } from '../../actions';
+import { arrayOfObjectEquals } from '../../utils/arrays';
 
 class AlertsList extends React.Component {
 	constructor(props) {
 		super(props);
-
-		props.currentAlerts.sort(function(a,b){
-			return (b.sentDate == null)-(a.sentDate == null) || b.sentDate - a.sentDate;
-		}).reverse();
 
 		this.state = {
 			userId: props.userId,
@@ -24,7 +21,7 @@ class AlertsList extends React.Component {
 			isRefreshing: false,
 		};
 
-    this.state.getAlertsList(); //ensure newest alerts shown w/o refreshing
+		this.state.getAlertsList(); //ensure newest alerts shown w/o refreshing
 
 		this.renderListItem = this.renderListItem.bind(this);
 		this.onRefresh = this.onRefresh.bind(this);
@@ -32,7 +29,7 @@ class AlertsList extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
-		if (nextProps.currentAlerts !== this.state.currentAlerts) {
+		if (!arrayOfObjectEquals(nextProps.currentAlerts, this.state.currentAlerts)) {
 			this.setState({ currentAlerts: nextProps.currentAlerts });
 		}
 		if (nextProps.lastAlertSeen !== this.state.lastAlertSeen) {
@@ -41,12 +38,12 @@ class AlertsList extends React.Component {
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
   }
 
-		componentWillUnmount() {
-			const { userId, lastAlertSeen, currentAlerts } = this.state;
-			if(currentAlerts.length > 0){
-				this.state.updateUserLastAlertSeen(userId, lastAlertSeen, new Date(currentAlerts[0].sentDate));
-			}
+	componentWillUnmount() {
+		const { userId, lastAlertSeen, currentAlerts } = this.state;
+		if(currentAlerts.length > 0){
+			this.state.updateUserLastAlertSeen(userId, lastAlertSeen, new Date(currentAlerts[0].sentDate));
 		}
+	}
 
 	onRefresh() {
 		this.setState({ isRefreshing: true });
@@ -135,8 +132,9 @@ class AlertsList extends React.Component {
 
 const mapStateToProps = ({ currentAlerts, currentUser, lastAlertSeen }) => {
 	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : null;
+	currentAlerts = currentAlerts.filter(alert => alert.sentDate != null);
 	currentAlerts.sort(function(a,b){
-		return (b.sentDate == null)-(a.sentDate == null) || b.sentDate - a.sentDate;
+		return b.sentDate - a.sentDate;
 	}).reverse();
 	return {
 		currentAlerts,
