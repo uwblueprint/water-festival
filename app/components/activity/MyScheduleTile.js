@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import { addActivity, removeActivity } from '../../actions';
@@ -74,8 +75,31 @@ class ActivityTile extends Component {
 		});
 	}
 
+	renderActivityBadge(item){
+		if (!item.isOpen){
+			return (
+				<View
+					style={ [ActivityStyles.activityBadge, ActivityStyles.activityBadgeClosed] }
+				>
+					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextClosed] }>CLOSED</Text>
+				</View>
+			);
+		} else if (item.isNewActivity){
+			return (
+				<View
+					style={ [ActivityStyles.activityBadge, ActivityStyles.activityBadgeNew] }
+				>
+					<Text style={ [ActivityStyles.badgeText, ActivityStyles.badgeTextNew] }>NEW</Text>
+				</View>
+			);
+		} else{
+			return (<View />);
+		}
+	}
+
 	render() {
 		const { item } = this.state;
+		const badge = this.renderActivityBadge(item);
 
 		if (this.props.isEditing) {
 			const icon = (
@@ -95,7 +119,7 @@ class ActivityTile extends Component {
 					key={ item.id }
 					title={ item.title }
 					subtitle={ "Station " + item.station }
-					// onPressRightIcon={  }
+					badge={{ element: badge }}
 					rightIcon={ icon }
 				/>
 			);
@@ -119,6 +143,7 @@ class ActivityTile extends Component {
 					subtitle={ "Station " + item.station }
 					onPress={ () => this.renderActivityDetails(item) }
 					rightIcon={ icon }
+					badge={{ element: badge }}
 				/>
 			);
 		}
