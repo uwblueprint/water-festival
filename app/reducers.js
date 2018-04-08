@@ -14,6 +14,9 @@ import {
 	REMOVE_ACTIVITY_ROLLBACK,
 	ALERTS_LOADED,
 	TOKEN_LOADED,
+	USER_ALERT_LOADED,
+	UPDATE_USER_ALERT,
+	UPDATE_USER_ALERT_ROLLBACK
 } from './actions';
 
 const REHYDRATE = 'persist/REHYDRATE';
@@ -113,6 +116,20 @@ const myActivities = (state = [], action) => {
 	}
 };
 
+const lastAlertSeen = (state = {}, action) => {
+	switch (action.type) {
+		case USER_ALERT_LOADED:
+			return action.payload.lastAlertSeen;
+		case UPDATE_USER_ALERT:
+			if (!action.lastAlertSeen) return state;
+			return action.lastAlertSeen;
+		case UPDATE_USER_ALERT_ROLLBACK:
+			return action.meta.lastAlertSeen;
+		default:
+			return state;
+	}
+};
+
 // Retrieve Alerts List from server
 const currentAlerts = (state = [], action) => {
 	switch (action.type) {
@@ -201,7 +218,8 @@ const reducers = combineReducers({
 	myActivities,
 	currentAlerts,
 	offline,
-	loaded
+	loaded,
+	lastAlertSeen
 });
 
 export default reducers;
