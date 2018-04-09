@@ -10,10 +10,12 @@ import {
 import { Permissions, Notifications } from 'expo';
 import Button from 'react-native-button';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import IconBadge from 'react-native-icon-badge';
 import HomeStyles from '../../styles/HomeStyles';
 import logo from '../../images/wwcgf_logo.png';
 import { darkGray } from '../../styles/Colours';
-import { logout, getTokenList, sendToken } from '../../actions';
+import { logout, getTokenList, sendToken, getAlertsList } from '../../actions';
+import { arrayOfObjectEquals } from '../../utils/arrays';
 
 
 class Home extends React.Component {
@@ -32,8 +34,13 @@ class Home extends React.Component {
 			userId: props.userId,
 			getTokenList: props.getTokenList,
 			sendToken: props.sendToken,
-			currentTokens: props.currentTokens
+			currentTokens: props.currentTokens,
+			lastAlertSeen: props.lastAlertSeen,
+			getAlertsList: props.getAlertsList,
+			currentAlerts: props.currentAlerts,
 		};
+
+		this.state.getAlertsList();
 	}
 
 	componentWillMount() {
@@ -45,10 +52,16 @@ class Home extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.currentTokens !== this.state.currentTokens) {
+		if (!arrayOfObjectEquals(nextProps.currentTokens, this.state.currentTokens)) {
 			this.setState({
 				currentTokens: nextProps.currentTokens
 			});
+		}
+		if (!arrayOfObjectEquals(nextProps.currentAlerts, this.state.currentAlerts)) {
+			this.setState({ currentAlerts: nextProps.currentAlerts });
+		}
+		if (nextProps.lastAlertSeen !== this.state.lastAlertSeen) {
+			this.setState({ lastAlertSeen: nextProps.lastAlertSeen });
 		}
 	}
 
@@ -88,19 +101,37 @@ class Home extends React.Component {
 		return this.state.sendToken(tokenObject);
 	}
 
-	render() {
+	renderAlertIcon(){
+		const newAlerts = this.state.currentAlerts.filter(alert => new Date(alert.sentDate) > this.state.lastAlertSeen);
+		const alertCount = newAlerts.length;
 		return (
-			<ScrollView
-				style={ HomeStyles.container }
-				contentContainerStyle={ HomeStyles.scrollContainer }
-			>
-				<View style={ HomeStyles.topBar }>
+			<IconBadge
+				MainElement={
 					<Icon
 						name="notifications-none"
 						color={ darkGray }
 						size={ 30 }
 						onPress={ () => this.props.navigation.navigate("AlertsScreen") }
 					/>
+				}
+				BadgeElement={
+					<Text style={ HomeStyles.alertIconText }>{alertCount}</Text>
+				}
+				IconBadgeStyle={ HomeStyles.alertIcon }
+				Hidden={ alertCount==0 }
+			/>
+		);
+	}
+
+	render() {
+		const alertIcon = this.renderAlertIcon();
+		return (
+			<ScrollView
+				style={ HomeStyles.container }
+				contentContainerStyle={ HomeStyles.scrollContainer }
+			>
+				<View style={ HomeStyles.topBar }>
+					{ alertIcon }
 					<Image resizeMode="contain" style={ HomeStyles.logo } source={ logo } />
 					<Icon
 						name="settings"
@@ -160,11 +191,13 @@ class Home extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ currentTokens, currentUser }) => {
+const mapStateToProps = ({ currentTokens, currentUser, currentAlerts, lastAlertSeen }) => {
 	const name = (currentUser && currentUser.hasOwnProperty('name')) ? currentUser.name : '';
 	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : '';
 	return {
 		currentTokens,
+		currentAlerts,
+		lastAlertSeen: new Date(lastAlertSeen),
 		userId,
 		name
 	};
@@ -181,6 +214,9 @@ const mapDispatchToProps = dispatch => {
 		sendToken: (token) => {
 			dispatch(sendToken(token))
 		},
+		getAlertsList: () => {
+			dispatch(getAlertsList());
+		},
 	};
 };
 
@@ -189,6 +225,9 @@ Home.propTypes = {
 	userId: PropTypes.string.isRequired,
 	currentTokens: PropTypes.array.isRequired,
 	getTokenList: PropTypes.func.isRequired,
+	getAlertsList: PropTypes.func.isRequired,
+	currentAlerts: PropTypes.array.isRequired,
+	lastAlertSeen: PropTypes.object.isRequired,
 	navigation: PropTypes.object.isRequired,
 	onLogout: PropTypes.func.isRequired,
 	sendToken: PropTypes.func.isRequired,
