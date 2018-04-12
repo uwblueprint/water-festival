@@ -16,7 +16,7 @@ class FaqDetails extends React.Component {
 				goBack={ () => navigation.goBack() }
 			/>
 		),
-		title: "Information",
+		title: "Home",
 		swipeEnabled: false,
 	});
 
