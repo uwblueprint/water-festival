@@ -7,7 +7,8 @@ import {
 	TextInput,
 	TouchableOpacity,
 	StatusBar,
-	NetInfo
+	NetInfo,
+	CheckBox
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
@@ -31,6 +32,7 @@ class RegisterForm extends Component {
 			errorMsg: '',
 			errorField: '',
 			isModalVisible: false,
+			consentIsChecked: false,
 			onHaveAccountPress
 		};
 
@@ -46,7 +48,8 @@ class RegisterForm extends Component {
 			username,
 			day,
 			password,
-			confirmPassword
+			confirmPassword,
+			consentIsChecked
 		} = this.state;
 
 		if (password !== confirmPassword) {
@@ -65,6 +68,11 @@ class RegisterForm extends Component {
 			password
 		}, 'REGISTER', (error, field) => {
 			if (!error) {
+				if (!consentIsChecked) {
+					this.setState({ errorMsg: 'Checkbox is not checked' });
+					return;
+				}
+
 				this.setState({
 					errorMsg: '',
 					errorField: ''
@@ -247,6 +255,15 @@ class RegisterForm extends Component {
 							</Picker>
 						</View>
 					</HideWithKeyboard>
+					<View style={ styles.checkboxContainer }>
+						<CheckBox
+							value={ this.state.consentIsChecked }
+							onValueChange={ (checked) => this.setState({ consentIsChecked: checked }) }
+							></CheckBox>
+						<Text style={ styles.checkboxLabel }>
+							{'I consent to allow my personal information listed here to be used by WWCGF for the duration of this event'}
+						</Text>
+					</View>
 					<View style={ styles.buttonCenter }>
 						<TouchableOpacity
 							activeOpacity={ 0.8 }
@@ -257,23 +274,20 @@ class RegisterForm extends Component {
 						</TouchableOpacity>
 					</View>
 				</View>
-
-				<HideWithKeyboard>
-					<View style={ styles.footer }>
-						<Text
-							style={ styles.noAccount }
-						>
-							Already have an account?
-						</Text>
-						<TouchableOpacity
-							activeOpacity={ 0.8 }
-							style={ styles.loginButton }
-							onPress={ this.state.onHaveAccountPress }
-						>
-							<Text style={ styles.loginText }>LOGIN</Text>
-						</TouchableOpacity>
-					</View>
-				</HideWithKeyboard>
+				<View style={ styles.footer }>
+					<Text
+						style={ styles.noAccount }
+					>
+						Already have an account?
+					</Text>
+					<TouchableOpacity
+						activeOpacity={ 0.8 }
+						style={ styles.loginButton }
+						onPress={ this.state.onHaveAccountPress }
+					>
+						<Text style={ styles.loginText }>LOGIN</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		);
 	}

@@ -4,8 +4,7 @@ import { darkBlue, errorRed, lightBlue, darkGray } from './Colours';
 const RegisterFormStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		paddingHorizontal: 20,
-		marginTop: 30
+		paddingHorizontal: 20
 	},
 	title: {
 		fontSize: 30,
@@ -29,7 +28,7 @@ const RegisterFormStyles = StyleSheet.create({
 	footer: {
 		alignItems: 'center',
 		height: 90,
-		marginTop: 10,
+		marginTop: 40,
 	},
 	input: {
 		height: 40,
@@ -53,7 +52,7 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	buttonCenter: {
 		paddingTop: 10,
-		alignItems: 'center',
+		alignItems: 'center'
 	},
 	buttonContainer: {
 		backgroundColor: darkBlue,
@@ -83,6 +82,20 @@ const RegisterFormStyles = StyleSheet.create({
 	dayPicker: {
 		flex: 0.3,
 		height: 50,
+	},
+	checkboxContainer: {
+		flex: 1,
+		flexDirection: 'row',
+    alignItems:'center',
+    justifyContent:'center',
+		paddingHorizontal: 10,
+		marginTop: 10,
+		marginBottom: 30
+	},
+	checkboxLabel: {
+		fontSize: 12,
+		color: darkBlue,
+		flexWrap: 'wrap'
 	},
 	noAccount: {
 		color: darkBlue,
