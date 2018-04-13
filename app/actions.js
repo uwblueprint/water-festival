@@ -8,7 +8,8 @@ export const LOGIN_ROLLBACK = 'LOGIN_ROLLBACK';
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const EDIT_USER = 'EDIT_USER';
-export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST'; // not used
+export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
+export const EDIT_USER_ROLLBACK = 'EDIT_USER_ROLLBACK';
 export const ACTIVITY_LOAD_REQUEST = 'ACTIVITY_LOAD_REQUEST'; // not used
 export const USER_ACTIVITY_REQUEST = 'USER_ACTIVITY_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
@@ -66,8 +67,9 @@ export const login = ({ username, password }) => ({
 
 export const logout = () => ({ type: LOGOUT });
 
-export const editUser = (user) => ({
+export const editUser = (user, oldUser) => ({
 	type: EDIT_USER_REQUEST,
+	payload: { user },
 	meta: {
 		offline: {
 			effect: {
@@ -76,6 +78,10 @@ export const editUser = (user) => ({
 				body: JSON.stringify(user)
 			},
 			commit: { type: EDIT_USER },
+			rollback: {
+				type: EDIT_USER_ROLLBACK,
+				meta: { user: oldUser }
+			}
 		}
 	}
 });

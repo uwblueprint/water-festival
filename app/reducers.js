@@ -5,7 +5,9 @@ import {
 	LOGIN_ROLLBACK,
 	LOGIN,
 	LOGOUT,
+	EDIT_USER_REQUEST,
 	EDIT_USER,
+	EDIT_USER_ROLLBACK,
 	ACTIVITY_LOADED,
 	USER_ACTIVITY_LOADED,
 	ADD_ACTIVITY,
@@ -71,9 +73,15 @@ const currentUser = (state = {}, action) => {
 		}
 		case LOGOUT:
 			return {};
+		case EDIT_USER_REQUEST:
 		case EDIT_USER: {
 			if (!action.payload.user) return state;
 			const { user } = action.payload;
+			return user;
+		}
+		case EDIT_USER_ROLLBACK: {
+			if (!action.payload.user) return state;
+			const { user } = action.meta;
 			return user;
 		}
 		default:
