@@ -27,16 +27,16 @@ class LoggedIn extends Component {
 			isConnected: true,
 			progress: 0.1
 		};
+	}
 
+	componentDidMount() {
 		// Checks if user is connected to the internet
 		NetInfo.isConnected.fetch().then(isConnected => {
 			this.setState({ isConnected });
 
 			// Load app data if connected
-			if (isConnected && loaded) this.getData(loaded);
+			if (isConnected && this.state.loaded) this.getData(this.state.loaded);
 		});
-
-		this.getData = this.getData.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -63,7 +63,9 @@ class LoggedIn extends Component {
 			loadActivities();
 		} else this.setState({ progress: 1.0 });
 
-		setTimeout(() => this.setState({ progress: 1.0 }), 2000);
+		setTimeout(() => {
+			if (this.state.progress < 1.0) this.setState({ progress: 1.0 })
+		}, 2000);
 	}
 
 	render() {

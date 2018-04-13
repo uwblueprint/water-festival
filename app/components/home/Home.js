@@ -52,6 +52,9 @@ class Home extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		if (this.state.name !== nextProps.name) {
+			this.setState({ name: nextProps.name });
+		}
 		if (!arrayOfObjectEquals(nextProps.currentTokens, this.state.currentTokens)) {
 			this.setState({
 				currentTokens: nextProps.currentTokens
