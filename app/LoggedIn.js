@@ -1,10 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { NetInfo } from 'react-native';
+import { NetInfo, AppState } from 'react-native';
 import { connect } from 'react-redux';
 import Container from './Container';
 import LoadingScreen from './screens/LoadingScreen';
-import { getFaqList, getActivityList, getAlertsList } from './actions';
+import {
+	getFaqList,
+	getActivityList,
+	getAlertsList,
+	getUser
+} from './actions';
 import { arrayOfObjectEquals } from './utils/arrays';
 
 class LoggedIn extends Component {
@@ -15,21 +20,29 @@ class LoggedIn extends Component {
 			loaded,
 			loadFaq,
 			loadActivities,
-			loadAlerts
+			loadAlerts,
+			loadUser,
+			userId
 		} = props;
 
 
 		this.state = {
+			appState: 'active',
+			userId,
 			loaded: loaded || {},
 			loadFaq,
 			loadActivities,
 			loadAlerts,
+			loadUser,
 			isConnected: true,
 			progress: 0.1
 		};
+
+		this.handleAppStateChange = this.handleAppStateChange.bind(this);
 	}
 
 	componentDidMount() {
+		AppState.addEventListener('change', this.handleAppStateChange);
 		// Checks if user is connected to the internet
 		NetInfo.isConnected.fetch().then(isConnected => {
 			this.setState({ isConnected });
@@ -40,6 +53,10 @@ class LoggedIn extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		if (this.state.userId !== nextProps.userId) {
+				this.setState({ userId: nextProps.userId });
+		}
+
 		if (!arrayOfObjectEquals(nextProps.loaded, this.state.loaded)) {
 			this.setState({ loaded: nextProps.loaded || {} });
 		}
@@ -68,6 +85,17 @@ class LoggedIn extends Component {
 		}, 2000);
 	}
 
+	handleAppStateChange(nextState) {
+		const { loadAlerts, loadActivities, loadFaq, loadUser, userId } = this.state;
+		if (this.state.appState.match(/inactive|background/) && nextState === 'active') {
+			if (userId) loadUser(userId);
+			loadAlerts();
+			loadFaq();
+			loadActivities();
+		}
+		this.setState({ appState: nextState });
+	}
+
 	render() {
 		const { isConnected, progress } = this.state;
 
@@ -79,23 +107,27 @@ class LoggedIn extends Component {
 	}
 }
 
-const mapStateToProps = ({ loaded }) => {
-	return { loaded };
+const mapStateToProps = ({ loaded, currentUser }) => {
+	const userId = (currentUser && currentUser.hasOwnProperty('_id')) ? currentUser._id : '';
+	return { loaded, userId };
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		loadFaq: () => dispatch(getFaqList()),
 		loadActivities: () => dispatch(getActivityList()),
-		loadAlerts: () => dispatch(getAlertsList())
+		loadAlerts: () => dispatch(getAlertsList()),
+		loadUser: (userId) => dispatch(getUser(userId))
 	};
 }
 
 LoggedIn.propTypes = {
 	loaded: PropTypes.object.isRequired,
+	userId: PropTypes.string.isRequired,
 	loadFaq: PropTypes.func.isRequired,
 	loadActivities: PropTypes.func.isRequired,
 	loadAlerts: PropTypes.func.isRequired,
+	loadUser: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoggedIn);
