@@ -14,7 +14,7 @@ import IconBadge from 'react-native-icon-badge';
 import HomeStyles from '../../styles/HomeStyles';
 import logo from '../../images/wwcgf_logo.png';
 import { darkGray } from '../../styles/Colours';
-import { logout, getTokenList, sendToken, getAlertsList } from '../../actions';
+import { logout, getTokenList, sendToken } from '../../actions';
 import { arrayOfObjectEquals } from '../../utils/arrays';
 
 
@@ -36,7 +36,6 @@ class Home extends React.Component {
 			sendToken: props.sendToken,
 			currentTokens: props.currentTokens,
 			lastAlertSeen: props.lastAlertSeen,
-			getAlertsList: props.getAlertsList,
 			currentAlerts: props.currentAlerts,
 		};
 	}
@@ -215,9 +214,6 @@ const mapDispatchToProps = dispatch => {
 		sendToken: (token) => {
 			dispatch(sendToken(token))
 		},
-		getAlertsList: () => {
-			dispatch(getAlertsList());
-		},
 	};
 };
 
@@ -226,7 +222,6 @@ Home.propTypes = {
 	userId: PropTypes.string.isRequired,
 	currentTokens: PropTypes.array.isRequired,
 	getTokenList: PropTypes.func.isRequired,
-	getAlertsList: PropTypes.func.isRequired,
 	currentAlerts: PropTypes.array.isRequired,
 	lastAlertSeen: PropTypes.object.isRequired,
 	navigation: PropTypes.object.isRequired,

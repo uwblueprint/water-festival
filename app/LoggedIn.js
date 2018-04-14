@@ -66,19 +66,6 @@ class LoggedIn extends Component {
 		}
 	}
 
-	handleAppStateChange(nextState) {
-		const { loadAlerts, loadActivities, loadFaq, loadUser, userId } = this.state;
-		if (this.state.appState.match(/inactive|background/) && nextState === 'active') {
-			console.log(userId)
-			if (userId) loadUser(userId);
-      loadAlerts();
-			loadFaq();
-			loadActivities();
-    }
-		console.log(nextState);
-    this.setState({ appState: nextState });
-	}
-
 	getData(loaded) {
 		const { loadAlerts, loadActivities, loadFaq } = this.state;
 
@@ -96,6 +83,17 @@ class LoggedIn extends Component {
 		setTimeout(() => {
 			if (this.state.progress < 1.0) this.setState({ progress: 1.0 })
 		}, 2000);
+	}
+
+	handleAppStateChange(nextState) {
+		const { loadAlerts, loadActivities, loadFaq, loadUser, userId } = this.state;
+		if (this.state.appState.match(/inactive|background/) && nextState === 'active') {
+			if (userId) loadUser(userId);
+			loadAlerts();
+			loadFaq();
+			loadActivities();
+		}
+		this.setState({ appState: nextState });
 	}
 
 	render() {

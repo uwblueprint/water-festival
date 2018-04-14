@@ -75,7 +75,7 @@ const currentUser = (state = {}, action) => {
 		case LOGOUT:
 			return {};
 		case USER_LOADED: {
-			if (!action.payload) return state;
+			if (!action.payload._id) return state;
 			const user = action.payload;
 			return user;
 		}

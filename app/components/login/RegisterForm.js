@@ -259,7 +259,7 @@ class RegisterForm extends Component {
 						<CheckBox
 							value={ this.state.consentIsChecked }
 							onValueChange={ (checked) => this.setState({ consentIsChecked: checked }) }
-							></CheckBox>
+						/>
 						<Text style={ styles.checkboxLabel }>
 							{'I consent to allow my personal information listed here to be used by WWCGF for the duration of this event'}
 						</Text>
