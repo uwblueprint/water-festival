@@ -4,6 +4,7 @@ import {
 	Text,
 	View,
 	Image,
+	ScrollView,
 } from 'react-native';
 import Button from 'react-native-button';
 import ActivityStyles from '../../styles/ActivityStyles';
@@ -24,12 +25,12 @@ class ActivityDetails extends React.Component {
 			const errorMessage = "CLOSED: " + (activity.state ? activity.state : "This event is currently closed due to unforeseen circumstances, thanks for your understanding!");
 			const selectedHeader = activity.isOpen ? defaultHeader : (
 				<View>
+					{ defaultHeader }
 					<View style={ ActivityStyles.errorMessage }>
 						<Text style={ ActivityStyles.errorMessageText }>
 							{ errorMessage }
 						</Text>
 					</View>
-					{ defaultHeader }
 				</View>
 			);
 			return selectedHeader;
@@ -108,7 +109,7 @@ class ActivityDetails extends React.Component {
 		const button = this.renderButton(activity.id);
 		const image = this.renderImage(activity.imageURI);
 		return (
-			<View key={ state.params.index } style={ ActivityStyles.activityDetailsContainer }>
+			<ScrollView key={ state.params.index } style={ ActivityStyles.activityDetailsContainer }>
 				<View style={ ActivityStyles.activityDetailsContainerText }>
 					<Text style={ ActivityStyles.activityDetailsTitle }>
 						{activity.title}
@@ -137,7 +138,7 @@ class ActivityDetails extends React.Component {
 					</Button>
 					{button}
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 }

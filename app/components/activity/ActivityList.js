@@ -34,10 +34,6 @@ class ActivityList extends React.Component {
 		this.renderListItem = this.renderListItem.bind(this);
 	}
 
-	componentDidMount() {
-		this.state.refreshList(this.state.userId);
-	}
-
 	componentWillReceiveProps(nextProps) {
 		// Avoiding refresh if possible
 		if (!arrayOfObjectEquals(nextProps.activities, this.state.activities)) {
@@ -46,11 +42,12 @@ class ActivityList extends React.Component {
 				sectionList: this.getSectionList(nextProps.activities)
 			});
 		}
+
 		if (this.state.isRefreshing) this.setState({ isRefreshing: false });
 	}
 
 	shouldComponentUpdate(nextProps) {
-		return !arrayOfObjectEquals(nextProps.activities, this.state.activities);
+		return !arrayOfObjectEquals(nextProps.activities, this.state.activities) || !arrayOfObjectEquals(this.getSectionList(nextProps.activities), this.state.sectionList);
 	}
 
 	onRefresh() {
@@ -99,7 +96,6 @@ class ActivityList extends React.Component {
 	renderListItem({ item }) {
 		return (
 			<ActivityTile
-				renderActivityDetails={ this.renderActivityDetails }
 				item={ item }
 				userId={ this.state.userId }
 				realIndex={ this.state.activities.indexOf(item) }

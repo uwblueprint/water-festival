@@ -14,6 +14,7 @@ import SettingsStyles from '../../styles/SettingsStyles';
 import validate from '../../utils/validation';
 import ErrorMessage from '../login/ErrorMessage';
 import { editUser } from '../../actions';
+import { objectEquals } from '../../utils/arrays';
 
 class Settings extends React.Component {
 
@@ -41,10 +42,8 @@ class Settings extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.currentUser !== this.state.currentUser) {
-			this.setState({
-				currentUser: nextProps.currentUser,
-			});
+		if (!objectEquals(nextProps.currentUser, this.state.currentUser)) {
+			this.setState({ currentUser: nextProps.currentUser });
 		}
 	}
 
@@ -77,7 +76,7 @@ class Settings extends React.Component {
 					id: this.state.currentUser._id
 				};
 
-				this.props.onEditUser(user);
+				this.props.onEditUser(user, this.state.currentUser);
 			} else {
 				this.setState({
 					passwordErrorMsg: error,
@@ -115,7 +114,7 @@ class Settings extends React.Component {
 					id: this.state.currentUser._id
 				};
 
-				this.props.onEditUser(user);
+				this.props.onEditUser(user, this.state.currentUser);
 			} else {
 				this.setState({
 					errorMsg: error,
@@ -187,11 +186,11 @@ class Settings extends React.Component {
 							selectedValue={ this.state.day }
 							onValueChange={ day => this.setState({ day }) }
 						>
-							<Picker.Item label='1' value={ 1 } />
-							<Picker.Item label='2' value={ 2 } />
-							<Picker.Item label='3' value={ 3 } />
-							<Picker.Item label='4' value={ 4 } />
-							<Picker.Item label='5' value={ 5 } />
+							<Picker.Item label='Mon' value={ 1 } />
+							<Picker.Item label='Tue' value={ 2 } />
+							<Picker.Item label='Wed' value={ 3 } />
+							<Picker.Item label='Thu' value={ 4 } />
+							<Picker.Item label='Fri' value={ 5 } />
 						</Picker>
 					</View>
 				</HideWithKeyboard>
@@ -247,8 +246,8 @@ const mapStateToProps = ({ currentUser }) => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		onEditUser: (userId, editedFields) => {
-			dispatch(editUser(userId, editedFields));
+		onEditUser: (newUser, oldUser) => {
+			dispatch(editUser(newUser, oldUser));
 		},
 	}
 };

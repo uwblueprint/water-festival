@@ -8,7 +8,10 @@ export const LOGIN_ROLLBACK = 'LOGIN_ROLLBACK';
 export const LOGIN = "LOGIN";
 export const LOGOUT = "LOGOUT";
 export const EDIT_USER = 'EDIT_USER';
-export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST'; // not used
+export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
+export const EDIT_USER_ROLLBACK = 'EDIT_USER_ROLLBACK';
+export const USER_LOAD_REQUEST = 'USER_LOAD_REQUEST';  // not used
+export const USER_LOADED = 'USER_LOADED';
 export const ACTIVITY_LOAD_REQUEST = 'ACTIVITY_LOAD_REQUEST'; // not used
 export const USER_ACTIVITY_REQUEST = 'USER_ACTIVITY_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
@@ -19,12 +22,13 @@ export const REMOVE_ACTIVITY = 'REMOVE_ACTIVITY';
 export const REMOVE_ACTIVITY_ROLLBACK = 'REMOVE_ACTIVITY_ROLLBACK';
 export const ALERTS_REQUEST = 'ALERTS_REQUEST'; // not used
 export const ALERTS_LOADED = 'ALERTS_LOADED';
-export const PREPCHECK_REQUEST = 'PREPCHECK_REQUEST'
-export const PREPCHECK_LOADED = 'PREPCHECK_LOADED'
-export const PREPCHECKED = 'PREPCHECKED'
-export const PREPUNCHECKED = 'PREPUNCHECKED'
-export const PREPCHECKED_ROLLBACK = 'PREPCHECKED_ROLLBACK'
-export const PREPUNCHECKED_ROLLBACK = 'PREPUNCHECKED_ROLLBACK'
+export const TOKEN_LOAD_REQUEST = 'TOKEN_LOAD_REQUEST';
+export const TOKEN_LOADED = 'TOKEN_LOADED';
+export const SEND_TOKEN = 'SEND_TOKEN';
+export const USER_ALERT_REQUEST = 'USER_ALERT_REQUEST'; // not used
+export const USER_ALERT_LOADED = 'USER_ALERT_LOADED';
+export const UPDATE_USER_ALERT = 'UPDATE_USER_ALERT';
+export const UPDATE_USER_ALERT_ROLLBACK = 'UPDATE_USER_ALERT_ROLLBACK';
 
 const API_URL = 'https://water-fest.herokuapp.com';
 
@@ -64,8 +68,22 @@ export const login = ({ username, password }) => ({
 
 export const logout = () => ({ type: LOGOUT });
 
-export const editUser = (user) => ({
+export const getUser = (userId) => ({
+	type: USER_LOAD_REQUEST,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/id/${userId}`,
+				method: 'GET'
+			},
+			commit: { type: USER_LOADED }
+		}
+	}
+});
+
+export const editUser = (user, oldUser) => ({
 	type: EDIT_USER_REQUEST,
+	payload: { user },
 	meta: {
 		offline: {
 			effect: {
@@ -74,6 +92,10 @@ export const editUser = (user) => ({
 				body: JSON.stringify(user)
 			},
 			commit: { type: EDIT_USER },
+			rollback: {
+				type: EDIT_USER_ROLLBACK,
+				meta: { user: oldUser }
+			}
 		}
 	}
 });
@@ -100,6 +122,40 @@ export const getUserActivities = (userId) => ({
 				method: 'GET'
 			},
 			commit: { type: USER_ACTIVITY_LOADED }
+		}
+	}
+});
+
+export const getUserLastAlertSeen = (userId) => ({
+	type: USER_ALERT_REQUEST,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/id/${userId}`,
+				method: 'GET'
+			},
+			commit: { type: USER_ALERT_LOADED }
+		}
+	}
+});
+
+export const updateUserLastAlertSeen = (id, oldLastAlertSeen, newLastAlertSeen) => ({
+	type: UPDATE_USER_ALERT,
+	lastAlertSeen: newLastAlertSeen,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/edit`,
+				method: 'PUT',
+				body: JSON.stringify({
+					id,
+					lastAlertSeen: newLastAlertSeen
+				})
+			},
+			rollback: {
+				type: UPDATE_USER_ALERT_ROLLBACK,
+				meta: { lastAlertSeen: oldLastAlertSeen }
+			}
 		}
 	}
 });
@@ -189,6 +245,14 @@ export const prepChecked = (id, oldPrepcheck, newPrepcheck) => ({
 				type: PREPCHECKED_ROLLBACK,
 				meta: { prepCheck: oldPrepcheck }
 			}
+export const getTokenList = () => ({
+	type: TOKEN_LOAD_REQUEST,
+	meta: {
+		offline: {
+			// the network action to execute:
+			effect: { url: `${API_URL}/tokens/list`, method: 'GET' },
+			// action to dispatch when effect succeeds:
+			commit: { type: TOKEN_LOADED }
 		}
 	}
 });
@@ -209,6 +273,15 @@ export const prepUnchecked = (id, oldprepCheck, newprepCheck) => ({
 			rollback: {
 				type: PREPUNCHECKED_ROLLBACK,
 				meta: { prepCheck: oldprepCheck }
+
+export const sendToken = (tokenObject) => ({
+	type: SEND_TOKEN,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/tokens/insert`,
+				method: 'POST',
+				body: JSON.stringify(tokenObject)
 			}
 		}
 	}

@@ -6,7 +6,8 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	StatusBar
+	StatusBar,
+	NetInfo
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
@@ -43,14 +44,19 @@ class LoginForm extends Component {
 	onLoginPress() {
 		const { username, password } = this.state;
 
-		validate({ username, password }, 'LOGIN', (error) => {
-			if (!error) {
-				this.setState({ errorMsg: '' });
-				this.state.onLogin({ username, password });
-			} else {
-				this.setState({ errorMsg: error });
+		NetInfo.isConnected.fetch().then(isConnected => {
+			if (!isConnected) this.setState({ errorMsg: 'No Internet Connection' });
+			else {
+				validate({ username, password }, 'LOGIN', (error) => {
+					if (!error) {
+						this.setState({ errorMsg: '' });
+						this.state.onLogin({ username, password });
+					} else {
+						this.setState({ errorMsg: error });
+					}
+				});
 			}
-		});
+		})
 	}
 
 	forgotPassword() {

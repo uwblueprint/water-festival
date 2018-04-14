@@ -2,11 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoginScreen from './screens/LoginScreen';
-import Container from './Container'
+import LoggedIn from './LoggedIn';
 
 const MainContainer = ({ isLoggedIn }) => {
-	const view = (isLoggedIn) ? <Container /> : <LoginScreen />;
-	return view;
+	return (isLoggedIn) ? <LoggedIn /> : <LoginScreen />;
 }
 
 const mapStateToProps = ({ isLoggedIn }) => {

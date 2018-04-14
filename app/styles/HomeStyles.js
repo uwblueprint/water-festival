@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native'
 import {
 	darkBlue,
 	darkGray,
+	deleteRed
 } from './Colours';
 
 const HomeStyles = StyleSheet.create({
@@ -65,6 +66,17 @@ const HomeStyles = StyleSheet.create({
 		color: darkBlue,
 		fontWeight: "300",
 	},
+	alertIcon: {
+		width: 12,
+		height: 12,
+		minWidth: 5,
+		backgroundColor: deleteRed
+	},
+	alertIconText: {
+		color: 'white',
+		fontSize: 8,
+		fontWeight: '500'
+	}
 });
 
 export default HomeStyles;

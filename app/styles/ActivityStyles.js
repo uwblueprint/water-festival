@@ -76,13 +76,14 @@ const ActivityStyles = StyleSheet.create({
 		flex: 1,
 	},
 	activityDetailsContainerText: {
-		paddingLeft: 60,
-		paddingTop: 30,
-		paddingRight: 20,
+		paddingLeft: 50,
+		paddingTop: 20,
+		paddingRight: 50,
 	},
 	activityDetailsContainerButtons: {
 		alignItems: 'center',
 		justifyContent: 'center',
+		paddingBottom: 30
 	},
 	activityDetailsTitle: {
 		fontSize: 25,
@@ -95,7 +96,7 @@ const ActivityStyles = StyleSheet.create({
 	},
 	activityDetailsGrade: {
 		fontSize: 20,
-		paddingBottom: 50,
+		paddingBottom: 25,
 		color: darkGray
 	},
 	activityDetailsDescription: {
@@ -154,7 +155,7 @@ const ActivityStyles = StyleSheet.create({
 		textAlign: "center",
 	},
 	activityDetailsImage:{
-		width: 300,
+		width: '100%',
 		height: 180,
 	},
 	activitySearch: {
@@ -173,7 +174,7 @@ const ActivityStyles = StyleSheet.create({
 	activityBadge: {
 		width: 70,
 		height: 20,
-		marginTop: 10,
+		marginTop: 20,
 		marginRight:75,
 		paddingVertical: 2,
 		borderRadius : 20,
@@ -209,6 +210,29 @@ const ActivityStyles = StyleSheet.create({
 		color: "white",
 		textAlign: "center",
 		fontSize: 12,
+	},
+	emptyScreen: {
+		paddingBottom: 40,
+		backgroundColor: 'white',
+	},
+	emptyImage: {
+		paddingTop: 80,
+		alignSelf: 'center',
+	},
+	emptyTopText: {
+		paddingTop: 30,
+		paddingBottom: 10,
+		fontSize: 20,
+		textAlign: 'center',
+	},
+	emptyBottomText: {
+		fontSize: 15,
+		textAlign: 'center',
+	},
+	emptyLinkText: {
+		fontSize: 15,
+		textAlign: 'center',
+		color: darkBlue,
 	},
 });
 

@@ -5,7 +5,10 @@ import {
 	LOGIN_ROLLBACK,
 	LOGIN,
 	LOGOUT,
+	USER_LOADED,
+	EDIT_USER_REQUEST,
 	EDIT_USER,
+	EDIT_USER_ROLLBACK,
 	ACTIVITY_LOADED,
 	USER_ACTIVITY_LOADED,
 	ADD_ACTIVITY,
@@ -13,11 +16,18 @@ import {
 	REMOVE_ACTIVITY,
 	REMOVE_ACTIVITY_ROLLBACK,
 	ALERTS_LOADED,
+<<<<<<< HEAD
 	PREPCHECK_LOADED,
   PREPCHECKED,
 	PREPCHECKED_ROLLBACK,
 	PREPUNCHECKED,
 	PREPUNCHECKED_ROLLBACK
+=======
+	TOKEN_LOADED,
+	USER_ALERT_LOADED,
+	UPDATE_USER_ALERT,
+	UPDATE_USER_ALERT_ROLLBACK
+>>>>>>> fe89467c148710bc87b2d5ccfb76f70e50580441
 } from './actions';
 
 const REHYDRATE = 'persist/REHYDRATE';
@@ -27,9 +37,10 @@ const currentQuestions = (state = [], action) => {
 	switch (action.type) {
 		case FAQ_LOADED: {
 			const faqList = action.payload;
-			// eslint-disable-next-line no-console
-			if (!faqList) console.log('ERROR: faqList is undefined');
-			return faqList || state;
+			if (!faqList || !Array.isArray(faqList)) {
+				return state;
+			}
+			return faqList;
 		}
 		default:
 			return state;
@@ -39,8 +50,10 @@ const currentQuestions = (state = [], action) => {
 // returns login status
 const isLoggedIn = (state = false, action) => {
 	switch (action.type) {
-		case LOGIN:
-			return action.payload.success;
+		case LOGIN: {
+			if (!action.payload || !action.payload.success) return false;
+			return true;
+		}
 		case LOGOUT:
 			return false;
 		default:
@@ -72,9 +85,20 @@ const currentUser = (state = {}, action) => {
 		}
 		case LOGOUT:
 			return {};
+		case USER_LOADED: {
+			if (!action.payload._id) return state;
+			const user = action.payload;
+			return user;
+		}
+		case EDIT_USER_REQUEST:
 		case EDIT_USER: {
 			if (!action.payload.user) return state;
 			const { user } = action.payload;
+			return user;
+		}
+		case EDIT_USER_ROLLBACK: {
+			if (!action.payload.user) return state;
+			const { user } = action.meta;
 			return user;
 		}
 		default:
@@ -96,6 +120,9 @@ const currentActivities = (state = [], action) => {
 
 const myActivities = (state = [], action) => {
 	switch (action.type) {
+		case REHYDRATE:
+			if (!state.isLoggedIn) return [];
+			else return state;
 		case LOGIN: {
 			if (!action.payload.success || !action.payload.user) return state;
 			const { activities } = action.payload.user;
@@ -114,6 +141,20 @@ const myActivities = (state = [], action) => {
 	}
 };
 
+const lastAlertSeen = (state = {}, action) => {
+	switch (action.type) {
+		case USER_ALERT_LOADED:
+			return action.payload.lastAlertSeen;
+		case UPDATE_USER_ALERT:
+			if (!action.lastAlertSeen) return state;
+			return action.lastAlertSeen;
+		case UPDATE_USER_ALERT_ROLLBACK:
+			return action.meta.lastAlertSeen;
+		default:
+			return state;
+	}
+};
+
 // Retrieve Alerts List from server
 const currentAlerts = (state = [], action) => {
 	switch (action.type) {
@@ -126,18 +167,30 @@ const currentAlerts = (state = [], action) => {
 	}
 };
 
+<<<<<<< HEAD
 // Retrieve prepCheck List from server
 const currentPrepCheck = (state = [], action) => {
 	switch (action.type) {
 		case PREPCHECK_LOADED: {
 			const prepCheckList = action.payload;
 			return prepCheckList || state;
+=======
+// Retrieve token List from server
+const currentTokens = (state = [], action) => {
+	switch (action.type) {
+		case TOKEN_LOADED: {
+			const tokenList = action.payload;
+			// eslint-disable-next-line no-console
+			if (!tokenList) console.log('ERROR: tokenList is undefined');
+			return tokenList || state;
+>>>>>>> fe89467c148710bc87b2d5ccfb76f70e50580441
 		}
 		default:
 			return state;
 	}
 };
 
+<<<<<<< HEAD
 const myPrepCheck = (state = [], action) => {
 	switch (action.type) {
 		case LOGIN: {
@@ -158,15 +211,30 @@ const myPrepCheck = (state = [], action) => {
 	}
 };
 
+=======
+const initialState = {
+	authStatus: {},
+	currentUser: {},
+	isLoggedIn: false,
+	myActivities: []
+}
+>>>>>>> fe89467c148710bc87b2d5ccfb76f70e50580441
 // Check for offline
-const offline = (state = {}, action) => {
+const offline = (state = initialState, action) => {
 	switch (action.type) {
 		case REHYDRATE: {
 			const { payload } = action;
-			if (!payload) return state;
+
+			if (payload == null) return state;
 
 			// Empty API call queue on rehydration
-			if (payload.hasOwnProperty('offline')) payload.offline.outbox = [];
+			if (payload.hasOwnProperty('offline')) {
+				payload.offline.outbox = [];
+				payload.offline.busy = false;
+			} else payload.offline = {
+				outbox: [],
+				busy: false
+			};
 			if (!payload.currentUser || !payload.currentUser.hasOwnProperty('_id')) {
 				payload.authStatus = {};
 				payload.currentUser = {};
@@ -174,8 +242,35 @@ const offline = (state = {}, action) => {
 				payload.myActivities = [];
 			}
 
-			return { ...state, ...payload, busy: false };
+			return payload;
 		}
+		default:
+			return state;
+	}
+}
+
+// Handles boolean that tells app what data has been loaded into store
+const loaded = (state = {
+	faqLoaded: false,
+	allActivitiesLoaded: false,
+	alertsLoaded: false
+}, action) => {
+	switch (action.type) {
+		case REHYDRATE:
+		case LOGOUT:
+			state.faqLoaded = false;
+			state.allActivitiesLoaded = false;
+			state.alertsLoaded = false;
+			return state;
+		case FAQ_LOADED:
+			state.faqLoaded = true;
+			return state;
+		case ACTIVITY_LOADED:
+			state.allActivitiesLoaded = true;
+			return state;
+		case ALERTS_LOADED:
+			state.alertsLoaded = true;
+			return state;
 		default:
 			return state;
 	}
@@ -184,6 +279,7 @@ const offline = (state = {}, action) => {
 // Turns different reducing functions into a single reducing function
 const reducers = combineReducers({
 	currentQuestions,
+	currentTokens,
 	isLoggedIn,
 	authStatus,
 	currentUser,
@@ -192,6 +288,8 @@ const reducers = combineReducers({
 	currentAlerts,
 	myPrepCheck,
 	offline,
+	loaded,
+	lastAlertSeen
 });
 
 export default reducers;

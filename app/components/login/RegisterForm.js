@@ -6,7 +6,11 @@ import {
 	Text,
 	TextInput,
 	TouchableOpacity,
-	StatusBar
+	StatusBar,
+	NetInfo,
+	CheckBox,
+	Switch,
+	Platform
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
@@ -30,6 +34,7 @@ class RegisterForm extends Component {
 			errorMsg: '',
 			errorField: '',
 			isModalVisible: false,
+			consentIsChecked: false,
 			onHaveAccountPress
 		};
 
@@ -45,7 +50,8 @@ class RegisterForm extends Component {
 			username,
 			day,
 			password,
-			confirmPassword
+			confirmPassword,
+			consentIsChecked
 		} = this.state;
 
 		if (password !== confirmPassword) {
@@ -64,6 +70,11 @@ class RegisterForm extends Component {
 			password
 		}, 'REGISTER', (error, field) => {
 			if (!error) {
+				if (!consentIsChecked) {
+					this.setState({ errorMsg: 'Checkbox is not checked' });
+					return;
+				}
+
 				this.setState({
 					errorMsg: '',
 					errorField: ''
@@ -116,25 +127,44 @@ class RegisterForm extends Component {
 			}
 		};
 
-		fetch(API_URL, data)
-			.then(response => response.json())
-			.then(json => {
-				const { user, message, code } = json;
-				if (!user) {
-					if (code === 11000) callback('Username has already been taken!');
-					else if (message) callback(message);
-					else {
-						// eslint-disable-next-line no-console
-						console.log('Something went wrong', json);
-						callback('Oops, something went wrong!');
-					}
-				} else callback(null);
-			})
-			// eslint-disable-next-line no-console
-			.catch(err => console.error(err));
+		NetInfo.isConnected.fetch().then(isConnected => {
+			if (!isConnected) this.setState({ errorMsg: 'No Internet Connection' });
+			else {
+				fetch(API_URL, data)
+					.then(response => response.json())
+					.then(json => {
+						const { user, message, code } = json;
+						if (!user) {
+							if (code === 11000) callback('Username has already been taken!');
+							else if (message) callback(message);
+							else {
+								// eslint-disable-next-line no-console
+								console.log('Something went wrong', json);
+								callback('Oops, something went wrong!');
+							}
+						} else callback(null);
+					})
+					// eslint-disable-next-line no-console
+					.catch(err => console.error(err));
+			}
+		});
 	}
 
 	render() {
+		const checkbox = (Platform.OS === 'ios')
+			? (
+				<Switch
+					value={ this.state.consentIsChecked }
+					onValueChange={ (checked) => this.setState({ consentIsChecked: checked }) }
+				/>
+			)
+			: (
+				<CheckBox
+					value={ this.state.consentIsChecked }
+					onValueChange={ (checked) => this.setState({ consentIsChecked: checked }) }
+				/>
+			);
+
 		return (
 			<View style={ styles.container }>
 				<StatusBar barStyle='light-content' />
@@ -233,14 +263,20 @@ class RegisterForm extends Component {
 									day: itemValue
 								}) }
 							>
-								<Picker.Item label='1' value={ 1 } />
-								<Picker.Item label='2' value={ 2 } />
-								<Picker.Item label='3' value={ 3 } />
-								<Picker.Item label='4' value={ 4 } />
-								<Picker.Item label='5' value={ 5 } />
+								<Picker.Item label='Mon' value={ 1 } />
+								<Picker.Item label='Tue' value={ 2 } />
+								<Picker.Item label='Wed' value={ 3 } />
+								<Picker.Item label='Thu' value={ 4 } />
+								<Picker.Item label='Fri' value={ 5 } />
 							</Picker>
 						</View>
 					</HideWithKeyboard>
+					<View style={ styles.checkboxContainer }>
+						{ checkbox }
+						<Text style={ styles.checkboxLabel }>
+							{'I consent to allow my personal information listed here to be used by WWCGF for the duration of this event'}
+						</Text>
+					</View>
 					<View style={ styles.buttonCenter }>
 						<TouchableOpacity
 							activeOpacity={ 0.8 }
@@ -251,23 +287,20 @@ class RegisterForm extends Component {
 						</TouchableOpacity>
 					</View>
 				</View>
-
-				<HideWithKeyboard>
-					<View style={ styles.footer }>
-						<Text
-							style={ styles.noAccount }
-						>
-							Already have an account?
-						</Text>
-						<TouchableOpacity
-							activeOpacity={ 0.8 }
-							style={ styles.loginButton }
-							onPress={ this.state.onHaveAccountPress }
-						>
-							<Text style={ styles.loginText }>LOGIN</Text>
-						</TouchableOpacity>
-					</View>
-				</HideWithKeyboard>
+				<View style={ styles.footer }>
+					<Text
+						style={ styles.noAccount }
+					>
+						Already have an account?
+					</Text>
+					<TouchableOpacity
+						activeOpacity={ 0.8 }
+						style={ styles.loginButton }
+						onPress={ this.state.onHaveAccountPress }
+					>
+						<Text style={ styles.loginText }>LOGIN</Text>
+					</TouchableOpacity>
+				</View>
 			</View>
 		);
 	}

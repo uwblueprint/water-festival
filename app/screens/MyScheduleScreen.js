@@ -6,23 +6,47 @@ import MySchedule from '../components/activity/MySchedule';
 import ActivityDetails from '../components/activity/ActivityDetails';
 
 class MyScheduleScreen extends React.Component {
-	static navigationOptions = () => ({
-		header: (
-			<Header
-				title="My Schedule"
-				hasBackButton={ false }
-			/>
-		),
-		title: 'My Schedule',
-	});
+	static navigationOptions = ({navigation}) => {
+		const {params} = navigation.state;
+		if (params != undefined) {
+			return {
+				header: (
+					<Header
+						title="My Schedule"
+						hasBackButton={ false }
+						onEdit={ params.handleEdit }
+					/>
+				),
+				title: 'My Schedule',
+			};
+		} else return {
+			title: 'My Schedule'
+		}
+	};
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			isEditing: false,
+		}
+
+		this.handleEdit = this.handleEdit.bind(this);
+	}
+
+	componentDidMount() {
+		this.props.navigation.setParams({
+			handleEdit: this.handleEdit,
+		});
+	}
+
+	handleEdit() {
+		this.setState(prevState => ({ isEditing: !prevState.isEditing }))
 	}
 
 	render() {
 		return (
-			<MySchedule navigation={ this.props.navigation } />
+			<MySchedule isEditing={ this.state.isEditing } navigation={ this.props.navigation } />
 		);
 	}
 }
