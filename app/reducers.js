@@ -29,9 +29,10 @@ const currentQuestions = (state = [], action) => {
 	switch (action.type) {
 		case FAQ_LOADED: {
 			const faqList = action.payload;
-			// eslint-disable-next-line no-console
-			if (!faqList) console.log('ERROR: faqList is undefined');
-			return faqList || state;
+			if (!faqList || !Array.isArray(faqList)) {
+				return state;
+			}
+			return faqList;
 		}
 		default:
 			return state;
@@ -41,8 +42,10 @@ const currentQuestions = (state = [], action) => {
 // returns login status
 const isLoggedIn = (state = false, action) => {
 	switch (action.type) {
-		case LOGIN:
-			return action.payload.success;
+		case LOGIN: {
+			if (!action.payload || !action.payload.success) return false;
+			return true;
+		}
 		case LOGOUT:
 			return false;
 		default:
@@ -170,16 +173,28 @@ const currentTokens = (state = [], action) => {
 	}
 };
 
+const initialState = {
+	authStatus: {},
+	currentUser: {},
+	isLoggedIn: false,
+	myActivities: []
+}
 // Check for offline
-const offline = (state = {}, action) => {
+const offline = (state = initialState, action) => {
 	switch (action.type) {
 		case REHYDRATE: {
 			const { payload } = action;
 
-			if (!payload) return state;
+			if (payload == null) return state;
 
 			// Empty API call queue on rehydration
-			if (payload.hasOwnProperty('offline')) payload.offline.outbox = [];
+			if (payload.hasOwnProperty('offline')) {
+				payload.offline.outbox = [];
+				payload.offline.busy = false;
+			} else payload.offline = {
+				outbox: [],
+				busy: false
+			};
 			if (!payload.currentUser || !payload.currentUser.hasOwnProperty('_id')) {
 				payload.authStatus = {};
 				payload.currentUser = {};
@@ -187,7 +202,7 @@ const offline = (state = {}, action) => {
 				payload.myActivities = [];
 			}
 
-			return { ...state, ...payload, busy: false };
+			return payload;
 		}
 		default:
 			return state;
