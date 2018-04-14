@@ -8,7 +8,9 @@ import {
 	TouchableOpacity,
 	StatusBar,
 	NetInfo,
-	CheckBox
+	CheckBox,
+	Switch,
+	Platform
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import validate from '../../utils/validation';
@@ -149,6 +151,20 @@ class RegisterForm extends Component {
 	}
 
 	render() {
+		const checkbox = (Platform.OS === 'ios')
+			? (
+				<Switch
+					value={ this.state.consentIsChecked }
+					onValueChange={ (checked) => this.setState({ consentIsChecked: checked }) }
+				/>
+			)
+			: (
+				<CheckBox
+					value={ this.state.consentIsChecked }
+					onValueChange={ (checked) => this.setState({ consentIsChecked: checked }) }
+				/>
+			);
+
 		return (
 			<View style={ styles.container }>
 				<StatusBar barStyle='light-content' />
@@ -256,10 +272,7 @@ class RegisterForm extends Component {
 						</View>
 					</HideWithKeyboard>
 					<View style={ styles.checkboxContainer }>
-						<CheckBox
-							value={ this.state.consentIsChecked }
-							onValueChange={ (checked) => this.setState({ consentIsChecked: checked }) }
-						/>
+						{ checkbox }
 						<Text style={ styles.checkboxLabel }>
 							{'I consent to allow my personal information listed here to be used by WWCGF for the duration of this event'}
 						</Text>
