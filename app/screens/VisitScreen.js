@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import Button from 'react-native-button';
 import { NavigationActions } from 'react-navigation'
-import GameStyles from '../styles/GameStyles';
 import ActivityStyles from '../styles/ActivityStyles';
 import Header from '../components/Header'
 import {
@@ -11,64 +10,52 @@ import {
 	FlatList,
 } from 'react-native';
 import { List,ListItem, Icon } from 'react-native-elements';
-import { darkGray,darkBlue } from '../styles/Colours';
+import PrepCheckTile from '../components/checkList/prepCheckTile'
 
-const list = [
+const myList = [
   {
-    text: 'REVIEW the Health and Safety Protocol',
-    checked: false
+    text: 'REVIEW the Health and Safety Protocol'
   },
   {
-    text: 'Attend one of the Orientation / Planning sessions OR Download the WWCGF App',
-    checked: false
+    text: 'Attend one of the Orientation / Planning sessions OR Download the WWCGF App'
   },
   {
-    text: 'Using your class list, divide students into small groups (6 students / 1 adult)',
-    checked: false
+    text: 'Using your class list, divide students into small groups (6 students / 1 adult)'
   },
   {
     text: 'Assign one adult supervisor per group (All supervisors are admitted free of charge).'+
-          ' Please use name tags provided for all supervisors (parents and teachers)',
-    checked: false
+          ' Please use name tags provided for all supervisors (parents and teachers)'
   },
   {
     text: 'Advise all group supervisors that they are responsible for the behaviour of their group' +
           ' during the  visit, and the students must be accompanied by an adult at all times.'+
-          ' Please ask supervisors to keep children out of the Schneider Creek.',
-    checked: false
+          ' Please ask supervisors to keep children out of the Schneider Creek.'
   },
   {
     text: 'All parent volunteers to arrive with the bus. NO CAR PARKING ON-SITE '+
-          'Note: Please contact WWCGF coordinator for any special needs concerns, to arrange for a Parking Pass',
-    checked: false
+          'Note: Please contact WWCGF coordinator for any special needs concerns, to arrange for a Parking Pass'
   },
   {
     text: 'Distribute copies of the Visit Scheduler, Activity Centre List and  the Site Map to all group leaders ( teachers and parent volunteers)'+
-          ' Or Download the NEW WWCGF App',
-    checked: false
+          ' Or Download the NEW WWCGF App'
   },
   {
     text: 'Familiarize yourself with the site map and plan ahead by selecting activities and exhibits which best suit your groups’ interest.'+
-          ' A Visit Scheduler and an Attendance form has been provided for your convenience.',
-    checked: false
+          ' A Visit Scheduler and an Attendance form has been provided for your convenience.'
   },
   {
     text: 'Start each group from a different location and move in rotation to avoid congestion.'+
-          ' Each activity Centre has been described for planning and organization. Note there are two entrances to the site.',
-    checked: false
+          ' Each activity Centre has been described for planning and organization. Note there are two entrances to the site.'
   },
   {
     text: 'Please note that the lunch period is from 11:30 a.m. – 12:00 p.m.'+
-          ' Have students pack litter-free lunches which they will carry with them. You will not be able to purchase food on site.',
-    checked: false
+          ' Have students pack litter-free lunches which they will carry with them. You will not be able to purchase food on site.'
   },
   {
-    text: 'By planning ahead and preparing all supervisors for your visit, everyone can take an active role in this valuable learning experience.',
-    checked: false
+    text: 'By planning ahead and preparing all supervisors for your visit, everyone can take an active role in this valuable learning experience.'
   },
   {
-    text: 'School will be invoiced - no payment on day of visit. (8.50 per student all adult supervisors free)',
-    checked: false
+    text: 'School will be invoiced - no payment on day of visit. (8.50 per student all adult supervisors free)'
   }
 ]
 
@@ -89,56 +76,31 @@ class VisitScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			userId: props.userId
+		};
 	}
 
-  check(item){
-    item.setState({text: item.state.text, checked: !item.state.checked})
-  }
+	renderListItem({ item }) {
+		return(
+			<PrepCheckTile
+				item={ item }
+				userId={ this.state.userId }
+			/>
+		)
+	}
 
-  setIcon(item){
-    const checkIcon = (
-      <Icon
-        name='ios-checkmark-circle'
-        type='ionicon'
-        size={ 30 }
-        color= '#17B730'
-        style={{ marginTop: 5 }}
-      />
-    );
-
-    const uncheckIcon = (
-      <Icon
-        name='ios-checkmark-circle-outline'
-        type='ionicon'
-        size={ 30 }
-        color= '#17B730'
-        style={{ marginTop: 5 }}
-      />
-    )
-
-    if(item.checked){
-      return checkIcon;
-    }else{
-     return uncheckIcon;
-    }
-  }
+	keyExtractor = (item) => item.id
 
 	render() {
 		return (
-			<View style={ GameStyles.gameDetailsContainer }>
-      <List containerStyle={{marginBottom: 20}}>
-        {
-          list.map((l, i) => (
-            <ListItem
-            key={i}
-            title={l.text}
-            onPress={() => this.check(l)}
-            rightIcon={this.setIcon(l)}
-            />
-          ))
-        }
-        </List>
-			</View>
+			<ScrollView style={ ActivityStyles.activityPadding }>
+				<FlatList
+					data={ myList }
+					renderItem= { this.renderListItem }
+					keyExtractor= { this.keyExtractor}
+				/>
+			</ScrollView>
 		);
 	}
 }
