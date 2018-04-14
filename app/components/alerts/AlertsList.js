@@ -21,8 +21,6 @@ class AlertsList extends React.Component {
 			isRefreshing: false,
 		};
 
-		this.state.getAlertsList(); //ensure newest alerts shown w/o refreshing
-
 		this.renderListItem = this.renderListItem.bind(this);
 		this.onRefresh = this.onRefresh.bind(this);
 	}

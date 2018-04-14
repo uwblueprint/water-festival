@@ -5,6 +5,7 @@ import {
 	LOGIN_ROLLBACK,
 	LOGIN,
 	LOGOUT,
+	USER_LOADED,
 	EDIT_USER_REQUEST,
 	EDIT_USER,
 	EDIT_USER_ROLLBACK,
@@ -73,6 +74,11 @@ const currentUser = (state = {}, action) => {
 		}
 		case LOGOUT:
 			return {};
+		case USER_LOADED: {
+			if (!action.payload) return state;
+			const user = action.payload;
+			return user;
+		}
 		case EDIT_USER_REQUEST:
 		case EDIT_USER: {
 			if (!action.payload.user) return state;

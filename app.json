@@ -17,6 +17,7 @@
     },
     "android": {
       "package": "com.uwblueprint.waterfestival",
+      "permissions": [],
       "versionCode": 1
     }
   }

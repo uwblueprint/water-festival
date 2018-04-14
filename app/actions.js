@@ -10,6 +10,8 @@ export const LOGOUT = "LOGOUT";
 export const EDIT_USER = 'EDIT_USER';
 export const EDIT_USER_REQUEST = 'EDIT_USER_REQUEST';
 export const EDIT_USER_ROLLBACK = 'EDIT_USER_ROLLBACK';
+export const USER_LOAD_REQUEST = 'USER_LOAD_REQUEST';  // not used
+export const USER_LOADED = 'USER_LOADED';
 export const ACTIVITY_LOAD_REQUEST = 'ACTIVITY_LOAD_REQUEST'; // not used
 export const USER_ACTIVITY_REQUEST = 'USER_ACTIVITY_REQUEST'; // not used
 export const ACTIVITY_LOADED = 'ACTIVITY_LOADED';
@@ -66,6 +68,19 @@ export const login = ({ username, password }) => ({
 	});
 
 export const logout = () => ({ type: LOGOUT });
+
+export const getUser = (userId) => ({
+	type: USER_LOAD_REQUEST,
+	meta: {
+		offline: {
+			effect: {
+				url: `${API_URL}/users/id/${userId}`,
+				method: 'GET'
+			},
+			commit: { type: USER_LOADED }
+		}
+	}
+});
 
 export const editUser = (user, oldUser) => ({
 	type: EDIT_USER_REQUEST,

@@ -39,8 +39,6 @@ class Home extends React.Component {
 			getAlertsList: props.getAlertsList,
 			currentAlerts: props.currentAlerts,
 		};
-
-		this.state.getAlertsList();
 	}
 
 	componentWillMount() {
