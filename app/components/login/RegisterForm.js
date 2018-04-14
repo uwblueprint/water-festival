@@ -117,7 +117,7 @@ class RegisterForm extends Component {
 	}
 
 	registerUser(userObj, callback) {
-		const API_URL = 'https://water-fest.herokuapp.com/users/insert';
+		const API_URL = 'https://water-festival-server.appspot.com/users/insert';
 		const data = {
 			method: 'POST',
 			body: JSON.stringify(userObj),

@@ -31,7 +31,7 @@ export const UPDATE_USER_ALERT = 'UPDATE_USER_ALERT';
 export const UPDATE_USER_ALERT_ROLLBACK = 'UPDATE_USER_ALERT_ROLLBACK';
 
 
-const API_URL = 'https://water-fest.herokuapp.com';
+const API_URL = 'https://water-festival-server.appspot.com/';
 
 /*
  * action creators

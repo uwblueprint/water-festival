@@ -169,7 +169,7 @@ class MapScreen extends React.Component {
 				onMove={ this.onMapPress }
 			>
 				<Image
-					source={{ uri: 'https://water-fest.herokuapp.com/images/map.png' }}
+					source={{ uri: 'https://water-festival-server.appspot.com/images/map.png' }}
 					style={{ flex: 1 }}
 					resizeMode="contain"
 				>
