@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 // Redux Persist
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 // Redux Offline
 import { offline } from '@redux-offline/redux-offline';
@@ -21,7 +21,7 @@ const initalState = {};
 const persistConfig = {
 	key: 'root',
 	storage,
-	stateReconciler: autoMergeLevel2 // shallow merge state 2 layers down
+	stateReconciler: hardSet // shallow merge state 2 layers down
 };
 
 const store = createStore(

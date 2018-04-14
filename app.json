@@ -12,11 +12,11 @@
       "backgroundColor": "#F2F6FF"
     },
     "ios": {
-      "bundleIdentifier": "com.uwblueprint.waterfestival",
+      "bundleIdentifier": "com.wwcgf.waterfestival",
       "buildNumber": "1.0"
     },
     "android": {
-      "package": "com.uwblueprint.waterfestival",
+      "package": "com.wwcgf.waterfestival",
       "permissions": [],
       "versionCode": 1
     }
