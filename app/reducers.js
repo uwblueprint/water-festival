@@ -16,18 +16,15 @@ import {
 	REMOVE_ACTIVITY,
 	REMOVE_ACTIVITY_ROLLBACK,
 	ALERTS_LOADED,
-<<<<<<< HEAD
 	PREPCHECK_LOADED,
   PREPCHECKED,
 	PREPCHECKED_ROLLBACK,
 	PREPUNCHECKED,
 	PREPUNCHECKED_ROLLBACK
-=======
 	TOKEN_LOADED,
 	USER_ALERT_LOADED,
 	UPDATE_USER_ALERT,
 	UPDATE_USER_ALERT_ROLLBACK
->>>>>>> fe89467c148710bc87b2d5ccfb76f70e50580441
 } from './actions';
 
 const REHYDRATE = 'persist/REHYDRATE';
@@ -167,14 +164,18 @@ const currentAlerts = (state = [], action) => {
 	}
 };
 
-<<<<<<< HEAD
+
 // Retrieve prepCheck List from server
 const currentPrepCheck = (state = [], action) => {
 	switch (action.type) {
 		case PREPCHECK_LOADED: {
 			const prepCheckList = action.payload;
 			return prepCheckList || state;
-=======
+		}
+		default:
+		 return state;
+	 }
+ };
 // Retrieve token List from server
 const currentTokens = (state = [], action) => {
 	switch (action.type) {
@@ -183,14 +184,12 @@ const currentTokens = (state = [], action) => {
 			// eslint-disable-next-line no-console
 			if (!tokenList) console.log('ERROR: tokenList is undefined');
 			return tokenList || state;
->>>>>>> fe89467c148710bc87b2d5ccfb76f70e50580441
 		}
 		default:
 			return state;
 	}
 };
 
-<<<<<<< HEAD
 const myPrepCheck = (state = [], action) => {
 	switch (action.type) {
 		case LOGIN: {
@@ -211,14 +210,12 @@ const myPrepCheck = (state = [], action) => {
 	}
 };
 
-=======
 const initialState = {
 	authStatus: {},
 	currentUser: {},
 	isLoggedIn: false,
 	myActivities: []
 }
->>>>>>> fe89467c148710bc87b2d5ccfb76f70e50580441
 // Check for offline
 const offline = (state = initialState, action) => {
 	switch (action.type) {
