@@ -245,6 +245,9 @@ export const prepChecked = (id, oldPrepcheck, newPrepcheck) => ({
 				type: PREPCHECKED_ROLLBACK,
 				meta: { prepCheck: oldPrepcheck }
 			}
+		}
+	}
+});
 export const getTokenList = () => ({
 	type: TOKEN_LOAD_REQUEST,
 	meta: {
@@ -273,6 +276,10 @@ export const prepUnchecked = (id, oldprepCheck, newprepCheck) => ({
 			rollback: {
 				type: PREPUNCHECKED_ROLLBACK,
 				meta: { prepCheck: oldprepCheck }
+			}
+		}
+	}
+});
 
 export const sendToken = (tokenObject) => ({
 	type: SEND_TOKEN,
