@@ -61,6 +61,23 @@ const AlertsStyles = StyleSheet.create({
     textAlign: "center",
     color: green
   },
+  alertDetailsContainer: {
+    backgroundColor: 'white',
+    flex: 1,
+    paddingLeft: 60,
+    paddingTop: 20,
+    paddingRight: 30,
+  },
+  alertDetailsName: {
+    fontSize: 30,
+    paddingBottom: 30,
+    fontWeight: "bold",
+    color: darkGray,
+  },
+  alertDetailsDescription: {
+    fontSize: 17,
+    color: darkGray,
+  },
 });
 
 export default AlertsStyles;
