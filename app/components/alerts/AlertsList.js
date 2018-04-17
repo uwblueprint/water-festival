@@ -64,7 +64,7 @@ class AlertsList extends React.Component {
 		}
 	}
 
-	renderListItem({ item }) {
+	renderListItem({ item, index }) {
 		if (item.name) {
 			const badge = this.renderAlertBadge(item);
 			return (
@@ -76,10 +76,19 @@ class AlertsList extends React.Component {
 					title={ item.name }
 					subtitle={ item.description }
 					badge={{ element: badge }}
+					onPress={ () => this.renderAlertDetails(item, index) }
 					hideChevron
 				/>
 			);
 		}
+	}
+
+	renderAlertDetails(alert, index) {
+		this.props.navigation.navigate('AlertDetails', {
+			index,
+			currentAlert: alert,
+			alertList: this.state.currentAlerts,
+		});
 	}
 
 	renderFooter = () => {
@@ -153,6 +162,8 @@ const mapDispatchToProps = dispatch => {
 };
 
 AlertsList.propTypes = {
+	navigation: PropTypes.object.isRequired,
+	navigate: PropTypes.func,
 	userId: PropTypes.string.isRequired,
 	// Action
 	getAlertsList: PropTypes.func.isRequired,
@@ -160,6 +171,10 @@ AlertsList.propTypes = {
 	// Reducer
 	currentAlerts: PropTypes.array.isRequired,
 	lastAlertSeen: PropTypes.object.isRequired
+};
+
+AlertsList.defaultProps = {
+	navigate: () => {}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AlertsList);
