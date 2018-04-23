@@ -8,8 +8,12 @@
     "orientation": "portrait",
     "primaryColor": "#0288D1",
     "splash": {
-      "image": "",
+      "image": "./app/images/splash.png",
       "backgroundColor": "#F2F6FF"
+    },
+    "notification": {
+      "icon": "./app/images/push_logo.png",
+      "color": "#0288D1"
     },
     "ios": {
       "bundleIdentifier": "com.wwcgf.waterfestival",

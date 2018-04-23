@@ -48,6 +48,13 @@ const isLoggedIn = (state = false, action) => {
 		}
 		case LOGOUT:
 			return false;
+		case REHYDRATE: {
+			const { payload } = action;
+
+			if (payload == null || !payload.currentUser || !payload.currentUser.hasOwnProperty('_id'))
+				return false;
+			return state;
+		}
 		default:
 			return state;
 	}
@@ -58,11 +65,16 @@ const authStatus = (state = {}, action) => {
 		case LOGIN_REQUEST:
 			return {};
 		case LOGIN:
-			return action.payload;
+			return action.payload || {};
 		case LOGIN_ROLLBACK:
 			return state;
-		case REHYDRATE:
-			return {};
+		case REHYDRATE: {
+			const { payload } = action;
+
+			if (payload == null || !payload.currentUser || !payload.currentUser.hasOwnProperty('_id'))
+				return {};
+			return state;
+		}
 		default:
 			return state;
 	}
@@ -71,27 +83,38 @@ const authStatus = (state = {}, action) => {
 const currentUser = (state = {}, action) => {
 	switch (action.type) {
 		case LOGIN: {
-			if (!action.payload.success || !action.payload.user) return state;
-			const { user } = action.payload;
-			return user;
+			const { payload } = action;
+
+			if (payload == null || !payload.success || !payload.user) return state;
+			const { user } = payload;
+			return user || {};
 		}
 		case LOGOUT:
 			return {};
 		case USER_LOADED: {
-			if (!action.payload._id) return state;
-			const user = action.payload;
-			return user;
+			const { payload } = action;
+
+			if (payload == null || !payload._id) return state;
+			return payload || state;
 		}
 		case EDIT_USER_REQUEST:
 		case EDIT_USER: {
-			if (!action.payload.user) return state;
-			const { user } = action.payload;
-			return user;
+			const { payload } = action;
+			if (payload == null || payload.user == null) return state;
+			const { user } = payload;
+			return user || state;
 		}
 		case EDIT_USER_ROLLBACK: {
-			if (!action.payload.user) return state;
+			const { meta } = action;
+			if (meta == null || meta.user == null) return state;
 			const { user } = action.meta;
-			return user;
+			return user || state;
+		}
+		case REHYDRATE: {
+			const { payload } = action;
+			if (payload == null || payload.currentUser == null || !payload.currentUser.hasOwnProperty('_id'))
+				return {};
+			return state;
 		}
 		default:
 			return state;
@@ -112,13 +135,18 @@ const currentActivities = (state = [], action) => {
 
 const myActivities = (state = [], action) => {
 	switch (action.type) {
-		case REHYDRATE:
-			if (!state.isLoggedIn) return [];
-			else return state;
+		case REHYDRATE: {
+			const { payload } = action;
+			if (!state.isLoggedIn || payload == null || !payload.currentUser ||
+				!payload.currentUser.hasOwnProperty('_id'))
+				return [];
+			return state;
+		}
 		case LOGIN: {
-			if (!action.payload.success || !action.payload.user) return state;
+			const { payload } = action;
+			if (payload == null || !payload.success || payload.user == null) return state;
 			const { activities } = action.payload.user;
-			return activities;
+			return activities || [];
 		}
 		case USER_ACTIVITY_LOADED:
 			return action.payload.activities;
@@ -165,7 +193,7 @@ const currentTokens = (state = [], action) => {
 		case TOKEN_LOADED: {
 			const tokenList = action.payload;
 			// eslint-disable-next-line no-console
-			if (!tokenList) console.log('ERROR: tokenList is undefined');
+			if (tokenList == null) console.log('ERROR: tokenList is undefined');
 			return tokenList || state;
 		}
 		default:
@@ -173,37 +201,11 @@ const currentTokens = (state = [], action) => {
 	}
 };
 
-const initialState = {
-	authStatus: {},
-	currentUser: {},
-	isLoggedIn: false,
-	myActivities: []
-}
 // Check for offline
-const offline = (state = initialState, action) => {
+const offline = (state = {}, action) => {
 	switch (action.type) {
-		case REHYDRATE: {
-			const { payload } = action;
-
-			if (payload == null) return state;
-
-			// Empty API call queue on rehydration
-			if (payload.hasOwnProperty('offline')) {
-				payload.offline.outbox = [];
-				payload.offline.busy = false;
-			} else payload.offline = {
-				outbox: [],
-				busy: false
-			};
-			if (!payload.currentUser || !payload.currentUser.hasOwnProperty('_id')) {
-				payload.authStatus = {};
-				payload.currentUser = {};
-				payload.isLoggedIn = false;
-				payload.myActivities = [];
-			}
-
-			return payload;
-		}
+		case REHYDRATE:
+			return { outbox: [], busy: false };
 		default:
 			return state;
 	}

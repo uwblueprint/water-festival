@@ -9,7 +9,7 @@ import {
 	Platform
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import { darkBlue } from '../styles/Colours';
+import { darkBlue, grayBlue } from '../styles/Colours';
 import drop from '../images/drop.png';
 import dropBase from '../images/dropbase.png';
 
@@ -60,7 +60,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		paddingTop: Expo.Constants.statusBarHeight + 50,
 		justifyContent: 'center',
-		alignItems: 'center'
+		alignItems: 'center',
+		backgroundColor: grayBlue
 	},
 	horizontal: {
 		flexDirection: 'row',
