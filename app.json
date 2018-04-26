@@ -22,7 +22,7 @@
     "android": {
       "package": "com.wwcgf.waterfestival",
       "permissions": [],
-      "versionCode": 1
+      "versionCode": 3
     }
   }
 }
