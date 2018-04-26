@@ -8,9 +8,7 @@ const MainContainer = ({ isLoggedIn }) => {
 	return (isLoggedIn) ? <LoggedIn /> : <LoginScreen />;
 }
 
-const mapStateToProps = ({ isLoggedIn }) => {
-	return { isLoggedIn };
-};
+const mapStateToProps = ({ currentUser }) => ({ isLoggedIn: currentUser.hasOwnProperty('_id') });
 
 MainContainer.propTypes = {
 	isLoggedIn: PropTypes.bool.isRequired
