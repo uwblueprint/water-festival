@@ -16,11 +16,11 @@
       "color": "#0288D1"
     },
     "ios": {
-      "bundleIdentifier": "com.wwcgf.waterfestival",
+      "bundleIdentifier": "com.uwblueprint.waterfestival",
       "buildNumber": "1.0"
     },
     "android": {
-      "package": "com.wwcgf.waterfestival",
+      "package": "com.uwblueprint.waterfestival",
       "permissions": [],
       "versionCode": 3
     }

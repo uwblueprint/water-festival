@@ -39,27 +39,6 @@ const currentQuestions = (state = [], action) => {
 	}
 };
 
-// returns login status
-const isLoggedIn = (state = false, action) => {
-	switch (action.type) {
-		case LOGIN: {
-			if (!action.payload || !action.payload.success) return false;
-			return true;
-		}
-		case LOGOUT:
-			return false;
-		case REHYDRATE: {
-			const { payload } = action;
-
-			if (payload == null || !payload.currentUser || !payload.currentUser.hasOwnProperty('_id'))
-				return false;
-			return state;
-		}
-		default:
-			return state;
-	}
-};
-
 const authStatus = (state = {}, action) => {
 	switch (action.type) {
 		case LOGIN_REQUEST:
@@ -137,8 +116,7 @@ const myActivities = (state = [], action) => {
 	switch (action.type) {
 		case REHYDRATE: {
 			const { payload } = action;
-			if (!state.isLoggedIn || payload == null || !payload.currentUser ||
-				!payload.currentUser.hasOwnProperty('_id'))
+			if (payload == null || !payload.currentUser || !payload.currentUser.hasOwnProperty('_id'))
 				return [];
 			return state;
 		}
@@ -242,7 +220,6 @@ const loaded = (state = {
 const reducers = combineReducers({
 	currentQuestions,
 	currentTokens,
-	isLoggedIn,
 	authStatus,
 	currentUser,
 	currentActivities,
