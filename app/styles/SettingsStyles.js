@@ -48,7 +48,7 @@ const SettingsStyles = StyleSheet.create({
 		borderRadius: 30,
 		borderWidth: 1,
 		borderColor: lightBlue,
-		marginTop: 20,
+		marginTop: 70,
 		marginLeft: 20,
 		marginRight: 50,
 		marginBottom: 30,
@@ -74,7 +74,7 @@ const SettingsStyles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		maxHeight: 60,
-		marginTop: 10,
+		marginTop: 65
 	},
 	dayTitle: {
 		flex: 0.45,
@@ -82,7 +82,7 @@ const SettingsStyles = StyleSheet.create({
 	},
 	dayPicker: {
 		flex: 0.3,
-		height: 50
+		height: 210,
 	},
 });
 
