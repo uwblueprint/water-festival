@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { darkBlue, errorRed, lightBlue, darkGray } from './Colours';
 
 const RegisterFormStyles = StyleSheet.create({
@@ -72,7 +72,7 @@ const RegisterFormStyles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		maxHeight: 60,
-		marginTop: 30,
+		marginTop: Platform.OS === 'ios' ? 65 : 30,
 		marginBottom: 30
 	},
 	dayTitle: {
@@ -81,7 +81,7 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	dayPicker: {
 		flex: 0.3,
-		height: 50,
+		height: Platform.OS === 'ios' ? 210 : 50,
 	},
 	checkboxContainer: {
 		flex: 1,
