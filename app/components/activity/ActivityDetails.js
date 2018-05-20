@@ -48,6 +48,7 @@ class ActivityDetails extends React.Component {
 		this.addActivity = this.addActivity.bind(this);
 		this.removeActivity = this.removeActivity.bind(this);
 		this.renderButton = this.renderButton.bind(this);
+		this.navigateToMap = this.navigateToMap.bind(this);
 	}
 
 	addActivity(id) {
@@ -89,6 +90,10 @@ class ActivityDetails extends React.Component {
 			</Button>
 		);
 		return this.state.myActivities.includes(id) ? removeButton : addButton;
+	}
+
+	navigateToMap(stationNumber) {
+		this.props.navigation.navigate('MapScreen', { stationNumber });
 	}
 
 	renderImage(imageURI) {
@@ -133,6 +138,7 @@ class ActivityDetails extends React.Component {
 						activeOpacity={ 1 }
 						containerStyle={ ActivityStyles.activityDetailsMapButton }
 						style={ ActivityStyles.activityDetailsMapButtonText }
+						onPress={ ()=> this.navigateToMap(activity.station) }
 					>
 						SHOW ON MAP
 					</Button>
