@@ -29,6 +29,7 @@ const RegisterFormStyles = StyleSheet.create({
 		alignItems: 'center',
 		height: 90,
 		marginTop: 40,
+		marginBottom: 40
 	},
 	input: {
 		height: 40,
@@ -89,7 +90,7 @@ const RegisterFormStyles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
 		paddingHorizontal: 10,
-		marginTop: 10,
+		marginTop: 30,
 		marginBottom: 30
 	},
 	checkboxLabel: {
@@ -100,8 +101,9 @@ const RegisterFormStyles = StyleSheet.create({
 	noAccount: {
 		color: darkBlue,
 		textAlign: 'center',
-		paddingLeft: 70,
-		paddingBottom: 8,
+		paddingLeft: 80,
+		paddingBottom: 5,
+		marginTop: 70,
 		fontSize: 12
 	},
 	loginButton: {
