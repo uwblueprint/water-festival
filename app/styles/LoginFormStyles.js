@@ -40,6 +40,8 @@ const LoginFormStyles = StyleSheet.create({
 			color: '#fff',
 			textAlign: 'center',
 			fontSize: 18,
+			marginLeft: 10,
+			marginRight: 10
 		},
 		forgotPassText: {
 			color: darkBlue,
@@ -74,8 +76,11 @@ const LoginFormStyles = StyleSheet.create({
 		},
 		registerText: {
 			color: darkBlue,
-			textAlign: 'center',
+			textAlign: 'right',
 			fontSize: 16,
+			width: 115,
+			marginLeft: 20,
+			marginRight: 20
 		},
 });
 

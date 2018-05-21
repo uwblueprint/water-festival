@@ -67,6 +67,8 @@ const RegisterFormStyles = StyleSheet.create({
 		color: '#fff',
 		textAlign: 'center',
 		fontSize: 18,
+		marginLeft: 10,
+		marginRight: 10
 	},
 	dayContainer: {
 		flex: 1,
@@ -116,8 +118,11 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	loginText: {
 		color: darkBlue,
-		textAlign: 'center',
+		textAlign: 'right',
 		fontSize: 16,
+		width: 105,
+		marginLeft: 20,
+		marginRight: 20
 	},
 });
 
