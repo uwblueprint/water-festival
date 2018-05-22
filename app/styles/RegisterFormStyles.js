@@ -92,7 +92,7 @@ const RegisterFormStyles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
 		paddingHorizontal: 10,
-		marginTop: 30,
+		marginTop: Platform.OS === 'ios' ? 30 : 10,
 		marginBottom: 30
 	},
 	checkboxLabel: {
@@ -105,7 +105,7 @@ const RegisterFormStyles = StyleSheet.create({
 		textAlign: 'center',
 		paddingLeft: 80,
 		paddingBottom: 5,
-		marginTop: 70,
+		marginTop: Platform.OS === 'ios' ? 70 : 0,
 		fontSize: 12
 	},
 	loginButton: {
