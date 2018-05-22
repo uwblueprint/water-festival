@@ -23,6 +23,7 @@ class LoginForm extends Component {
 			onLogin,
 			onRegisterPress
 		} = props;
+
 		this.state = {
 			username: '',
 			password: '',
@@ -59,10 +60,6 @@ class LoginForm extends Component {
 		})
 	}
 
-	forgotPassword() {
-
-	}
-
 	render() {
 		const body = (this.state.loading)
 			? null
@@ -92,12 +89,6 @@ class LoginForm extends Component {
 							placeholderTextColor='rgba(0,0,0,0.7)'
 							secureTextEntry
 						/>
-						<Text
-							style={ styles.forgotPassText }
-							onPress={ this.forgotPassword }
-						>
-							Forgot your password?
-						</Text>
 						<View style={ styles.buttonCenter }>
 							<TouchableOpacity
 								activeOpacity={ 0.8 }

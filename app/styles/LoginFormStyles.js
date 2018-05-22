@@ -35,13 +35,14 @@ const LoginFormStyles = StyleSheet.create({
 			borderWidth: 1,
 			borderColor: lightBlue,
 			width: 240,
+			marginTop: 40
 		},
 		buttonText: {
 			color: '#fff',
 			textAlign: 'center',
 			fontSize: 18,
 			marginLeft: 10,
-			marginRight: 10
+			marginRight: 10,
 		},
 		forgotPassText: {
 			color: darkBlue,
