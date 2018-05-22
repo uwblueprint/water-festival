@@ -10,6 +10,7 @@ import {
 	NetInfo,
 	CheckBox,
 	Switch,
+	ScrollView,
 	Platform
 } from 'react-native';
 import HideWithKeyboard from 'react-native-hide-with-keyboard';
@@ -166,7 +167,7 @@ class RegisterForm extends Component {
 			);
 
 		return (
-			<View style={ styles.container }>
+			<ScrollView style={ styles.container }>
 				<StatusBar barStyle='light-content' />
 				<Modal
 					isModalVisible={ this.state.isModalVisible }
@@ -301,7 +302,7 @@ class RegisterForm extends Component {
 						<Text style={ styles.loginText }>LOGIN</Text>
 					</TouchableOpacity>
 				</View>
-			</View>
+			</ScrollView>
 		);
 	}
 }

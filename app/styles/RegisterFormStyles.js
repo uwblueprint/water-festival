@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { darkBlue, errorRed, lightBlue, darkGray } from './Colours';
 
 const RegisterFormStyles = StyleSheet.create({
@@ -29,6 +29,7 @@ const RegisterFormStyles = StyleSheet.create({
 		alignItems: 'center',
 		height: 90,
 		marginTop: 40,
+		marginBottom: 40
 	},
 	input: {
 		height: 40,
@@ -66,13 +67,15 @@ const RegisterFormStyles = StyleSheet.create({
 		color: '#fff',
 		textAlign: 'center',
 		fontSize: 18,
+		marginLeft: 10,
+		marginRight: 10
 	},
 	dayContainer: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
 		maxHeight: 60,
-		marginTop: 30,
+		marginTop: Platform.OS === 'ios' ? 65 : 30,
 		marginBottom: 30
 	},
 	dayTitle: {
@@ -81,7 +84,7 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	dayPicker: {
 		flex: 0.3,
-		height: 50,
+		height: Platform.OS === 'ios' ? 210 : 50,
 	},
 	checkboxContainer: {
 		flex: 1,
@@ -89,7 +92,7 @@ const RegisterFormStyles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
 		paddingHorizontal: 10,
-		marginTop: 10,
+		marginTop: Platform.OS === 'ios' ? 30 : 10,
 		marginBottom: 30
 	},
 	checkboxLabel: {
@@ -100,8 +103,9 @@ const RegisterFormStyles = StyleSheet.create({
 	noAccount: {
 		color: darkBlue,
 		textAlign: 'center',
-		paddingLeft: 70,
-		paddingBottom: 8,
+		paddingLeft: 80,
+		paddingBottom: 5,
+		marginTop: Platform.OS === 'ios' ? 70 : 0,
 		fontSize: 12
 	},
 	loginButton: {
@@ -114,8 +118,11 @@ const RegisterFormStyles = StyleSheet.create({
 	},
 	loginText: {
 		color: darkBlue,
-		textAlign: 'center',
+		textAlign: 'right',
 		fontSize: 16,
+		width: 105,
+		marginLeft: 20,
+		marginRight: 20
 	},
 });
 
