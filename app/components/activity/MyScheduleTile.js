@@ -111,9 +111,12 @@ class ActivityTile extends Component {
 					onPress={ () => this.onRemoveButtonPress(item.id) }
 				/>
 			);
+
+			const containerStyle = (this.props.active) ? ActivityStyles.activityListItemActive : ActivityStyles.activityListItem;
+
 			return (
 				<ListItem
-					containerStyle={ ActivityStyles.activityListItem }
+					containerStyle={ containerStyle }
 					titleStyle={ ActivityStyles.activityListItemText }
 					subtitleStyle={ ActivityStyles.activityListItemSubtitle }
 					key={ item.id }
@@ -156,11 +159,16 @@ ActivityTile.propTypes = {
 	userId: PropTypes.string.isRequired,
 	realIndex: PropTypes.number.isRequired,
 	navigate: PropTypes.func.isRequired,
+	active: PropTypes.bool,
 	// Reducers
 	myActivities: PropTypes.array.isRequired,
 	// Action creators
 	onAddActivity: PropTypes.func.isRequired,
 	onRemoveActivity: PropTypes.func.isRequired,
+};
+
+ActivityTile.defaultProps = {
+	active: false
 };
 
 const mapStateToProps = ({ myActivities }) => ({ myActivities });

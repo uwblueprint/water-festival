@@ -82,24 +82,27 @@ export const getUser = (userId) => ({
 	}
 });
 
-export const editUser = (user, oldUser) => ({
-	type: EDIT_USER_REQUEST,
-	payload: { user },
-	meta: {
-		offline: {
-			effect: {
-				url: `${API_URL}/users/edit`,
-				method: 'PUT',
-				body: JSON.stringify(user)
-			},
-			commit: { type: EDIT_USER },
-			rollback: {
-				type: EDIT_USER_ROLLBACK,
-				meta: { user: oldUser }
+export const editUser = (updatedFields, oldUser) => {
+	const newUser = Object.assign(oldUser, updatedFields);
+	return {
+		type: EDIT_USER_REQUEST,
+		payload: { newUser },
+		meta: {
+			offline: {
+				effect: {
+					url: `${API_URL}/users/edit`,
+					method: 'PUT',
+					body: JSON.stringify(updatedFields)
+				},
+				commit: { type: EDIT_USER },
+				rollback: {
+					type: EDIT_USER_ROLLBACK,
+					meta: { user: oldUser }
+				}
 			}
 		}
-	}
-});
+	};
+};
 
 export const getActivityList = () => ({
 	type: ACTIVITY_LOAD_REQUEST,

@@ -38,6 +38,15 @@ const ActivityStyles = StyleSheet.create({
 		alignItems: 'center',
 		borderBottomWidth: 1,
 		borderBottomColor: lightGray,
+		backgroundColor: 'white'
+	},
+	activityListItemActive: {
+		height: 80,
+		justifyContent: 'center',
+		alignItems: 'center',
+		borderBottomWidth: 1,
+		borderBottomColor: lightGray,
+		backgroundColor: '#b5e7ff'
 	},
 	activityListBlueItem: {
 		height: 80,

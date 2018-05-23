@@ -68,6 +68,10 @@ class ActivityDetails extends React.Component {
 		this.setState({ myActivities:newActivities });
 	}
 
+	navigateToMap(stationNumber) {
+		this.props.navigation.navigate('MapScreen', { stationNumber });
+	}
+
 	renderButton(id) {
 		const addButton = (
 			<Button
@@ -90,10 +94,6 @@ class ActivityDetails extends React.Component {
 			</Button>
 		);
 		return this.state.myActivities.includes(id) ? removeButton : addButton;
-	}
-
-	navigateToMap(stationNumber) {
-		this.props.navigation.navigate('MapScreen', { stationNumber });
 	}
 
 	renderImage(imageURI) {
