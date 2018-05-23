@@ -25,22 +25,31 @@ import { darkBlue } from '../../styles/Colours';
 const BEGIN = {
 	id: 'BEGIN',
 	title: '9:30 - Activities Begin',
-}
+};
+
+const LUNCH = {
+	id: 'LUNCH',
+	title: '11:30 - Lunch'
+};
 
 const END = {
 	id: 'END',
 	title: '1:45 - Activities End',
-}
+};
 
 const getMyActivities = (myActivities, currentActivities) => {
+	const activities = myActivities.slice(0);
 	currentActivities.forEach(item => {
 		const index = myActivities.indexOf(item.id);
 		if (index !== -1) {
-			myActivities[index] = item;
+			activities[index] = item;
 		}
 	});
 
-	return myActivities;
+	const lunchIndex = myActivities.indexOf(LUNCH.id);
+	activities[lunchIndex] = LUNCH;
+
+	return activities;
 };
 
 class MySchedule extends React.Component {
@@ -113,6 +122,17 @@ class MySchedule extends React.Component {
 	}
 
 	renderListItem({ data, active }) {
+		if (data.id === 'LUNCH') {
+			return (
+				<ListItem
+					containerStyle={ ActivityStyles.activityListBlueItem }
+					titleStyle={ ActivityStyles.activityListItemBlueText }
+					key={ LUNCH.id }
+					title={ LUNCH.title }
+					chevronColor={ darkBlue }
+				/>
+			);
+		}
 		return (
 			<MyScheduleTile
 				item={ data }
@@ -152,6 +172,7 @@ class MySchedule extends React.Component {
 			<ScrollView
 				style={ ActivityStyles.activityPadding }
 				refreshControl={ refreshControl }
+				scrollEnabled={ !this.props.isEditing }
 			>
 				<ListItem
 					containerStyle={ ActivityStyles.activityListBlueItem }
@@ -165,6 +186,7 @@ class MySchedule extends React.Component {
 					renderRow={ this.renderListItem }
 					onChangeOrder={ this.reorder }
 					order={ this.state.order }
+					rowActivationTime={ 100 }
 				/>
 				<ListItem
 					containerStyle={ ActivityStyles.activityListBlueItem }
